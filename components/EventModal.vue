@@ -2,6 +2,7 @@
 import { VueFinalModal } from 'vue-final-modal'
 import sanitizeHtml from 'sanitize-html';
 import { replaceBadgePlaceholders } from '~~/utils/util';
+import { downloadICS } from '~~/utils/icsGenerator';
 
 const props = defineProps<{
     event: any // Declare the event prop here
@@ -53,6 +54,11 @@ const getImageClass = (index) => {
   const classes = ['single', 'double', 'triple'];
   return classes[index] || '';
 };
+
+// Function to handle ICS download
+const handleDownloadICS = () => {
+  downloadICS(props.event.event);
+};
 </script>
 
 <template>
@@ -91,8 +97,11 @@ const getImageClass = (index) => {
       <span class="event-headers">Event Description:</span> <div v-html="eventDescription"></div><br>
     </div>
 
-    <!-- Add a "Done" button -->
+    <!-- Add buttons -->
     <div class="bottom">
+      <button @click="handleDownloadICS" style="margin-right: 10px;">
+        📅 Add to Calendar
+      </button>
       <button @click="emit('confirm')">
         Done
       </button>

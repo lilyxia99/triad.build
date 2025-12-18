@@ -61,6 +61,7 @@ async function fetchlibcalEvents() {
 	try {
 		libcalSources = await Promise.all(
 			eventSourcesJSON.libcal.map(async (source) => {
+				console.log(`[libcal] Fetching events for: ${source.name} from ${source.url}`);
 				// Add current date in milliseconds to the URL to get events starting from this moment.
 				const response = await fetch(source.url, { headers: serverFetchHeaders });
 				if (!response.ok) {
@@ -73,6 +74,7 @@ async function fetchlibcalEvents() {
 				}
 				const libcalJson = await response.json();
 				const libcalEvents = libcalJson.results;
+				console.log(`[libcal] Found ${libcalEvents.length} events for ${source.name}`);
 				return {
 					events: libcalEvents.map(event => convertlibcalEventToFullCalendarEvent(libcalJson.timezone, event, source)),
 					city: source.city,

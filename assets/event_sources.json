@@ -62,16 +62,6 @@
           ]
     },
     "googleCalendar": [
-        
-        {
-            "name": "Food Not Bombs",
-            "googleCalendarId": "2eb28d433a637a4d0ba2d2969fa9ccbd7042d83f5992ff0aaafb01d70a299884@group.calendar.google.com",
-            "filters": [
-                ["community"],
-                [["free stuff","food"], "Free", "title"],
-                ["volunteering", "Volunteer", "title"]
-            ]
-        },
         {
             "name": "Test calendar",
             "googleCalendarId": "4536d8c77c3992f3aadb5dbed61ee50248b4cfc7eda9ac11e6da55f14be52488@group.calendar.google.com",
@@ -83,8 +73,6 @@
             ]
         },
 
-        
-        
         {
             "name": "Gaymer's Night @ Dragon's Hoard",
             "googleCalendarId": "0d0f28e1f0a3bcab9a47120deefdcec2b12b5ebe15c6f33af9511a4192404af3@group.calendar.google.com",
@@ -114,36 +102,6 @@
     ],
     "elfsight": [
         
-        {
-            "name": "Diversity Richmond",
-            "url": "https://core.service.elfsight.com/p/boot/?page=https://www.diversityrichmond.org/events&w=3ef9dd43-ad54-43ff-ae47-41037c180d59",
-            "key": "3ef9dd43-ad54-43ff-ae47-41037c180d59",
-            "eventTypes": [
-                ["Iridian Gallery ", ":diversityiridian:"],
-                ["Virginia Pride", ":diversitypride:"],
-                ["Diversity Richmond", ":diversityrichmond:"],
-                ["Diversity Thrift", ":diversitythrift:"]
-            ],
-            "eventDefault": [
-                "Diversity Richmond", ":diversityrichmond:"
-            ],
-            "filters": [
-                ["lgbtq"],
-                [["market"], "Market", ["title","description"]],
-                [["art"], "Iridian Gallery", ["title","description"]],
-                [["free stuff","community"], "Pantry", ["title","description"]],
-                [["invisible"], "Shop daily", ["description"]],
-                [["art"], "exhibition", ["description"]],
-                [["market","festival"], "big gay", ["title"]],
-                [["market","festival"], "bash", ["title"]],
-                [["market","festival"], "party", ["title"]],
-                [["free stuff"], "money management course", ["title"]],
-                [["drag"], "drag", ["title"]],
-                [["invisible"], "modlin center", ["title"]],
-                [["festival"], "prideFest", ["title"]],
-                ["commercial","community"]
-            ]
-        }
     ],
     "libcal": [
         {

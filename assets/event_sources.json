@@ -193,6 +193,30 @@
                 ["West End","West End Branch - Richmond Public Library"],
                 ["Westover Hills","Westover Hills Branch - Richmond Public Library"]
             ]
+        },
+        {
+            "name": "Greensboro Public Library",
+            "url": "https://greensboro.libcal.com/process_search.php?site_id=14777&perpage=100",
+            "prefixTitle": ":gsolibrary: ",
+            "suffixTitle": "",
+            "filters": [
+                ["nonprofit", "community"],
+                ["invisible", "cancelled", "title"],
+                ["invisible", "closed", "title"],
+                [["community", "books"], "book club", ["title", "description"]],
+                [["diy"], "computer basics", ["title", "description"]],
+                [["books"], "storytime", ["title"]]
+            ],
+            "calendarToLocation": [
+                ["Benjamin Branch Library", "Benjamin Branch - Greensboro Public Library"],
+                ["Greensboro Public Library", "Central Library - Greensboro Public Library"],
+                ["Glenwood Branch Library", "Glenwood Branch - Greensboro Public Library"],
+                ["Hemphill Branch Library", "Hemphill Branch - Greensboro Public Library"],
+                ["Kathleen Clay Edwards Family Branch", "Kathleen Clay Edwards Family Branch - Greensboro Public Library"],
+                ["McGirt-Horton Branch", "McGirt-Horton Branch - Greensboro Public Library"],
+                ["Nussbaum-Pop Up Library", "Nussbaum Pop-Up Library"],
+                ["Vance H. Chavis Branch", "Vance H. Chavis Lifelong Learning Branch - Greensboro Public Library"]
+            ]
         }
     ]
 }

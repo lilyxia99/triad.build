@@ -63,7 +63,7 @@ watch(theme, () => {
     });
   });
 });
-const svgGrave = ref('');
+const headImage = ref('');
 
 const getWindowHeight = () => {
   if (process.client) return window.innerHeight;
@@ -406,10 +406,10 @@ onMounted(() => {
   moveListViewScrollbarToTodayAndColor();
   // Expose the calendar instance to the window object for debugging
   if (calendarRef.value) window.myCalendar = calendarRef.value.getApi();
-  //For the svgGrave rendering
+  //For the headImage rendering
   async function fetchGrave() {
-    const svgResponse = await fetch('/css/gravestone.svg');
-    svgGrave.value = await svgResponse.text();
+    const svgResponse = await fetch('/css/triad-build.svg');
+    headImage.value = await svgResponse.text();
   }
   fetchGrave();
 });
@@ -539,7 +539,7 @@ const transformEventSourcesResponse = (eventSources: Ref<Record<string, any>>) =
     <table style="width:100%;">
       <tbody>
         <tr>
-          <td class="blurb-image"> <div v-html="svgGrave"></div> </td>
+          <td class="blurb-image"> <div v-html="headImage"></div> </td>
           <td>
             <div class="blurb-text">
               A communal board for fun GSO events

@@ -1,7 +1,7 @@
 # Local Quickstart
 
 1. Install Git and Node
-1. Get a Google Calendar API key by asking Natalie or following [this guide](https://developers.google.com/calendar/api/quickstart/js)
+1. Get a Google Calendar API key by asking Leilei or following [this guide](https://developers.google.com/calendar/api/quickstart/js)
 1. Open a terminal, clone this repository, and change directory to the repository root:
 
 ```

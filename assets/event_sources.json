@@ -82,25 +82,12 @@
                 ["volunteering"]
             ]
         },
-        
-        
-        
-        
-        {
-            "name": "PSL Virginia @pslvirginia",
-            "googleCalendarId": "7c07b5d92633673b1409ee65d643ddfde18cf257323136f95c9ceb3e5afda5de@group.calendar.google.com",
-            "prefixTitle": ":psl:",
-            "filters": [
-                ["community"],
-                ["organizing"],
-                ["socialism"]
-            ]
-        },
+
         
         
         {
             "name": "Gaymer's Night @ Dragon's Hoard",
-            "googleCalendarId": "YOUR_ACTUAL_GAYMERS_CALENDAR_ID_HERE",
+            "googleCalendarId": "0d0f28e1f0a3bcab9a47120deefdcec2b12b5ebe15c6f33af9511a4192404af3@group.calendar.google.com",
             "prefixTitle": ":game: ",
             "suffixTitle": "Gaymer's Night @ Dragon's Hoard",
             "suffixDescription":"discord group: <a href=\"https://discord.gg/dragonshoard\">https://discord.gg/dragonshoard</a>",

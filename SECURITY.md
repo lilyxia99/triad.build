@@ -2,7 +2,7 @@
 
 ## Supported Versions
 
-Currently, only the latest version available at https://rva.rip is supported for security updates. Forks and projects made by anybody else can not sustainably be supported by this project.
+Currently, only the latest version available at https://triad.build is supported for security updates. Forks and projects made by anybody else can not sustainably be supported by this project.
 
 ## Reporting a Vulnerability
 

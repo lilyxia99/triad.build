@@ -9,12 +9,12 @@
 :root {
     color-scheme: light;
     --background: #fff4d2;
-    --background-alt: #ffb0b0;
-    --background-inner: #ffcaca;
+    --background-alt: #ec8128;
+    --background-inner: #ffdeb3;
     --background-today: #8fdf82;
     --border-outer: #000;
     --border-inner: #fff;
-    --button-hover: #1f4c04;
+    --button-hover: #3273ff;
     --button-select: #560101;
     --text-normal: #000;
     --text-opp: #fff;

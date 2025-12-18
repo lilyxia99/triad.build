@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import sanitizeHtml from 'sanitize-html';
 import { replaceBadgePlaceholders } from '~~/utils/util';
+import { downloadICS } from '~~/utils/icsGenerator';
 
 const props = defineProps<{
   event: any
@@ -115,6 +116,11 @@ const closeWindow = () => {
   emit('close', props.windowId);
 };
 
+// Function to handle ICS download
+const handleDownloadICS = () => {
+  downloadICS(props.event);
+};
+
 onUnmounted(() => {
   document.removeEventListener('mousemove', onDrag);
   document.removeEventListener('mouseup', stopDrag);
@@ -178,6 +184,13 @@ onUnmounted(() => {
         
         <span class="event-headers">Event Description:</span> 
         <div class="desc" v-html="eventDescription"></div><br>
+      </div>
+      
+      <!-- Add buttons -->
+      <div class="window-buttons">
+        <button @click="handleDownloadICS" class="calendar-btn">
+          📅 Add to Calendar
+        </button>
       </div>
     </div>
   </div>
@@ -331,5 +344,27 @@ onUnmounted(() => {
 
 .image-container .image-wrapper:first-of-type:nth-last-of-type(3) {
   width: 95%;
+}
+
+.window-buttons {
+  padding: 8px 0;
+  border-top: 1px solid var(--border-outer);
+  margin-top: 8px;
+}
+
+.calendar-btn {
+  background: var(--background-inner);
+  border: 1px solid var(--border-outer);
+  color: var(--text-normal);
+  padding: 6px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  border-radius: 2px;
+  font-family: var(--body-font);
+}
+
+.calendar-btn:hover {
+  background: var(--button-hover);
+  color: var(--text-opp);
 }
 </style>

@@ -66,9 +66,8 @@ const handleDownloadICS = () => {
     <!-- Display Event Details -->
     <div class="event-details">
       <span class="event-headers">Event Title:</span> <span v-html="eventTitle" style="font-size: 1.2em; font-weight: bold;"></span><br>
-      <span class="event-headers">Event Time:</span> {{ eventTime }}<br>
+      <span class="event-headers">Event Time:</span> <span style="text-decoration: underline;">{{ eventTime }}</span><br>
       <span class="event-headers">Event Host:</span> {{ eventHost }}<br>
-      <span v-if="isDevelopment"> <span class="event-headers">Event ID: </span> {{ eventID }}<br> </span>
       <span v-if="isDevelopment"> <span class="event-headers">Event Tags: </span> {{ eventTags }}<br> </span>
       <span v-if="isDevelopment && eventURL"> <span class="event-headers">Event URL:</span> <a :href="eventURL" target="_blank">Here</a><br> </span>
       <span class="event-headers">Event Location:</span> <a :href="createGoogleMapsURL(eventLocation)" target="_blank">{{ eventLocation }}</a><br>

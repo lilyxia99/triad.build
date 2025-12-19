@@ -109,6 +109,7 @@ const getImageClass = (index) => {
         </div>
       </div>
       
+
       <div class="tooltip-section">
         <span class="tooltip-label">Event Description:</span>
         <div class="tooltip-description" v-html="eventDescription"></div>

@@ -18,6 +18,8 @@ import { type CalendarOptions, type EventClickArg, type EventSourceInput } from 
 import eventSourcesJSON from '@/assets/event_sources.json';
 import { getAllTags } from '@/server/tagsListServe'; //Function that gives all tags utilized from event_sources.json
 
+
+
 const clickedEvent: Ref<EventClickArg | null> = ref(null); // For storing the clickedEvent data
 const calendarRef = ref(null); // Ref for the FullCalendar instance
 
@@ -573,7 +575,7 @@ const transformEventSourcesResponse = (eventSources: Ref<Record<string, any>>) =
 
         <p> Check out our sibling sites <a href="https://anarchism.nyc/">anarchism.nyc</a>, 
         <a href="https://bay.lgbt/">bay.lgbt</a>, and <a href="https://anarchism.boston/">anarchism.boston</a>, <a href="https://rva.rip/">rva.rip</a>.
-        This site is a fork from rva.rip, which is forked from the other predecessors. triad.build wouldn't exist without them, and we're all run by LGBTQ+ folks.</p>
+        This site is a fork from rva.rip, which is forked from the other predecessors. triad.build wouldn't exist without them, and we're all run by LGBTQA+ folks.</p>
         <p>Want your event listed here? Start making a <a href="/contributing">public google calendar</a> for your events. 
           Once published, request inclusion of your event feed by sending your Google Calendar ID via a 
           <a href="https://github.com/lilyxia99/triad.build/issues">new GitHub issue</a> or by emailing me at leileixiawork@gmail.com! 

@@ -77,6 +77,7 @@ function handleEventSourceChange(tag: string, isEnabled: boolean) {
 // Example function to toggle visibility
 function toggleTagVisibility(tagName: string) {
   const tag = tags.value.find(t => t.name === tagName);
+  
   if (tag) {
     tag.isVisible = !tag.isVisible;
   }
@@ -98,7 +99,7 @@ function toggleTagVisibility(tagName: string) {
     </span>
     <div v-for="group in tagsToShow" :key="group[0] || group" class="tag-group">
       <template v-if="Array.isArray(group)">
-        <TopicFilterItem class="tag-header" :label="group[0].fullName" @checkAll="setVisibilityForGroup(group.slice(1), true)" @uncheckAll="setVisibilityForGroup(group.slice(1), false)">
+        <TopicFilterItem class="tag-header" :label="group[0].fullName" @checkAll="setVisibilityForGroup(group, true)" @uncheckAll="setVisibilityForGroup(group, false)">
           <TagFilterItem v-for="tag in group.slice(1)" :key="tag.name" :label="tag.fullName" :modelValue="getTagVisibility(tag.name)" @update:modelValue="updateTagVisibility(tag.name, $event)">
           </TagFilterItem>
         </TopicFilterItem>

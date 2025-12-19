@@ -44,7 +44,6 @@ function loadThemeStyles() {
     
     let finalTheme = theme.value === 'default' ? systemPreference() : theme.value;
     const themeStyleUrl = finalTheme === 'light' ? '/css/light.css' : '/css/dark.css';
-    const generalStyleUrl = '/css/style.css';
 
     // Remove the existing theme-specific stylesheet if it exists
     const existingThemeLinkElement = document.head.querySelector('link[data-theme-style]');
@@ -58,21 +57,16 @@ function loadThemeStyles() {
     themeLinkElement.href = themeStyleUrl;
     themeLinkElement.setAttribute('data-theme-style', '');
     document.head.appendChild(themeLinkElement);
-
-    // Ensure the general stylesheet is loaded
-    let generalStyleLinkElement = document.head.querySelector('link[data-general-style]');
-    if (!generalStyleLinkElement) {
-        generalStyleLinkElement = document.createElement('link');
-        generalStyleLinkElement.rel = 'stylesheet';
-        generalStyleLinkElement.href = generalStyleUrl;
-        generalStyleLinkElement.setAttribute('data-general-style', '');
-        document.head.appendChild(generalStyleLinkElement);
-    }
 }
 
 // Watch for changes in the theme and apply the corresponding stylesheet
 watch(theme, () => {loadThemeStyles();}, { immediate: true });
 
 export function useTheme() {
+    // Ensure theme styles are loaded when composable is used
+    onMounted(() => {
+        loadThemeStyles();
+    });
+    
     return { theme, setTheme, toggleTheme };
 }

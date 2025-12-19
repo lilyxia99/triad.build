@@ -65,12 +65,12 @@ const handleDownloadICS = () => {
   <VueFinalModal class="popper-box-wrapper" content-class="popper-box-inner" overlay-transition="vfm-fade" content-transition="vfm-fade">
     <!-- Display Event Details -->
     <div class="event-details">
-      <span class="event-headers">Event Title:</span> <span v-html="eventTitle" style="font-size: 1.2em; font-weight: bold;"></span><br>
-      <span class="event-headers">Event Time:</span> <span style="text-decoration: underline;">{{ eventTime }}</span><br>
-      <span class="event-headers">Event Host:</span> {{ eventHost }}<br>
-      <span v-if="isDevelopment"> <span class="event-headers">Event Tags: </span> {{ eventTags }}<br> </span>
-      <span v-if="isDevelopment && eventURL"> <span class="event-headers">Event URL:</span> <a :href="eventURL" target="_blank">Here</a><br> </span>
-      <span class="event-headers">Event Location:</span> <a :href="createGoogleMapsURL(eventLocation)" target="_blank">{{ eventLocation }}</a><br>
+      <span class="event-headers"><strong>Event Title:</strong></span> <span v-html="eventTitle" style="font-size: 1.2em; font-weight: bold;"></span><br>
+      <span class="event-headers"><strong>Event Time:</strong></span> <span style="text-decoration: underline;">{{ eventTime }}</span><br>
+      <span class="event-headers"><strong>Event Location:</strong></span> <a :href="createGoogleMapsURL(eventLocation)" target="_blank">{{ eventLocation }}</a><br>
+      <span class="event-headers"><strong>Event Host:</strong></span> {{ eventHost }}<br>
+      <span v-if="isDevelopment"> <span class="event-headers"><strong>Event Tags:</strong> </span> {{ eventTags }}<br> </span>
+      <span v-if="isDevelopment && eventURL"> <span class="event-headers"><strong>Event URL:</strong></span> <a :href="eventURL" target="_blank">Here</a><br> </span>
       <!-- Display Images only if there are images -->
       <div v-if="eventImages && eventImages.length > 0" class="image-container">
         <div 
@@ -93,7 +93,7 @@ const handleDownloadICS = () => {
           />
         </div>
       </div>
-      <span class="event-headers">Event Description:</span> <div v-html="eventDescription"></div><br>
+      <span class="event-headers"><strong>Event Description:</strong></span> <div v-html="eventDescription"></div><br>
     </div>
 
     <!-- Add buttons -->

@@ -46,12 +46,14 @@ export default defineNuxtConfig({
     },
   },
   plugins: [{ src: "~/plugins/vercel.ts", mode: "client" }],
-  css: ["vue-final-modal/style.css", "~/public/css/style.css"],
+  css: ["vue-final-modal/style.css"],
   app: {
     head: {
       title: 'triad DIY event board',
+      titleTemplate: '%s',
       link: [
-        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+        { rel: 'stylesheet', href: '/css/style.css' }
       ]
     }
   },

@@ -49,7 +49,10 @@ export default defineNuxtConfig({
   css: ["vue-final-modal/style.css", "~/public/css/style.css"],
   app: {
     head: {
-      title: 'triad DIY event board'
+      title: 'triad DIY event board',
+      link: [
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      ]
     }
   },
 });

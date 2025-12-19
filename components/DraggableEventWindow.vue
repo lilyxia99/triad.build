@@ -157,7 +157,7 @@ onUnmounted(() => {
         <span class="event-headers"><strong>Event Time:</strong></span> <span style="text-decoration: underline;">{{ eventTime }}</span><br>
         <span class="event-headers"><strong>Event Location:</strong></span> <a :href="createGoogleMapsURL(eventLocation)" target="_blank">{{ eventLocation }}</a><br>
         <span class="event-headers"><strong>Event Host:</strong></span> {{ eventHost }}<br>
-        <span v-if="isDevelopment"> <span class="event-headers"><strong>Event Tags:</strong> </span> {{ eventTags }}<br> </span>
+        <span v-if="isDevelopment && eventTags && eventTags.length > 0"> <span class="event-headers"><strong>Event Tags:</strong></span> 🏷️ {{ Array.isArray(eventTags) ? eventTags.join(', ') : eventTags }}<br> </span>
         <span v-if="isDevelopment && eventURL"> <span class="event-headers"><strong>Event URL:</strong></span> <a :href="eventURL" target="_blank">Here</a><br> </span>
         
         <!-- Display Images only if there are images -->

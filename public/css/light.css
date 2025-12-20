@@ -22,12 +22,12 @@
     --text-linked: #4a1424;
     --text-black: #000;
     --text-white: #fff;
-    --rip-red: #fb4934;
-    --rip-orange: #fe8019;
-    --rip-yellow: #fabd2f;
-    --rip-green: #b8bb26;
-    --rip-blue: #83a598;
-    --rip-purple: #d3869b;
+    --rip-red: #f76555;
+    --rip-orange: #f79341;
+    --rip-yellow: #f0ce72;
+    --rip-green: #96df65;
+    --rip-blue: #87d8e3;
+    --rip-purple: #f19ee6;
 }
 
 .badge-shadow-b, .badge-shadow {

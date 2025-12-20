@@ -494,7 +494,8 @@ body.no-scroll {
 
 .event-headers {
   color:var(--text-normal);
-  font-size:16px
+  font-size:16px;
+  font-weight: 600;
 }
 
 .color-stripe{ /* These stripes use colors derived from the gruvbox alt dark theme */

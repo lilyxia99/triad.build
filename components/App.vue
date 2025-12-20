@@ -18,6 +18,8 @@ import { type CalendarOptions, type EventClickArg, type EventSourceInput } from 
 import eventSourcesJSON from '@/assets/event_sources.json';
 import { getAllTags } from '@/server/tagsListServe'; //Function that gives all tags utilized from event_sources.json
 
+
+
 const clickedEvent: Ref<EventClickArg | null> = ref(null); // For storing the clickedEvent data
 const calendarRef = ref(null); // Ref for the FullCalendar instance
 
@@ -563,9 +565,9 @@ const transformEventSourcesResponse = (eventSources: Ref<Record<string, any>>) =
     <FullCalendar ref="calendarRef" :options='calendarOptions' />
     <div style="display: flex; align-items: center; flex-direction: row;">
       <div class="desc" style="padding-bottom: 0;">
-        <p>triad.built is a forever free commual calendar for folks to find and create community! As a new GSOer I hope to connect with you in this way too :P. The events here are drawn from various 
+        <p>triad.build is a forever free commual calendar for folks to find and create community! As a new GSOer I hope to connect with you in this way too :P. The events here are drawn from various 
           <a href="https://github.com/lilyxia99/triad.build/blob/main/assets/event_sources.json">organizer listings</a> that
-          contributors (thank you!) have provided. I hope you be encouraged to build your own community too! If you'd like to become
+          contributors have provided. <span style="color:red">(We are looking for more! Plz join!)</span> I hope you be encouraged to build your own community too! If you'd like to become
           a contributor of events, check out our contributing guide <a href="/contributing">here</a>! The events presented here are in a constant state of community-based vetting; don't hesitate to provide feedback! For suggestions and questions
           email <a href="mailto:leileixiawork@gmail.com">leileixiawork@gmail.com</a> </p>
         <p>Before making plans, consider checking with venue staff or event organizers directly. This site is not
@@ -573,7 +575,7 @@ const transformEventSourcesResponse = (eventSources: Ref<Record<string, any>>) =
 
         <p> Check out our sibling sites <a href="https://anarchism.nyc/">anarchism.nyc</a>, 
         <a href="https://bay.lgbt/">bay.lgbt</a>, and <a href="https://anarchism.boston/">anarchism.boston</a>, <a href="https://rva.rip/">rva.rip</a>.
-        This site is a fork from rva.rip, which is forked from the other predecessors. triad.build wouldn't exist without them, and we're all run by LGBTQ+ folks.</p>
+        This site is a fork from rva.rip, which is forked from the other predecessors. triad.build wouldn't exist without them, and we're all run by LGBTQA+ folks.</p>
         <p>Want your event listed here? Start making a <a href="/contributing">public google calendar</a> for your events. 
           Once published, request inclusion of your event feed by sending your Google Calendar ID via a 
           <a href="https://github.com/lilyxia99/triad.build/issues">new GitHub issue</a> or by emailing me at leileixiawork@gmail.com! 

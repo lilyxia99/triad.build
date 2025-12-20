@@ -4,14 +4,14 @@ import { replaceBadgePlaceholders } from '~~/utils/util';
 
 <template>
     <div class="desc">
-        <h1 v-badge> :ripple: Contributing Events to triad.build</h1>
+        <h1 v-badge> :triad: Contributing Events to triad.build!</h1>
             <p>Welcome! Contributing events to triad.build is easy and accessible. By contributing events to triad.build you help to ensure that the events you or your
             org host are accessible to the wider Triad community outside of Lex and Instagram, you're able to make your events posted on triad.build look exactly how you want, and
-            ensure that events posted are as up-to-date and accurate as possible. This project's maintainers hope you'll join them in trying to help foster a greater and more integrated community
-            in the Triad region of North Carolina.</p>
+            ensure that events posted are as up-to-date and accurate as possible. This project's maintainers hope you'll join them in trying to help foster a greater and more integrated queer community
+            in Greensboro and greater Triad Area.</p>
             <p>There are a couple different ways to contribute events to the calendar, but the main way that'll be gone over in this
             guide will be by using Google Calendar. If you have your events hosted via another service or software package online feel free to email this project's
-            maintainers at host@triad.build to discuss integrating those to minimize your work required.</p>
+            maintainers at leileixiawork@gmail.com to discuss integrating those to minimize your work required.</p>
         <h2>Publishing Google Calendar events</h2>
             <ul>
                 <li><a href="https://accounts.google.com">Create a Google Account</a> for your events if one doesn't already exist. The email address associated with the
@@ -75,7 +75,7 @@ import { replaceBadgePlaceholders } from '~~/utils/util';
                 <li>triad.build has a "badge" system for events, think of them like a <a class="badge" v-badge style="vertical-align: top;">:twitter:</a> on the entity formerly known as Twitter.
                 Badges are placed at the beginning of an event's title to help provide users on triad.build the ability to find a group's events or a genre of event at a glance. Some examples of badges are
                 <a class="badge" v-badge style="vertical-align: top;">:test:</a>, 
-                <a class="badge" v-badge style="vertical-align: top;">:ripple:</a>, 
+                <a class="badge" v-badge style="vertical-align: top;">:triad:</a>, 
                 <a class="badge" v-badge style="vertical-align: top;">:fojrp:</a>, 
                 <a class="badge" v-badge style="vertical-align: top;">:dykes_on_bikes:</a>,
                 <a class="badge" v-badge style="vertical-align: top;">:coalition_theater:</a>, and 
@@ -89,19 +89,19 @@ import { replaceBadgePlaceholders } from '~~/utils/util';
                         <a v-badge style="font-size: 1.25em; font-family: 'ChicagoFLF';"><span class="cont-good" style="font-size: 1.25em;">👍</span>
                          Greensboro Community Clothes Swap </a> <br />
                         <a v-badge style="font-size: 1.25em; font-family: 'ChicagoFLF';"><span class="cont-good" style="font-size: 1.25em;">👍</span>
-                         :ripple: Greensboro Community Clothes Swap </a> <br />
+                         :triad: Hollywood Cemetery Queer Clothes Swap </a> <br />
                         <a v-badge style="font-size: 1.25em; font-family: 'ChicagoFLF';"><span class="cont-good" style="font-size: 1.25em;">👍</span>
-                         :ripple: 👗 Greensboro Community Clothes Swap </a> <br />
+                         :triad: 👗 Hollywood Cemetery Queer Clothes Swap </a> <br />
                         <a v-badge style="font-size: 1.25em; font-family: 'ChicagoFLF';"><span class="cont-good" style="font-size: 1.25em;">👍</span>
-                         :ripple: 👕 Greensboro Community Clothes Swap </a> <br />
+                         :triad: 👕 Hollywood Cemetery Queer Clothes Swap </a> <br />
                         <a v-badge style="font-size: 1.25em; font-family: 'ChicagoFLF';"><span class="cont-good" style="font-size: 1.25em;">👍</span>
                          👗 Greensboro Community Clothes Swap </a> <br />
                         <a v-badge style="font-size: 1.25em; font-family: 'ChicagoFLF';"><span class="cont-good" style="font-size: 1.25em;">👍</span>
                          👗👕 Greensboro Community Clothes Swap </a> <br />
                         <a v-badge style="font-size: 1.25em; font-family: 'ChicagoFLF';"><span class="cont-bad" style="font-size: 1.25em;">👎</span>
-                         :ripple:👗👕 Greensboro Community Clothes Swap </a> <br />
+                         :triad:👗👕 Hollywood Cemetery Queer Clothes Swap </a> <br />
                         <a v-badge style="font-size: 1.25em; font-family: 'ChicagoFLF';"><span class="cont-bad" style="font-size: 1.25em;">👎</span>
-                         :ripple:👖👗👕 Greensboro Community Clothes Swap </a> <br />
+                         :triad:👖👗👕 Hollywood Cemetery Queer Clothes Swap </a> <br />
                         <a v-badge style="font-size: 1.25em; font-family: 'ChicagoFLF';"><span class="cont-bad" style="font-size: 1.25em;">👎</span>
                          👖👗👕 Greensboro Community Clothes Swap </a> <br />
                     </ul>
@@ -117,11 +117,10 @@ import { replaceBadgePlaceholders } from '~~/utils/util';
                         <li>The easiest option is to use imgur like in the tutorial below, but if you run your own website you can directly link to images hosted there</li>
                         <li>If you want to implement it yourself, you can follow these steps using imgur</li>
                             <ul>
-                            <li>Navigate to <a href="https://catbox.moe/">catbox.moe</a> and click on "New post", uploading the images when prompted
-                            (steps to creating a new post may be different on desktop vs other platforms).</li>
+                            <li>Navigate to <a href="https://catbox.moe/">catbox.moe</a> and drag and drop your image there (optionally you could log in, and in that way you will have access to the photo later or delete it. If you just upload without log in, you can never delete that picture), uploading the images when prompted.</li>
                                 <ul><img class="cont-img-mid" src="/contributing/GCalTip14.png" alt="Google Calender Tip Image 14" /></ul>
-                            <li>After your image is uploaded, right click and get a direct URL for it by selecting "Copy Image Link". Ensure the link features ".png",
-                            ".jpg", or ",jpeg" at the end of it's url. An example of what this url would look like is <a href="https://i.imgur.com/cUfmuQS.png">https://i.imgur.com/cUfmuQS.png</a>.
+                            <li>After your image is uploaded, click the link underneath the file name. Ensure the link features ".png",
+                            ".jpg", or ",jpeg" at the end of it's url. An example of what this url would look like is <a href="https://files.catbox.moe/89uz3p.png">https://files.catbox.moe/89uz3p.png</a>.
                             If your URL doesn't include this file type on the end then it won't properly render inside triad.build</li>
                                 <ul><img class="cont-img-mid" src="/contributing/GCalTip15.png" alt="Google Calender Tip Image 15" /></ul>
                             <li>Inside the description for your event, include your image URL as either a link or in plaintext. If all went well your image will successfully render

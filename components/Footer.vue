@@ -22,7 +22,6 @@ onMounted(() => {
       <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0;">
         <div class="desc no-toppy">
           <a href="/">home</a> |
-          <a href="/list">list of cool groups</a> |
           <a href="/contributing">how to contribute</a> | 
           <a href="https://github.com/natviii/rva.rip/">source code</a> 
         </div>

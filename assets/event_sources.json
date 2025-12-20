@@ -62,16 +62,6 @@
           ]
     },
     "googleCalendar": [
-        {
-            "name": "Test calendar",
-            "googleCalendarId": "4536d8c77c3992f3aadb5dbed61ee50248b4cfc7eda9ac11e6da55f14be52488@group.calendar.google.com",
-            "prefixTitle": ":test: ",
-            "filters": [
-                ["nonprofit"],
-                ["ecology"],
-                ["volunteering"]
-            ]
-        },
 
         {
             "name": "Gaymer's Night @ Dragon's Hoard",
@@ -89,134 +79,12 @@
         
     ],
     "squarespace": [
-        {
-            "name": "Richmond Grows Gardens",
-            "url": "https://www.richmondgrowsgardens.org/events?format=json",
-            "prefixTitle": ":RVAGrowsGardens1: ",
-            "suffixTitle": ":RVAGrowsGardens2:",
-            "filters": [
-                ["community"],
-                ["ecology"]
-            ]
-        }
     ],
     "elfsight": [
         
     ],
     "libcal": [
-        {
-            "name": "Richmond Public Libraries",
-            "url": "https://rvalibrary.libcal.com/process_search.php?site_id=12885&perpage=100&audience=4466",
-            "prefixTitle": ":rvalibrary: ",
-            "suffixTitle": "",
-            "filters": [
-                ["invisible", "Board Meeting", "title"],
-                ["invisible", "STAFF PLANNING", "title"],
-                ["invisible", "Small Business Legal Workshop", "title"],
-                ["invisible", "Office Hours", "title"],
-                ["invisible", "Family Law", "title"],
-                ["invisible", "Senior", "title"],
-                ["invisible", "CANCELLED", "title"],
-                ["invisible", "legal resources", "title"],
-                ["invisible", "Blood Pressure", "title"],
-                ["invisible", "Memory Lab", "title"],
-                ["invisible", "Computer Basics", "title"],
-                ["invisible", "Tech Tuesday", "title"],
-                ["invisible", "Extended Hours", "title"],
-                ["invisible", "Richmond Community Sing", "title"],
-                ["invisible", "Civic Association Meeting", "title"],
-                ["invisible", "Information Session", "title"],
-                ["invisible", "Board of Trustee Meeting", "title"],
-                ["invisible", "Affordable Housing Workshop", "title"],
-                ["invisible", "Virginia Housing", "title"],
-                ["invisible", "Internet", "title"],
-                ["invisible", "USDOJ", "title"],
-                ["invisible", "eviction", "title"],
-                ["exercise", "fitness", "title"],
-                ["invisible", "tech talk", "title"],
-                ["invisible", "canceled", "title"],
-                ["invisible", "G.E.D", "title"],
-                [["community","movies"], "Movie", "title"],
-                ["diy", "yarn", "title"],
-                [["community","books"], "page turners", "title"],
-                ["invisible", "public law", "description"],
-                ["invisible", "Estate", "title"],
-                [["community","books"], "book club", ["title","description"]],
-                ["invisible", "english language acquisition", "title"],
-                ["movies", "air conditioned cinema", "title"],
-                ["invisible", "help1rva", "title"],
-                ["invisible", "101", "title"],
-                ["games", "board game", "title"],
-                ["games", "boardgame", "title"],
-                ["invisible", "suicide", "title"],
-                ["diy", "crafters", "title"],
-                ["invisible", "financial", "title"],
-                ["organizing", "organizing 101", "description"],
-                ["organizing", "ACLU", ["description","title"]],
-                ["diy", "printing", ["description","title"]],
-                ["books", "author talk", ["description","title"]],
-                ["books", "book banter", ["description","title"]],
-                ["invisible", "help desk", ["description","title"]],
-                ["invisible", "law", "title"],
-                [["market", "food"], "shalom farm", "title"],
-                [["diy"], "special collections", ["description","title"]],
-                [["diy"], "sewing", ["description","title"]],
-                [["movies"], "films", ["title"]],
-                [["diy"], "sashiko", ["description","title"]],
-                [["diy"], "visible mending", ["description","title"]],
-                [["invisible"], "category: law", ["description","title"]],
-                [["diy"], "arpillera", ["description","title"]],
-                [["music"], "category: performances", ["description","title"]],
-                [["music"], "e-resource", ["description","title"]],
-                [["diy"], "crafting hour", ["description","title"]],
-                [["books"], "category: book discussion", ["description","title"]],
-                [["invisible"], "medicare", ["title"]],
-                [["invisible"], "genealogy", ["title"]],
-                [["invisible"], "childcare provider workshop", ["title"]],
-                [["invisible"], "adult english class", ["title"]],
-                [["invisible"], "family flicks!", ["title"]],
-                [["invisible"], "financieros", ["title"]],
-                [["invisible"], "voter registration", ["title"]],
-                [["diy"], "craft", ["title"]],
-                [["diy"], "canva", ["title"]],
-                [["diy"], "diy", ["title"]],
-                ["nonprofit", "community"]
-            ],
-            "calendarToLocation": [
-                ["Main","Main Library - Richmond Public Library"],
-                ["Belmont","Belmont Branch - Richmond Public Library"],
-                ["Broad Rock","Broad Rock Branch - Richmond Public Library"],
-                ["East End","East End Branch - Richmond Public Library"],
-                ["Ginter Park","Ginter Park Branch - Richmond Public Library"],
-                ["Hull Street","Hull Street Branch - Richmond Public Library"],
-                ["North Avenue","North Avenue Branch - Richmond Public Library"],
-                ["West End","West End Branch - Richmond Public Library"],
-                ["Westover Hills","Westover Hills Branch - Richmond Public Library"]
-            ]
-        },
-        {
-            "name": "Greensboro Public Library",
-            "url": "https://greensboro.libcal.com/process_search.php?site_id=14777&perpage=100",
-            "prefixTitle": ":gsolibrary: ",
-            "suffixTitle": "",
-            "filters": [
-                ["nonprofit", "community"],
-                ["invisible", "cancelled", "title"],
-                ["invisible", "closed", "title"],
-                [["community", "books"], "book club", ["title", "description"]],
-                [["diy"], "computer basics", ["title", "description"]],
-                [["books"], "storytime", ["title"]]
-            ],
-            "calendarToLocation": [
-                ["Benjamin Branch Library", "Benjamin Branch - Greensboro Public Library"],
-                ["Greensboro Public Library", "Central Library - Greensboro Public Library"],
-                ["Glenwood Branch Library", "Glenwood Branch - Greensboro Public Library"],
-                ["Hemphill Branch Library", "Hemphill Branch - Greensboro Public Library"],
-                ["Kathleen Clay Edwards Family Branch", "Kathleen Clay Edwards Family Branch - Greensboro Public Library"],
-                ["McGirt-Horton Branch", "McGirt-Horton Branch - Greensboro Public Library"],
-                ["Nussbaum-Pop Up Library", "Nussbaum Pop-Up Library"],
-                ["Vance H. Chavis Branch", "Vance H. Chavis Lifelong Learning Branch - Greensboro Public Library"]
-            ]
-        }
+        
+       
     ]
 }

@@ -6,6 +6,14 @@ if [ $# -eq 0 ]; then
     exit 1
 fi
 
+# Load environment variables from .env file if it exists
+if [ -f .env ]; then
+    echo "Loading .env file..."
+    export $(grep -v '^#' .env | xargs)
+else
+    echo "No .env file found in current directory"
+fi
+
 # Get the list of usernames from command-line arguments
 usernames=("$@")
 

@@ -12,9 +12,17 @@ usernames=("$@")
 # Define the access token
 access_token=$INSTAGRAM_USER_ACCESS_TOKEN
 
+# Debug environment variables
+echo "DEBUG: All environment variables containing 'INSTAGRAM':"
+env | grep INSTAGRAM || echo "No INSTAGRAM variables found"
+
+echo "DEBUG: access_token variable value: '$access_token'"
+echo "DEBUG: Direct check of INSTAGRAM_USER_ACCESS_TOKEN: '$INSTAGRAM_USER_ACCESS_TOKEN'"
+
 # Check if access token is set
 if [ -z "$access_token" ]; then
     echo "Error: INSTAGRAM_USER_ACCESS_TOKEN environment variable is not set"
+    echo "Please set it with: export INSTAGRAM_USER_ACCESS_TOKEN='your_token_here'"
     exit 1
 fi
 

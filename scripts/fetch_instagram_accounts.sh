@@ -18,20 +18,28 @@ fi
 # Get the list of usernames from command-line arguments
 usernames=("$@")
 
-# Define the access token
+# Define the access token and business user ID
 access_token=$INSTAGRAM_USER_ACCESS_TOKEN
+business_user_id=$INSTAGRAM_BUSINESS_USER_ID
 
 # Debug environment variables
 echo "DEBUG: All environment variables containing 'INSTAGRAM':"
 env | grep INSTAGRAM || echo "No INSTAGRAM variables found"
 
 echo "DEBUG: access_token variable value: '$access_token'"
-echo "DEBUG: Direct check of INSTAGRAM_USER_ACCESS_TOKEN: '$INSTAGRAM_USER_ACCESS_TOKEN'"
+echo "DEBUG: business_user_id variable value: '$business_user_id'"
 
 # Check if access token is set
 if [ -z "$access_token" ]; then
     echo "Error: INSTAGRAM_USER_ACCESS_TOKEN environment variable is not set"
     echo "Please set it with: export INSTAGRAM_USER_ACCESS_TOKEN='your_token_here'"
+    exit 1
+fi
+
+# Check if business user ID is set
+if [ -z "$business_user_id" ]; then
+    echo "Error: INSTAGRAM_BUSINESS_USER_ID environment variable is not set"
+    echo "Please set it with: export INSTAGRAM_BUSINESS_USER_ID='your_business_user_id_here'"
     exit 1
 fi
 
@@ -46,7 +54,7 @@ do
   fields="business_discovery.username(${username}){media.limit(5){caption,permalink,timestamp,media_type,media_url,children{media_url}}}"
   encoded_fields=$(printf '%s' "$fields" | jq -sRr @uri)
   
-  url="https://graph.facebook.com/v23.0/2564187097283752?fields=${encoded_fields}&access_token=${access_token}"
+  url="https://graph.facebook.com/v23.0/${business_user_id}?fields=${encoded_fields}&access_token=${access_token}"
   
   echo "Request URL: $url"
   

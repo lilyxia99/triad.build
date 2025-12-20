@@ -9,7 +9,7 @@ access_token=$INSTAGRAM_USER_ACCESS_TOKEN
 # Loop through each username and fetch the data
 for username in "${usernames[@]}"
 do
-  url="https://graph.facebook.com/v16.0/17841448413588338?fields=business_discovery.username(${username}){media.limit(5){caption,permalink,timestamp,media_type,media_url,children{media_url}}}&access_token=${access_token}"
+  url="https://graph.facebook.com/v23.0/2564187097283752?fields=business_discovery.username(${username}){media.limit(5){caption,permalink,timestamp,media_type,media_url,children{media_url}}}&access_token=${access_token}"
   encoded_url=$(echo $url | sed 's/{/%7B/g' | sed 's/}/%7D/g')
   response=$(curl -sS $encoded_url)
 

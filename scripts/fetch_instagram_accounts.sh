@@ -9,7 +9,8 @@ fi
 # Load environment variables from .env file if it exists
 if [ -f .env ]; then
     echo "Loading .env file..."
-    export $(grep -v '^#' .env | xargs)
+    # Only export lines that don't start with # and contain =
+    export $(grep -v '^#' .env | grep '=' | grep -v '//' | xargs)
 else
     echo "No .env file found in current directory"
 fi
@@ -41,7 +42,11 @@ for username in "${usernames[@]}"
 do
   echo "Fetching data for username: ${username}"
   
-  url="https://graph.facebook.com/v23.0/2564187097283752?fields=business_discovery.username(${username}){media.limit(5){caption,permalink,timestamp,media_type,media_url,children{media_url}}}&access_token=${access_token}"
+  # URL encode the fields parameter to handle nested braces
+  fields="business_discovery.username(${username}){media.limit(5){caption,permalink,timestamp,media_type,media_url,children{media_url}}}"
+  encoded_fields=$(printf '%s' "$fields" | jq -sRr @uri)
+  
+  url="https://graph.facebook.com/v23.0/2564187097283752?fields=${encoded_fields}&access_token=${access_token}"
   
   echo "Request URL: $url"
   
@@ -67,6 +72,14 @@ do
     # Show basic info about the response
     media_count=$(echo "$response" | jq -r '.business_discovery.media.data | length // 0')
     echo "Found $media_count media items"
+    
+    # Show the actual content being fetched
+    echo "Content preview:"
+    echo "$response" | jq -r '.business_discovery.media.data[]? | "- \(.caption // "No caption") (\(.timestamp))"' | head -5
+    
+    # Show full JSON response for debugging (optional)
+    echo "Full response JSON:"
+    echo "$response" | jq '.'
   fi
   
   echo "---"

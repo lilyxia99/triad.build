@@ -69,9 +69,6 @@ async function fetchEventbriteEvents() {
                 const url = `https://www.eventbriteapi.com/v3/organizers/${source.organizerId}/events/?status=live&expand=venue&order_by=start_asc`;
                 // --- SPY LOG START ---
                 const token = process.env.EVENTBRITE_API_KEY || "MISSING";
-                console.log(`[DEBUG] Token length: ${token.length}`);
-                console.log(`[DEBUG] First 5 chars: '${token.substring(0, 5)}'`);
-                console.log(`[DEBUG] Last 5 chars: '${token.substring(token.length - 5)}'`);
                 // --- SPY LOG END ---
                 
                 const res = await fetch(url, { 

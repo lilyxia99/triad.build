@@ -41,5 +41,6 @@ If you want to run the entire application locally, visit [QUICKSTART.md](QUICKST
 
 ## Screenshots
 
+![Screenshot of Triad.Biuld](doc/Screenshot1.png)
 
-
+![Screenshot of Triad.Biuld](doc/Screenshot2.png)

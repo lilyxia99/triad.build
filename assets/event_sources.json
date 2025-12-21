@@ -62,7 +62,8 @@
             "/api/events/apify",
             "/api/events/apifyMeetup",
             "/api/events/archive_meetup",
-             "/api/events/eventbrite"
+             "/api/events/eventbrite",
+             "/api/events/archive_instagram"
             
           ]
     },
@@ -163,6 +164,19 @@
         ["community"],
         ["drag"],
         ["transgender"]
+      ]
+    }
+  ],
+  "instagram": [
+    {
+      "name": "Greensboro Pride",
+      "city": "Greensboro",
+      "jsonFile": "instagram_apify.json",
+      "defaultLocation": "Greensboro, NC",
+      "suffixDescription": " #community #pride",
+      "filters":[
+       ["lgbtq"],
+       ["community"] 
       ]
     }
   ],

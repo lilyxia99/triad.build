@@ -59,7 +59,11 @@
             "/api/events/squarespace",
             "/api/events/elfsight",
             "/api/events/libcal",
-            "/api/events/apify"
+            "/api/events/apify",
+            "/api/events/apifyMeetup",
+            "/api/events/archive_meetup",
+            "/api/events/eventbrite"
+            
           ]
     },
     "googleCalendar": [
@@ -87,7 +91,7 @@
       "defaultLocation": "2729 W Broad St, Richmond, VA",
       "filters": [
         ["lgbtq"],
-        ["community"]
+        ["community"]        
 
       ]  
     },
@@ -103,6 +107,19 @@
       ]  
     }
 ],
+    "apifyMeetup": [
+    {
+      "name": "Fairfax Sports",
+      "jsonFile": "meetup_exercise.json", 
+      "city": "Greensboro",
+      "defaultLocation": "Greensboro, NC",
+      "suffixDescription": " #community #sports", 
+      "filters": [
+        ["community"],
+        ["exercise"]
+      ]
+    }
+   ],
     "squarespace": [
     ],
     "elfsight": [

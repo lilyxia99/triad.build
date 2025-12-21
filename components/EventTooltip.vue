@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import sanitizeHtml from 'sanitize-html';
 import { replaceBadgePlaceholders } from '~~/utils/util';
+import { downloadICS } from '~~/utils/icsGenerator';
 
 const props = defineProps<{
   event: any
@@ -54,6 +55,11 @@ const handleImageError = (index) => {
 const getImageClass = (index) => {
   const classes = ['single', 'double', 'triple'];
   return classes[index] || '';
+};
+
+// Function to handle ICS download
+const handleDownloadICS = () => {
+  downloadICS(props.event);
 };
 </script>
 
@@ -113,6 +119,13 @@ const getImageClass = (index) => {
       <div class="tooltip-section">
         <span class="tooltip-label">Event Description:</span>
         <div class="tooltip-description" v-html="eventDescription"></div>
+      </div>
+      
+      <!-- Add to Calendar button -->
+      <div class="tooltip-section tooltip-button-section">
+        <button @click="handleDownloadICS" class="tooltip-calendar-btn">
+          📅 Add to Calendar
+        </button>
       </div>
     </div>
   </div>
@@ -242,5 +255,28 @@ const getImageClass = (index) => {
 
 .image-container .image-wrapper:first-of-type:nth-last-of-type(3) {
   width: 95%;
+}
+
+.tooltip-button-section {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border-outer);
+  text-align: center;
+}
+
+.tooltip-calendar-btn {
+  background: var(--background-inner);
+  border: 1px solid var(--border-outer);
+  color: var(--text-normal);
+  padding: 4px 8px;
+  font-size: 11px;
+  cursor: pointer;
+  border-radius: 2px;
+  font-family: var(--body-font);
+}
+
+.tooltip-calendar-btn:hover {
+  background: var(--button-hover);
+  color: var(--text-opp);
 }
 </style>

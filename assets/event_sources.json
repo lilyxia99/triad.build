@@ -62,7 +62,7 @@
             "/api/events/apify",
             "/api/events/apifyMeetup",
             "/api/events/archive_meetup",
-            "/api/events/eventbrite"
+             "/api/events/eventbrite"
             
           ]
     },
@@ -109,7 +109,7 @@
 ],
     "apifyMeetup": [
     {
-      "name": "Fairfax Sports",
+      "name": "Greensboro Sports Meet up",
       "jsonFile": "meetup_exercise.json", 
       "city": "Greensboro",
       "defaultLocation": "Greensboro, NC",
@@ -120,6 +120,53 @@
       ]
     }
    ],
+   "eventbrite": [               
+    {
+      "name": "Guilford Green Foundation & LGBTQ Center",
+      "organizerId":"23342305315",
+      "city": "Greensboro",
+      "defaultLocation": "Greensboro, NC",
+      "filters": [
+        ["lgbtq"],
+        ["community"],
+        ["transgender"]
+      ]
+    },
+    {
+      "name": "BuffBoyzz Gay Friendly Male Strippers & Male Strip Club Shows",
+      "organizerId":"18051701526",
+      "city": "Greensboro",
+      "defaultLocation": "Greensboro, NC",
+      "filters": [
+        ["lgbtq"],
+        ["community"]
+      ]
+    },
+    {
+      "name": "Greensboro Drag Brunch",
+      "organizerId":"18339520252",
+      "city": "Greensboro",
+      "defaultLocation": "Greensboro, NC",
+      "filters": [
+        ["lgbtq"],
+        ["community"],
+        ["transgender"]
+      ]
+    },
+    {
+      "name": "Winks & Rouge Cabaret",
+      "organizerId":"115725973661",
+      "city": "Greensboro",
+      "defaultLocation": "Greensboro, NC",
+      "filters": [
+        ["lgbtq"],
+        ["community"],
+        ["drag"],
+        ["transgender"]
+      ]
+    }
+  ],
+   
     "squarespace": [
     ],
     "elfsight": [

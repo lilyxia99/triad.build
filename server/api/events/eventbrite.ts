@@ -1,149 +1,169 @@
 import eventSourcesJSON from '@/assets/event_sources.json';
-import { logTimeElapsedSince, serverCacheMaxAgeSeconds, serverFetchHeaders, serverStaleWhileInvalidateSeconds } from '~~/utils/util';
-import { JSDOM } from 'jsdom';
-import { DateTime } from 'luxon';
+import { logTimeElapsedSince, serverFetchHeaders, applyEventTags } from '@/utils/util';
 
-export default defineCachedEventHandler(async (event) => {
-	const startTime = new Date();
-	const body = await fetchEventbriteEvents();
-	logTimeElapsedSince(startTime, 'Eventbrite: events fetched.');
-	return {
-		body
-	}
-}, {
-	maxAge: serverCacheMaxAgeSeconds,
-	staleMaxAge: serverStaleWhileInvalidateSeconds,
-	swr: true,
+// --- Helper Functions ---
+
+function findImageUrls(description: string): string[] {
+    if (!description) return [];
+    const imageUrlRegex = /(https?:\/\/[^\s"<>]+?\.(jpg|jpeg|png|gif|bmp|svg|webp))/g;
+    const matches = description.match(imageUrlRegex);
+    const uniqueMatches = matches ? [...new Set(matches)] : [];
+    return uniqueMatches || [];
+}
+
+function formatTitleAndDateToID(inputDate: any, title: string) {
+    const date = new Date(inputDate);
+    const year = date.getFullYear().toString().slice(-2);
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+  
+    function getFirstThreeUrlCompatibleChars(inputTitle: string): string {
+        const urlCompatibleChars = /^[A-Za-z]+$/;
+        inputTitle = inputTitle || 'und';
+        return Array.from(inputTitle)
+            .filter(char => urlCompatibleChars.test(char))
+            .slice(0, 3)
+            .join('')
+            .toLowerCase();
+    }
+    const titlePrefix = getFirstThreeUrlCompatibleChars(title);
+    return `${year}${month}${day}${hours}${minutes}${titlePrefix}`;
+}
+
+// --- Main Handler ---
+
+export default defineEventHandler(async (event) => {
+    const startTime = new Date();
+
+    // Check for the variable you already have in .env
+    if (!process.env.EVENTBRITE_API_KEY) {
+        console.error('EVENTBRITE_API_KEY is not set in .env');
+        return { body: [] };
+    }
+
+    const body = await fetchEventbriteEvents();
+    logTimeElapsedSince(startTime.getTime(), 'Eventbrite: events fetched.');
+    
+    return {
+        body
+    }
 });
 
 async function fetchEventbriteEvents() {
-	console.log('Fetching Eventbrite events...');
+    let eventbriteSources = await useStorage().getItem('eventbriteSources');
+    
+    if (!eventSourcesJSON.eventbrite || eventSourcesJSON.eventbrite.length === 0) {
+        console.log('No Eventbrite sources configured in event_sources.json');
+        return [];
+    }
 
-	if (process.env.EVENTBRITE_API_KEY === undefined) {
-		console.error("No Eventbrite API key found. Please set the EVENTBRITE_API_KEY environment variable.");
-	}
+    try {
+        console.log('Number of Eventbrite sources to fetch:', eventSourcesJSON.eventbrite.length);
 
-	let eventbriteSources = await useStorage().getItem('eventbriteSources');
-	try {
-		eventbriteSources = await Promise.all(
-			eventSourcesJSON.eventbriteAccounts.map(async (source) => {
-				return await fetch(source.url, { headers: serverFetchHeaders })
-					// Error check.
-					.then(res => {
-						if (!res.ok) {
-							console.error(`Error fetching Eventbrite events for ${source.name}: ${res.status} ${res.statusText}`);
-							return {
-								events: [],
-								city: source.city,
-								name: source.name,
-							} as EventNormalSource;
-						}
-						return res;
-					})
-					.then(res => res.text())
-					.then(async html => {
-						const dom = new JSDOM(html);
-						const eventsRaw = JSON.parse(dom.window.document.querySelectorAll('script[type="application/ld+json"]')[1].innerHTML)
-							.map(event => convertSchemaDotOrgEventToFullCalendarEvent(event, source.name));
+        eventbriteSources = await Promise.all(
+            eventSourcesJSON.eventbrite.map(async (source) => {
+                // We use '?expand=venue' to get the full address in one request
+                // We filter by status=live to avoid drafts or past events
+                const url = `https://www.eventbriteapi.com/v3/organizers/${source.organizerId}/events/?status=live&expand=venue&order_by=start_asc`;
+                // --- SPY LOG START ---
+                const token = process.env.EVENTBRITE_API_KEY || "MISSING";
+                console.log(`[DEBUG] Token length: ${token.length}`);
+                console.log(`[DEBUG] First 5 chars: '${token.substring(0, 5)}'`);
+                console.log(`[DEBUG] Last 5 chars: '${token.substring(token.length - 5)}'`);
+                // --- SPY LOG END ---
+                
+                const res = await fetch(url, { 
+                    headers: {
+                        // Eventbrite expects 'Bearer <token>'
+                        'Authorization': `Bearer ${process.env.EVENTBRITE_API_KEY}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
 
-						// Since public & private Eventbrite endpoints provides a series of events as a single event, we need to split them up using their API.
-						const events = Promise.all(eventsRaw.map(async (rawEvent) => {
-							const isLongerThan3Days = (rawEvent.end.getTime() - rawEvent.start.getTime()) / (1000 * 3600 * 24) > 3;
-							if (isLongerThan3Days) {
-								const eventSeries = await getEventSeries(rawEvent.url);
-								return eventSeries.map(event => convertEventbriteAPIEventToFullCalendarEvent(event, source.name));
-							} else {
-								return rawEvent;
-							}
-						}));
-						const newEvents = (await events).flat();
+                if (!res.ok) {
+                    console.error(`Error fetching Eventbrite for ${source.name}: ${res.status} ${res.statusText}`);
+                    // Optional: Log the error body to debug specific API issues
+                    const errText = await res.text();
+                    console.error('Eventbrite Error Body:', errText);
+                    return { events: [], city: source.city, name: source.name };
+                }
 
-						return {
-							events: newEvents,
-							city: source.city,
-							name: source.name,
-						} as EventNormalSource;
-					});
-			}));
-		const eventbriteSingleEventSeries = await Promise.all(
-			eventSourcesJSON.eventbriteSingleEventSeries.map(async (source) => {
-				const eventsSeries = (await getEventSeries(source.url)).map(event => convertEventbriteAPIEventToFullCalendarEvent(event, source.sourceName));
-				return {
-					events: eventsSeries,
-					city: source.city,
-					name: source.name,
-				} as EventNormalSource;
-			}));
-		const allEventbriteSources = eventbriteSources.concat(eventbriteSingleEventSeries);
-		await useStorage().setItem('eventbriteSources', allEventbriteSources);
-		return allEventbriteSources;
-	}
-	catch (e) {
-		console.error("Error fetching Eventbrite events: ", e);
-	}
-	return eventbriteSources;
-};
+                const data = await res.json();
+                const rawEvents = data.events || [];
 
-async function getEventSeries(event_url: string) {
-	// Split URL by '-' and get the last part.
-	const series_id = event_url.split('-').pop();
-	const res = await fetch(`https://www.eventbriteapi.com/v3/series/${series_id}/events/?token=${process.env.EVENTBRITE_API_KEY}`, { headers: serverFetchHeaders })
-		.then((res) => {
-			return res.json();
-		});
+                console.log(`Successfully fetched ${rawEvents.length || 0} events from ${source.name}`);
 
-	// Sometimes the response returns 404 for whatever reason. I imagine for events with information set to private. Ignore those.
-	if (!res.events) {
-		return [];
-	} else {
-		return res.events;
-	};
+                const events = rawEvents.map((item: any) => {
+                    // Eventbrite uses nested objects for text: name.text, description.text
+                    let title = item.name?.text || 'Untitled Event';
+                    let description = item.description?.text || ''; 
+                    
+                    // --- Config Logic ---
+                    if (source.prefixTitle) { title = source.prefixTitle + title; }
+                    if (source.suffixTitle) { title += source.suffixTitle; }
+                    if (source.suffixDescription) { description += source.suffixDescription; }
+
+                    const tags = applyEventTags(source, title, description);
+                    
+                    // --- Image Logic ---
+                    const extractedImages = findImageUrls(description);
+                    // Eventbrite usually provides a 'logo' object
+                    if (item.logo?.original?.url) {
+                        extractedImages.unshift(item.logo.original.url);
+                    }
+
+                    // --- Date Handling ---
+                    // Eventbrite returns ISO strings (e.g., "2025-12-01T19:00:00Z")
+                    const startDateObj = new Date(item.start.utc);
+                    const endDateObj = new Date(item.end.utc);
+
+                    // --- Location Logic ---
+                    let locationString = source.defaultLocation || 'Location not specified';
+                    if (item.venue) {
+                        const v = item.venue;
+                        // Construct a readable address string
+                        const addressParts = [
+                            v.name, 
+                            v.address?.address_1, 
+                            v.address?.city
+                        ].filter(Boolean); // Remove empty values
+
+                        if (addressParts.length > 0) {
+                            locationString = addressParts.join(', ');
+                        }
+                    }
+
+                    return {
+                        id: formatTitleAndDateToID(startDateObj, title),
+                        title: title,
+                        org: source.name,
+                        start: startDateObj.toISOString(),
+                        end: endDateObj.toISOString(),
+                        url: item.url,
+                        location: locationString,
+                        description: description,
+                        images: [...new Set(extractedImages)],
+                        tags,
+                    };
+                });
+
+                return {
+                    events,
+                    city: source.city,
+                    name: source.name,
+                };
+            })
+        );
+
+        // Cache the result
+        await useStorage().setItem('eventbriteSources', eventbriteSources);
+
+    } catch (e) {
+        console.error("Error fetching Eventbrite events: ", e);
+        return [];
+    }
+
+    return eventbriteSources || [];
 }
-
-function convertSchemaDotOrgEventToFullCalendarEvent(item, sourceName) {
-	// If we have a `geo` object, format it to geoJSON.
-	var geoJSON = (item.location.geo) ? {
-		type: "Point",
-		coordinates: [
-			item.location.geo.longitude,
-			item.location.geo.latitude
-		]
-		// Otherwise, set it to null.
-	} : null;
-
-	return {
-		title: `${item.name} @ ${sourceName}`,
-		// Converts from System Time to UTC.
-		start: DateTime.fromISO(item.startDate).toUTC().toJSDate(),
-		end: DateTime.fromISO(item.endDate).toUTC().toJSDate(),
-		url: item.url,
-		extendedProps: {
-			description: item.description || null,
-			image: item.image,
-			location: {
-				geoJSON: geoJSON,
-				eventVenue: {
-					name: item.location.name,
-					address: {
-						streetAddress: item.location.streetAddress,
-						addressLocality: item.location.addressLocality,
-						addressRegion: item.location.addressRegion,
-						postalCode: item.location.postalCode,
-						addressCountry: item.location.addressCountry
-					},
-					geo: item.location?.geo
-				}
-			}
-		}
-	};
-};
-
-// The problem with the Eventbrite developer API format is that it lacks geolocation.
-function convertEventbriteAPIEventToFullCalendarEvent(item, sourceName) {
-	return {
-		title: `${item.name.text} @ ${sourceName}`,
-		start: new Date(item.start.utc),
-		end: new Date(item.end.utc),
-		url: item.url,
-	};
-};

@@ -41,6 +41,5 @@ If you want to run the entire application locally, visit [QUICKSTART.md](QUICKST
 
 ## Screenshots
 
-![Screenshot1, a full height screenshot of an early development version of rva.rip](./doc/Screenshot1.png)
 
-![Screenshot2, demonstrating the modal that appears when an event is clicked](./doc/Screenshot2.png)
+

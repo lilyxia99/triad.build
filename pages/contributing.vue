@@ -24,7 +24,7 @@ import { replaceBadgePlaceholders } from '~~/utils/util';
                 </ul>
                 <li>You should then be presented with a screen that looks like the following. Fill out the information and click "Create calendar". After it's created it'll be availabe on the left side of your screen under "My calendars"</li>
                 <ul>
-                    <li><img class="cont-img" src="/contributing/GCalStep3.png" alt="Google Calender Guide Image 3"/>
+                    <li><img class="cont-img" style="width:400px;height:auto" src="/contributing/GCalStep3.png" alt="Google Calender Guide Image 3"/>
                     <img class="cont-img" src="/contributing/GCalStep4.png" alt="Google Calender Guide Image 4"/></li>
                 </ul>
                 <li>When your calendar is created, access it's "Settings and sharing" menu accessible on desktop by hovering over it with your mouse and clicking the three dots which appear, then "Settings and sharing"</li>
@@ -54,19 +54,19 @@ import { replaceBadgePlaceholders } from '~~/utils/util';
                 <ul>
                     <span class="cont-bad">👎<img class="cont-img-mid" src="/contributing/GCalTip2.png" alt="Google Calender Tip Image 2"/></span> <br />
                     <span class="cont-bad">👎<img class="cont-img-mid" src="/contributing/GCalTip4.png" alt="Google Calender Tip Image 4"/></span> <br />
-                    <span class="cont-good">👍<img class="cont-img-mid" src="/contributing/GCalTip3.png" alt="Google Calender Tip Image 3"/></span> 
+                    <span class="cont-good">👍<img class="cont-img-mid"  src="/contributing/GCalTip3.png" alt="Create new calendar"/></span> 
                 </ul>
                 <li>When adding events to the calendar, try not to leave the location field blank. Try and fill it with either a location that will appear and be google maps compatible, or feel free to set an arbitrary location.</li>
                 <ul>
                     <span class="cont-bad">👎<img class="cont-img-mid" src="/contributing/GCalTip5.png" alt="Google Calender Tip Image 5"/></span> <br />
                     <span class="cont-good">👍<img class="cont-img-mid" src="/contributing/GCalTip6.png" alt="Google Calender Tip Image 6"/></span> <br />
-                    <span class="cont-good">👍<img class="cont-img-mid" style="width:430px" src="/contributing/GCalTip7.png" alt="Google Calender Tip Image 7"/></span> <br />
+                    <span class="cont-good">👍<img class="cont-img-mid"  src="/contributing/GCalTip7.png" alt="Google Calender Tip Image 7"/></span> <br />
                     <span class="cont-good">👍<img class="cont-img-mid" src="/contributing/GCalTip8.png" alt="Google Calender Tip Image 8"/></span> <br />
                 </ul>
                 <li>When adding events to the calendar, try not to leave the description blank. Even if you don't feel like adding much information, like if for example you're throwing something on real quick, atleast try and link to where you can find more information for the event (website or social media account). For bonus points, feel free to include an image or poster you've made for your event (guide on how to do this is detailed below)</li>
                 <ul>
                     <span class="cont-bad">👎<img class="cont-img-mid" src="/contributing/GCalTip10.png" alt="Google Calender Tip Image 10"/></span> <br />
-                    <span class="cont-good">👍<img class="cont-img-mid" src="/contributing/GCalTip11.png" alt="Google Calender Tip Image 11"/></span> <br />
+                    <span class="cont-good">👍<img class="cont-img-mid"  src="/contributing/GCalTip11.png" alt="Google Calender Tip Image 11"/></span> <br />
                     <span class="cont-good">👍<img class="cont-img-mid" src="/contributing/GCalTip12.png" alt="Google Calender Tip Image 12"/></span> <br />
                 </ul>
             </ul>
@@ -89,19 +89,19 @@ import { replaceBadgePlaceholders } from '~~/utils/util';
                         <a v-badge style="font-size: 1.25em; font-family: 'ChicagoFLF';"><span class="cont-good" style="font-size: 1.25em;">👍</span>
                          Greensboro Community Clothes Swap </a> <br />
                         <a v-badge style="font-size: 1.25em; font-family: 'ChicagoFLF';"><span class="cont-good" style="font-size: 1.25em;">👍</span>
-                         :triad: Hollywood Cemetery Queer Clothes Swap </a> <br />
+                         :triad: Greensboro Queer Clothes Swap </a> <br />
                         <a v-badge style="font-size: 1.25em; font-family: 'ChicagoFLF';"><span class="cont-good" style="font-size: 1.25em;">👍</span>
-                         :triad: 👗 Hollywood Cemetery Queer Clothes Swap </a> <br />
+                         :triad: 👗 Greensboro Queer Clothes Swap </a> <br />
                         <a v-badge style="font-size: 1.25em; font-family: 'ChicagoFLF';"><span class="cont-good" style="font-size: 1.25em;">👍</span>
-                         :triad: 👕 Hollywood Cemetery Queer Clothes Swap </a> <br />
+                         :triad: 👕 Greensboro Queer Clothes Swap </a> <br />
                         <a v-badge style="font-size: 1.25em; font-family: 'ChicagoFLF';"><span class="cont-good" style="font-size: 1.25em;">👍</span>
                          👗 Greensboro Community Clothes Swap </a> <br />
                         <a v-badge style="font-size: 1.25em; font-family: 'ChicagoFLF';"><span class="cont-good" style="font-size: 1.25em;">👍</span>
                          👗👕 Greensboro Community Clothes Swap </a> <br />
                         <a v-badge style="font-size: 1.25em; font-family: 'ChicagoFLF';"><span class="cont-bad" style="font-size: 1.25em;">👎</span>
-                         :triad:👗👕 Hollywood Cemetery Queer Clothes Swap </a> <br />
+                         :triad:👗👕 Greensboro Queer Clothes Swap </a> <br />
                         <a v-badge style="font-size: 1.25em; font-family: 'ChicagoFLF';"><span class="cont-bad" style="font-size: 1.25em;">👎</span>
-                         :triad:👖👗👕 Hollywood Cemetery Queer Clothes Swap </a> <br />
+                         :triad:👖👗👕 Greensboro Queer Clothes Swap </a> <br />
                         <a v-badge style="font-size: 1.25em; font-family: 'ChicagoFLF';"><span class="cont-bad" style="font-size: 1.25em;">👎</span>
                          👖👗👕 Greensboro Community Clothes Swap </a> <br />
                     </ul>

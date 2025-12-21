@@ -75,7 +75,8 @@ body {
   margin: 0;
   height: 100%;
   font-family: --var(--body-font);
-  font-size: 14px;
+  font-size: 16px;
+  line-height: 1.5rem;
   font-weight: normal;
   color: var(--text-normal);
 }
@@ -529,6 +530,7 @@ body.no-scroll {
 
 .cont-img-mid {
   vertical-align: middle;
+  width:400px
 }
 
 /* Styles for image-wrapper when there is only one image */

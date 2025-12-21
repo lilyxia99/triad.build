@@ -59,11 +59,11 @@
             "/api/events/squarespace",
             "/api/events/elfsight",
             "/api/events/libcal",
-            "/api/events/apify",
+            "/api/events/apify_facebook",
             "/api/events/apifyMeetup",
             "/api/events/archive_meetup",
              "/api/events/eventbrite",
-             "/api/events/archive_instagram"
+             "/api/events/instagram"
             
           ]
     },
@@ -170,13 +170,26 @@
   "instagram": [
     {
       "name": "Greensboro Pride",
+      "username": "greensboropride", 
       "city": "Greensboro",
-      "jsonFile": "instagram_apify.json",
       "defaultLocation": "Greensboro, NC",
-      "suffixDescription": " #community #pride",
-      "filters":[
-       ["lgbtq"],
-       ["community"] 
+      "context_clues": ["pride"],
+      "filters": [
+        ["lgbtq"],
+        ["community"],
+        ["drag"],
+        ["transgender"]
+      ]
+    },
+    {
+      "name": "Greensboro Project Space",
+      "username": "greensboroprojectspace", 
+      "city": "Greensboro",
+      "defaultLocation": "Greensboro, NC",
+      "context_clues": ["art"],
+      "filters": [
+        ["art"],
+        ["nonprofit"]
       ]
     }
   ],
@@ -191,3 +204,5 @@
        
     ]
 }
+
+

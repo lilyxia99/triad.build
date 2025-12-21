@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/sync-events?auth=YOUR_SECRET_KEY",
+      "schedule": "0 10 * * *" 
+    }
+  ]
+}

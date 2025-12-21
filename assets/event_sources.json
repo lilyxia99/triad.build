@@ -58,7 +58,8 @@
             "/api/events/googleCalendar",
             "/api/events/squarespace",
             "/api/events/elfsight",
-            "/api/events/libcal"
+            "/api/events/libcal",
+            "/api/events/apify"
           ]
     },
     "googleCalendar": [
@@ -78,6 +79,30 @@
         }
         
     ],
+    "apify": [
+    {
+      "name": "Queer",
+      "city": "Greensboro",
+      "datasetId": "1eBv8ROWEielPSiID", 
+      "defaultLocation": "2729 W Broad St, Richmond, VA",
+      "filters": [
+        ["lgbtq"],
+        ["community"]
+
+      ]  
+    },
+    {
+      "name": "Game",
+      "city": "Greensboro",
+      "datasetId": "wBFRo3640Dym55I9O", 
+      "defaultLocation": "2729 W Broad St, Richmond, VA",
+      "filters": [
+        ["games"],
+        ["community"]
+
+      ]  
+    }
+],
     "squarespace": [
     ],
     "elfsight": [

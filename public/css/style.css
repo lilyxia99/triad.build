@@ -357,6 +357,7 @@ div.fc-scrollgrid-sync-inner:not(.fc-daygrid-day-frame) {
   font-family: var(--body-font);
   padding: 18px;
   font-size: min(1em);
+  line-height: 1.2;
   color: var(--text-normal);
 }
 .desc a:link {

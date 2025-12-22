@@ -17,7 +17,7 @@ const AIEventSchema = z.object({
     location: z.string().nullable().optional(),
 });
 
-export default defineCachedEventHandler(async (event) => {
+export default defineEventHandler(async (event) => {
     const startTime = new Date();
     
     // DEBUG: Check Environment Variables

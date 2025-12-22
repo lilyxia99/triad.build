@@ -8,13 +8,13 @@ This project's purpose is to help people in GSO and greater area know what's goi
 
 ## Why I want to build this
 
-I just moved to this place after breaking up with my girlfriend. I am devastated to know more friends!!!
+I just moved to this place after breaking up with my ex-girlfriend. (🙅‍♀️don't date ppl who r younger than u...although this is self-contradictory) I am devastated to know more friends!!!
 
 ## How do I add my events to this website?
 
 You have two options!
 
-1. Email me at leileixiawork@gmail.com with a Google Calendar you'd like to share :)
+1. Email me at leileixiawork@gmail.com with a Google Calendar you'd like to share :)🙅‍♀️
 2. Fork this project and open a pull request with your changes added to ~~/assets/event_sources.json
 
 todo: make this into a page on triad.build so it's more accessible

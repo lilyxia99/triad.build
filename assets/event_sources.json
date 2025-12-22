@@ -80,6 +80,19 @@
                 ["lgbtq"],
                 ["games"]
             ]
+        },
+        {
+            "name": "Food Not Bombs GSO",
+            "googleCalendarId": "11baf8e1a3d9733b4629247d8a4ac8571bae660681b235878ad98226eac078ed@group.calendar.google.com",
+            "prefixTitle": "🌽 ",
+            "suffixTitle": "Food Not Bombs GSO",
+            "suffixDescription":"\nMutual aid group providing free vegan meals to our community Fridays at 6:30pm. DMs not regularly monitored, please use <a href=\"https://docs.google.com/forms/d/e/1FAIpQLSdZcZxP2LYjEwKLOshMEpZr8nQgNbb3FgmaA9oKRwLvpguMZg/viewform?fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGnedFh2Xxl_EOohR_BdCfxAtW5nhlP1pbIvg6kD4L0ieMPLteO_cOn09BIOfA_aem_fP5W1jEM8ZeVxWr6GxkGNA\">sign up form</a> 2 get involved ",
+            "defaultLocation": "1104 W Florida St, Greensboro, NC 27401, USA",
+            "filters": [
+                ["organizing"],
+                ["food"],
+                ["nonprofit"]
+            ]
         }
         
     ],
@@ -128,7 +141,7 @@
       "defaultLocation": "Greensboro, NC",
       "filters": [
         ["lgbtq"],
-        ["community"],
+        ["nonprofit"],
         ["transgender"]
       ]
     },
@@ -139,7 +152,7 @@
       "defaultLocation": "Greensboro, NC",
       "filters": [
         ["lgbtq"],
-        ["community"]
+        ["commercial"]
       ]
     },
     {
@@ -149,7 +162,7 @@
       "defaultLocation": "Greensboro, NC",
       "filters": [
         ["lgbtq"],
-        ["community"],
+        ["commercial"],
         ["transgender"]
       ]
     },
@@ -212,7 +225,7 @@
       "context_clues": ["performance","music","open mic"],
       "filters": [
         ["art"],
-        ["community"],
+        ["commercial"],
         ["performance"],
         ["music"]
       ]
@@ -225,7 +238,7 @@
       "context_clues": ["performance","art","exhibition"],
       "filters": [
         ["art"],
-        ["community"]
+        ["commercial"]
       ]
     },
     {
@@ -284,7 +297,7 @@
       "filters": [
         ["performance"],
         ["music"],
-        ["community"]
+        ["commercial"]
       ]
     },
     {
@@ -345,7 +358,7 @@
       "filters": [
         ["market"],
         ["socialism"],
-        ["community"]
+        ["commercial"]
       ]
     },
     {

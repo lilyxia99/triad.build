@@ -1,11 +1,14 @@
 import OpenAI from 'openai';
 import { z } from 'zod';
+import vision from '@google-cloud/vision';
 import eventSourcesJSON from '@/assets/event_sources.json';
 import { applyEventTags } from '@/utils/util';
 
-// --- VALIDATION SCHEMA ---
-const AIEventSchema = z.object({
-    isEvent: z.boolean(),
+// --- CONFIGURATION ---
+const CACHE_MAX_AGE = 60 * 60 * 4; // 4 Hours
+
+// --- SCHEMA ---
+const SingleEventSchema = z.object({
     title: z.string().nullable().optional(),
     startDay: z.number().nullable().optional(),
     startMonth: z.number().nullable().optional(),
@@ -17,167 +20,265 @@ const AIEventSchema = z.object({
     location: z.string().nullable().optional(),
 });
 
-// --- UNCACHED DEBUG HANDLER ---
+const AIResponseSchema = z.object({
+    events: z.array(SingleEventSchema)
+});
+
+// --- CACHED HANDLER ---
 export default defineCachedEventHandler(async (event) => {
-    // 1. SETUP LOGGING
-    const logs: string[] = [];
-    const log = (msg: string) => logs.push(msg);
-    
-    // 2. CHECK KEYS
     const envStatus = {
-        hasMetaToken: !!process.env.INSTAGRAM_USER_ACCESS_TOKEN,
-        hasMetaID: !!process.env.INSTAGRAM_BUSINESS_USER_ID,
+        hasMeta: !!process.env.INSTAGRAM_USER_ACCESS_TOKEN,
         hasOpenAI: !!process.env.OPENAI_API_KEY,
+        hasGoogle: !!process.env.GOOGLE_CLOUD_VISION_PRIVATE_KEY
     };
 
-    if (!envStatus.hasMetaToken || !envStatus.hasMetaID || !envStatus.hasOpenAI) {
-        return { status: "ERROR", message: "Missing Environment Variables", debug: envStatus };
+    if (!envStatus.hasMeta || !envStatus.hasOpenAI) {
+        console.error("[Instagram] Missing Critical Keys");
+        return { body: [] };
     }
 
-    // 3. RUN SCRAPER
     try {
-        const sources = eventSourcesJSON.instagram || [];
-        const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-        const allResults = [];
+        console.log(`[Instagram] Job Started. OCR Enabled: ${envStatus.hasGoogle}`);
+        const body = await fetchInstagramEvents();
+        return { body };
+    } catch (e: any) {
+        console.error(`[Instagram CRITICAL FAIL] ${e.message}`);
+        return { body: [] };
+    }
+}, {
+    maxAge: CACHE_MAX_AGE,
+    swr: true, 
+});
 
-        for (const source of sources) {
-            // FIX: Declare 'posts' OUTSIDE the try block so it is always safe to use
-            let posts: any[] = [];
 
-            try {
-                log(`Processing @${source.username}...`);
-                
-                // --- GRAPH API ---
-                const myId = process.env.INSTAGRAM_BUSINESS_USER_ID;
-                const token = process.env.INSTAGRAM_USER_ACCESS_TOKEN;
-                const url = `https://graph.facebook.com/v21.0/${myId}?fields=business_discovery.username(${source.username}){media.limit(6){id,caption,media_type,media_url,thumbnail_url,permalink,timestamp}}&access_token=${token}`;
-                
-                const res = await fetch(url);
-                
-                if (!res.ok) {
-                    const txt = await res.text();
-                    
-                    // DETECT RATE LIMIT
-                    if (txt.includes('(#4)') || txt.includes('limit reached')) {
-                        log(`   -> 🛑 RATE LIMIT HIT: You are temporarily banned by Facebook. Wait 1 hour.`);
-                    } else if (txt.includes('Permissions error')) {
-                         log(`   -> 🛑 PERMISSION ERROR: Check App Mode (Live vs Dev) or Token validity.`);
-                    } else {
-                        log(`   -> 🛑 API ERROR: ${txt}`);
-                    }
-                    // Skip to next source
-                    continue; 
+// --- MAIN LOGIC ---
+
+async function fetchInstagramEvents() {
+    const sources = eventSourcesJSON.instagram || [];
+    const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+    const allResults = [];
+
+    // Initialize Google Vision
+    let visionClient = null;
+    if (process.env.GOOGLE_CLOUD_VISION_PRIVATE_KEY && process.env.GOOGLE_CLOUD_VISION_CLIENT_EMAIL) {
+        visionClient = new vision.ImageAnnotatorClient({
+            credentials: {
+                private_key: process.env.GOOGLE_CLOUD_VISION_PRIVATE_KEY.replace(/\\n/g, '\n'),
+                client_email: process.env.GOOGLE_CLOUD_VISION_CLIENT_EMAIL,
+            },
+        });
+    }
+
+    for (const source of sources) {
+        try {
+            console.log(`Processing @${source.username}...`);
+            
+            // 1. Fetch Instagram Data
+            const myId = process.env.INSTAGRAM_BUSINESS_USER_ID;
+            const token = process.env.INSTAGRAM_USER_ACCESS_TOKEN;
+            const url = `https://graph.facebook.com/v21.0/${myId}?fields=business_discovery.username(${source.username}){media.limit(6){id,caption,media_type,media_url,thumbnail_url,permalink,timestamp,children{media_url,media_type,thumbnail_url}}}&access_token=${token}`;
+            
+            const res = await fetch(url);
+            if (!res.ok) {
+                const txt = await res.text();
+                if (txt.includes('(#4)')) console.error(`[Rate Limit] @${source.username} blocked.`);
+                else console.error(`[Graph API Error] @${source.username}: ${txt}`);
+                continue; 
+            }
+            
+            const data = await res.json();
+            const posts = data.business_discovery?.media?.data || [];
+
+            // 2. Process Posts
+            let sourceEvents = [];
+            for (const post of posts) {
+                const postDateObj = new Date(post.timestamp);
+                const postDateString = postDateObj.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+                // A. Gather Media URLs
+                let mediaUrls: string[] = [];
+                if (post.media_type === 'CAROUSEL_ALBUM' && post.children?.data) {
+                    mediaUrls = post.children.data.map((child: any) => {
+                        return (child.media_type === 'VIDEO' && child.thumbnail_url) ? child.thumbnail_url : child.media_url;
+                    }).filter(Boolean);
+                } else {
+                    const singleUrl = (post.media_type === 'VIDEO' && post.thumbnail_url) ? post.thumbnail_url : post.media_url;
+                    if (singleUrl) mediaUrls.push(singleUrl);
                 }
-                
-                const data = await res.json();
-                posts = data.business_discovery?.media?.data || [];
-                log(`   -> Found ${posts.length} posts.`);
 
-                // --- AI ANALYSIS ---
-                const events = [];
-                // Process sequentially to be gentle on APIs
-                for (const post of posts) {
-                    if (!post.caption) continue;
+                if (mediaUrls.length === 0 && !post.caption) continue;
 
-                    const postDateObj = new Date(post.timestamp);
-                    const postDateString = postDateObj.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-
-                    // Pass 'log' so we can see AI errors if they happen
-                    const aiResult = await analyzeWithAI(openai, post.caption, source.context_clues?.join(', '), postDateString, log);
+                // B. Run OCR (Force separators so AI sees distinct items)
+                let ocrTextData = "";
+                if (visionClient && mediaUrls.length > 0) {
+                    const ocrPromises = mediaUrls.map(url => doOCR(visionClient, url));
+                    const ocrResults = await Promise.all(ocrPromises);
                     
-                    if (aiResult && aiResult.isEvent && aiResult.startDay) {
-                        const now = new Date();
-                        const year = aiResult.startYear || now.getFullYear();
-                        const monthIndex = (aiResult.startMonth || (now.getMonth() + 1)) - 1; 
+                    ocrTextData = ocrResults
+                        .map((txt, idx) => `\n--- START IMAGE ${idx + 1} TEXT ---\n${txt}\n--- END IMAGE ${idx + 1} ---\n`)
+                        .join("\n");
+                }
+
+                // C. Analyze with AI
+                const aiResponse = await analyzeWithAI(openai, post.caption || "", ocrTextData, source.context_clues?.join(', '), postDateString);
+                
+                // D. Convert to Events
+                if (aiResponse && aiResponse.events.length > 0) {
+                    const now = new Date();
+                    
+                    for (const ev of aiResponse.events) {
+                        if (!ev.startDay) continue;
+
+                        const year = ev.startYear || now.getFullYear();
+                        const monthIndex = (ev.startMonth || (now.getMonth() + 1)) - 1; 
                         
-                        let start = new Date(year, monthIndex, aiResult.startDay, aiResult.startHourMilitaryTime || 12, aiResult.startMinute || 0);
+                        let start = new Date(year, monthIndex, ev.startDay, ev.startHourMilitaryTime || 12, ev.startMinute || 0);
+                        
+                        // Fix "Last Year" bug but allow recent past
                         if (start < new Date() && (new Date().getMonth() - start.getMonth() > 6)) start.setFullYear(year + 1);
 
                         let end = new Date(start);
-                        if (aiResult.endHourMilitaryTime) end.setHours(aiResult.endHourMilitaryTime, aiResult.endMinute || 0);
+                        if (ev.endHourMilitaryTime) end.setHours(ev.endHourMilitaryTime, ev.endMinute || 0);
                         else end.setHours(start.getHours() + 1);
 
-                        let title = aiResult.title || "Instagram Event";
-                        let description = post.caption;
+                        let title = ev.title || "Instagram Event";
+                        let description = post.caption || "";
+                        if (!description && ocrTextData) description = "See flyer image for details.";
                         if (source.suffixDescription) description += source.suffixDescription;
-                        const mainImage = (post.media_type === 'VIDEO' && post.thumbnail_url) ? post.thumbnail_url : post.media_url;
 
-                        events.push({
-                            id: `ig-${post.id}`,
+                        // Unique ID includes index to handle multiple events per post
+                        const uniqueSuffix = sourceEvents.length + 1;
+
+                        sourceEvents.push({
+                            id: `ig-${post.id}-${uniqueSuffix}`,
                             title,
                             org: source.name,
                             start: start.toISOString(),
                             end: end.toISOString(),
                             url: post.permalink,
-                            location: aiResult.location || source.defaultLocation,
+                            location: ev.location || source.defaultLocation,
                             description,
-                            images: [mainImage].filter(Boolean),
+                            images: mediaUrls, 
                             tags: applyEventTags(source, title, description)
                         });
                     }
                 }
-                
-                const unique = removeDuplicates(events);
-                log(`   -> Added ${unique.length} unique events.`);
-                allResults.push({ events: unique, city: source.city, name: source.name });
-
-            } catch (e: any) {
-                log(`   -> CRASH on source ${source.username}: ${e.message}`);
             }
+            
+            // 3. FUZZY DEDUPLICATION
+            const uniqueEvents = removeDuplicates(sourceEvents);
+            console.log(`   -> Added ${uniqueEvents.length} unique events from @${source.username}`);
+            allResults.push({ events: uniqueEvents, city: source.city, name: source.name });
+
+        } catch (e: any) {
+            console.error(`Error processing ${source.username}: ${e.message}`);
         }
-
-        return { status: "SUCCESS", logs, body: allResults };
-
-    } catch (e: any) {
-        return { status: "CRITICAL FAILURE", message: e.message, logs };
     }
-});
+
+    return allResults;
+}
+
 
 // --- HELPERS ---
-async function analyzeWithAI(openai: OpenAI, caption: string, context: string, postDateString: string, log: Function) {
+
+async function doOCR(client: any, url: string) {
+    try {
+        const [result] = await client.textDetection(url);
+        return result.fullTextAnnotation?.text || '';
+    } catch (e) {
+        return '';
+    }
+}
+
+async function analyzeWithAI(openai: OpenAI, caption: string, ocrTextData: string, context: string, postDateString: string) {
     const prompt = `
-    Analyze this Instagram caption. UPLOAD DATE: ${postDateString}.
-    Calculate relative dates (e.g. "This Wednesday") starting from ${postDateString}.
-    Context: ${context}.
-    Return JSON ONLY: { "isEvent": boolean, "title": "string", "startDay": number, "startMonth": number, "startYear": number, "startHourMilitaryTime": number, "startMinute": number, "endHourMilitaryTime": number, "location": "string" }
-    Caption: "${caption.substring(0, 1000)}"
+    You are an event extraction engine.
+    
+    GLOBAL CONTEXT:
+    - Post Upload Date: ${postDateString}
+    - Organization Context: ${context}
+    
+    INPUT DATA:
+    ----------------
+    CAPTION:
+    "${caption.substring(0, 1000)}"
+    ----------------
+    OCR IMAGE DATA (Flyers):
+    "${ocrTextData.substring(0, 30000)}"
+    ----------------
+
+    INSTRUCTIONS:
+    1. SCAN EVERY IMAGE BLOCK. Do not stop after the first one.
+    2. If Image 1 is "Film Night" and Image 2 is "Live Jazz", extract BOTH as separate events.
+    3. TIME LOGIC: 
+       - If a time is "7:30" or "8" for a film/party, ASSUME PM unless "AM" is stated.
+       - "December 17" means the closest December 17 to the Upload Date.
+    
+    Return JSON ONLY: 
+    { 
+      "events": [
+        { "title": "string", "startDay": number, "startMonth": number, "startYear": number, "startHourMilitaryTime": number, "startMinute": number, "endHourMilitaryTime": number, "location": "string" }
+      ]
+    }
     `;
 
     try {
         const completion = await openai.chat.completions.create({
-            messages: [{ role: "system", content: "You are a JSON event parser." }, { role: "user", content: prompt }],
             model: "gpt-4o-mini",
+            messages: [
+                { role: "system", content: "You are a precise event extraction assistant. You process every single image provided." }, 
+                { role: "user", content: prompt }
+            ],
             response_format: { type: "json_object" },
             temperature: 0,
         });
 
         const raw = completion.choices[0].message.content;
-        const result = AIEventSchema.safeParse(JSON.parse(raw));
-        if (!result.success) {
-            // log(`      [AI Ignored] Invalid Schema`);
-            return null;
-        }
-        return result.data;
+        const result = AIResponseSchema.safeParse(JSON.parse(raw));
+        
+        if (result.success) return result.data;
+        return null;
 
     } catch (e: any) {
-        log(`      [AI Error] ${e.message}`);
+        console.error(`[AI Error] ${e.message}`);
         return null;
     }
 }
 
+// --- SMART FUZZY DEDUPLICATION ---
 function removeDuplicates(events: any[]) {
     const uniqueEvents: any[] = [];
-    events.sort((a, b) => a.id.localeCompare(b.id));
+    
+    // Helper to normalize strings (remove special chars, lowercase)
+    const normalize = (str: string) => str.toLowerCase().replace(/[^a-z0-9]/g, '');
+
     for (const candidate of events) {
         let isDuplicate = false;
+        
         for (const existing of uniqueEvents) {
-            if (candidate.start === existing.start) {
-                 const cleanA = candidate.title.toLowerCase().replace(/[^\w\s]/g, '');
-                 const cleanB = existing.title.toLowerCase().replace(/[^\w\s]/g, '');
-                 if (cleanA === cleanB) { isDuplicate = true; break; }
+            // 1. Check if Start Dates match (roughly)
+            const dateA = new Date(candidate.start);
+            const dateB = new Date(existing.start);
+            const sameDay = dateA.getDate() === dateB.getDate() && dateA.getMonth() === dateB.getMonth();
+            const sameHour = Math.abs(dateA.getHours() - dateB.getHours()) <= 1; // Allow 1 hour variance
+
+            if (sameDay && sameHour) {
+                // 2. Check Titles (Fuzzy Match)
+                const titleA = normalize(candidate.title);
+                const titleB = normalize(existing.title);
+
+                // If one title contains the other, or they are very similar
+                if (titleA.includes(titleB) || titleB.includes(titleA)) {
+                    isDuplicate = true;
+                    // Optional: You could merge descriptions here if you wanted
+                    break; 
+                }
             }
         }
-        if (!isDuplicate) uniqueEvents.push(candidate);
+
+        if (!isDuplicate) {
+            uniqueEvents.push(candidate);
+        }
     }
     return uniqueEvents;
 }

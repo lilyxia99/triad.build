@@ -34,7 +34,7 @@ function formatTitleAndDateToID(inputDate: any, title: string) {
 
 // --- Main Handler ---
 
-export default defineEventHandler(async (event) => {
+export default defineCachedEventHandler(async (event) => {
     const startTime = new Date();
 
     // Check for the variable you already have in .env

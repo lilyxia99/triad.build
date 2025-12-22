@@ -203,6 +203,30 @@
         ["performance"],
         ["music"]
       ]
+    },
+    {
+      "name": "Back Table",
+      "username": "backtablegso", 
+      "city": "Greensboro",
+      "defaultLocation": "816 S Elm St #1A, Greensboro, NC 27406",
+      "context_clues": ["performance","music","open mic"],
+      "filters": [
+        ["art"],
+        ["community"],
+        ["performance"],
+        ["music"]
+      ]
+    },
+    {
+      "name": "irving park ART & FRAME",
+      "username": "irvingparkartandframe", 
+      "city": "Greensboro",
+      "defaultLocation": "2800 Lawndale Drive, Suite 107, Greensboro, North Carolina 27408",
+      "context_clues": ["performance","art","exhibition"],
+      "filters": [
+        ["art"],
+        ["community"]
+      ]
     }
   ],
    

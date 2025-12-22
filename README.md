@@ -14,7 +14,7 @@ I just moved to this place after breaking up with my ex-girlfriend. (🙅‍♀�
 
 You have two options!
 
-1. Email me at leileixiawork@gmail.com with a Google Calendar you'd like to share :)🙅‍♀️
+1. Email me at leileixiawork@gmail.com with a Google Calendar you'd like to share :)
 2. Fork this project and open a pull request with your changes added to ~~/assets/event_sources.json
 
 todo: make this into a page on triad.build so it's more accessible

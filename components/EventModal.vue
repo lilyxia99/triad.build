@@ -9,6 +9,7 @@ const props = defineProps<{
 }>()
 const emit = defineEmits<{
 	(e: 'confirm'): void
+	(e: 'tagClick', tag: string): void
 }>()
 
 // Development environment flag
@@ -59,6 +60,12 @@ const getImageClass = (index) => {
 const handleDownloadICS = () => {
   downloadICS(props.event.event);
 };
+
+// Function to handle tag clicks
+const handleTagClick = (tag: string) => {
+  emit('tagClick', tag);
+  emit('confirm'); // Close the modal
+};
 </script>
 
 <template>
@@ -69,7 +76,21 @@ const handleDownloadICS = () => {
       <span class="event-headers">Event Time:</span> <span style="text-decoration: underline;">{{ eventTime }}</span><br>
       <span class="event-headers">Event Location:</span> <a :href="createGoogleMapsURL(eventLocation)" target="_blank">{{ eventLocation }}</a><br>
       <span class="event-headers">Event Host:</span> {{ eventHost }}<br>
-      <span v-if="isDevelopment"> <span class="event-headers">Event Tags: </span> {{ eventTags }}<br> </span>
+      <span v-if="isDevelopment && eventTags && eventTags.length > 0"> 
+        <span class="event-headers">Event Tags: </span> 
+        <template v-if="Array.isArray(eventTags)">
+          <span 
+            v-for="(tag, index) in eventTags" 
+            :key="tag"
+            class="clickable-tag"
+            @click="handleTagClick(tag)"
+          >
+            {{ tag }}<span v-if="index < eventTags.length - 1">, </span>
+          </span>
+        </template>
+        <span v-else class="clickable-tag" @click="handleTagClick(eventTags)">{{ eventTags }}</span>
+        <br> 
+      </span>
       <span v-if="eventURL"> <span class="event-headers">Event URL:</span> <a :href="eventURL" target="_blank">Here</a><br> </span>
       
       <!-- Display Images only if there are images -->
@@ -108,3 +129,17 @@ const handleDownloadICS = () => {
     </div>
   </VueFinalModal>
 </template>
+
+<style scoped>
+.clickable-tag {
+  color: var(--text-normal);
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+.clickable-tag:hover {
+  color: var(--button-hover);
+  font-weight: bold;
+}
+</style>

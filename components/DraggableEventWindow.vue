@@ -13,6 +13,7 @@ const props = defineProps<{
 const emit = defineEmits<{
   'close': [windowId: string]
   'minimize': [windowId: string]
+  'tagClick': [tag: string]
 }>()
 
 // Development environment flag
@@ -121,6 +122,12 @@ const handleDownloadICS = () => {
   downloadICS(props.event);
 };
 
+// Function to handle tag clicks
+const handleTagClick = (tag: string) => {
+  emit('tagClick', tag);
+  closeWindow(); // Close the current window
+};
+
 onUnmounted(() => {
   document.removeEventListener('mousemove', onDrag);
   document.removeEventListener('mouseup', stopDrag);
@@ -157,7 +164,22 @@ onUnmounted(() => {
         <span class="event-headers"><strong>Event Time:</strong></span> <span style="text-decoration: underline;">{{ eventTime }}</span><br>
         <span class="event-headers"><strong>Event Location:</strong></span> <a :href="createGoogleMapsURL(eventLocation)" target="_blank">{{ eventLocation }}</a><br>
         <span class="event-headers"><strong>Event Host:</strong></span> {{ eventHost }}<br>
-        <span v-if="isDevelopment && eventTags && eventTags.length > 0"> <span class="event-headers"><strong>Event Tags:</strong></span> 🏷️ {{ Array.isArray(eventTags) ? eventTags.join(', ') : eventTags }}<br> </span>
+        <span v-if="isDevelopment && eventTags && eventTags.length > 0"> 
+          <span class="event-headers"><strong>Event Tags:</strong></span> 
+          🏷️ 
+          <template v-if="Array.isArray(eventTags)">
+            <span 
+              v-for="(tag, index) in eventTags" 
+              :key="tag"
+              class="clickable-tag"
+              @click="handleTagClick(tag)"
+            >
+              {{ tag }}<span v-if="index < eventTags.length - 1">, </span>
+            </span>
+          </template>
+          <span v-else class="clickable-tag" @click="handleTagClick(eventTags)">{{ eventTags }}</span>
+          <br> 
+        </span>
         <span v-if="isDevelopment && eventURL"> <span class="event-headers"><strong>Event URL:</strong></span> <a :href="eventURL" target="_blank">Here</a><br> </span>
         
         <!-- Display Images only if there are images -->
@@ -365,5 +387,17 @@ onUnmounted(() => {
 .calendar-btn:hover {
   background: var(--button-hover);
   color: var(--text-opp);
+}
+
+.clickable-tag {
+  color: var(--text-normal);
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+.clickable-tag:hover {
+  color: var(--button-hover);
+  font-weight: bold;
 }
 </style>

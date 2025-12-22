@@ -190,6 +190,19 @@
         ["art"],
         ["nonprofit"]
       ]
+    },
+    {
+      "name": "ETC.GSO",
+      "username": "etc.gso", 
+      "city": "Greensboro",
+      "defaultLocation": "1333 Grove St, Greensboro, NC 27403",
+      "context_clues": ["performance","music","event"],
+      "filters": [
+        ["art"],
+        ["community"],
+        ["performance"],
+        ["music"]
+      ]
     }
   ],
    

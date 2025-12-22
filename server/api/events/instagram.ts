@@ -13,10 +13,11 @@ const AIEventSchema = z.object({
     startHourMilitaryTime: z.number().nullable().optional(),
     startMinute: z.number().nullable().optional(),
     endHourMilitaryTime: z.number().nullable().optional(),
+    endMinute: z.number().nullable().optional(),
     location: z.string().nullable().optional(),
 });
 
-export default defineEventHandler(async (event) => {
+export default defineCachedEventHandler(async (event) => {
     const startTime = new Date();
     
     // DEBUG: Check Environment Variables
@@ -46,46 +47,41 @@ export default defineEventHandler(async (event) => {
 
 async function fetchInstagramEvents() {
     const sources = eventSourcesJSON.instagram || [];
-    if (sources.length === 0) {
-        console.log('[Instagram] No sources defined in event_sources.json');
-        return [];
-    }
+    if (sources.length === 0) return [];
 
     const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
     const allResults = [];
 
-    console.log(`[Instagram] Processing ${sources.length} sources from config...`);
+    console.log(`[Instagram] Processing ${sources.length} sources...`);
 
     for (const source of sources) {
         try {
             console.log(`\n--- FETCHING @${source.username} ---`);
-            
-            // 1. Fetch Posts
             const posts = await getInstagramPosts(source.username);
             console.log(`   [Graph API] Found ${posts.length} posts.`);
 
-            const events = [];
+            // Parallel AI Analysis
+            const aiPromises = posts.map(async (post) => {
+                if (!post.caption) return null;
 
-            // 2. AI Analysis Loop
-            for (const post of posts) {
-                // Shorten caption for log readability
-                const shortCap = post.caption ? post.caption.substring(0, 30).replace(/\n/g, ' ') + '...' : '[No Caption]';
-                
-                console.log(`   [AI] Analyzing post ${post.id}: "${shortCap}"`); 
+                // --- 1. CONVERT TIMESTAMP TO DATE STRING ---
+                // Instagram gives "2025-12-20T14:00:00+0000"
+                // We format it to "Saturday, December 20, 2025" so the AI understands "Today"
+                const postDateObj = new Date(post.timestamp);
+                const postDateString = postDateObj.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
-                const aiResult = await analyzeWithAI(openai, post.caption, source.context_clues?.join(', '));
+                const aiResult = await analyzeWithAI(openai, post.caption, source.context_clues?.join(', '), postDateString);
                 
                 if (aiResult && aiResult.isEvent && aiResult.startDay) {
-                    console.log(`      ✅ [EVENT MATCH] "${aiResult.title}" | Date: ${aiResult.startMonth}/${aiResult.startDay} | Time: ${aiResult.startHourMilitaryTime || '??'}:00`);
+                    console.log(`      ✅ [EVENT MATCH] "${aiResult.title}" | Date: ${aiResult.startMonth}/${aiResult.startDay}`);
                     
-                    // Construct Date Objects
                     const now = new Date();
                     const year = aiResult.startYear || now.getFullYear();
                     const monthIndex = (aiResult.startMonth || (now.getMonth() + 1)) - 1; 
                     
                     const start = new Date(year, monthIndex, aiResult.startDay, aiResult.startHourMilitaryTime || 12, aiResult.startMinute || 0);
                     
-                    // Year Rollover Fix
+                    // Year Rollover (e.g. Post in Dec for Jan event)
                     if (start < new Date() && (new Date().getMonth() - start.getMonth() > 6)) {
                         start.setFullYear(year + 1);
                     }
@@ -102,12 +98,9 @@ async function fetchInstagramEvents() {
                     if (source.suffixDescription) description += source.suffixDescription;
 
                     const tags = applyEventTags(source, title, description);
-					
-					// Logic: If it's a VIDEO, use the thumbnail. Otherwise, use the media_url.
-					const mainImage = (post.media_type === 'VIDEO' && post.thumbnail_url) 
-						? post.thumbnail_url 
-						: post.media_url;
-                    events.push({
+                    const mainImage = (post.media_type === 'VIDEO' && post.thumbnail_url) ? post.thumbnail_url : post.media_url;
+
+                    return {
                         id: `ig-${post.id}`,
                         title: title,
                         org: source.name,
@@ -118,19 +111,17 @@ async function fetchInstagramEvents() {
                         description: description,
                         images: [mainImage].filter(Boolean),
                         tags
-                    });
-                } else {
-                    console.log(`      ❌ [Not Event] AI prediction: ${JSON.stringify(aiResult)}`);
-                }
-            }
-            
-            console.log(`   -> Added ${events.length} valid events from @${source.username}`);
-
-            allResults.push({
-                events,
-                city: source.city,
-                name: source.name
+                    };
+                } 
+                return null;
             });
+
+            const results = await Promise.all(aiPromises);
+            const rawEvents = results.filter(e => e !== null);
+            const uniqueEvents = removeDuplicates(rawEvents);
+
+            console.log(`   -> Added ${uniqueEvents.length} unique events.`);
+            allResults.push({ events: uniqueEvents, city: source.city, name: source.name });
 
         } catch (e) {
             console.error(`   [Error] Failed processing ${source.username}:`, e);
@@ -146,30 +137,26 @@ async function fetchInstagramEvents() {
 async function getInstagramPosts(username: string) {
     const myId = process.env.INSTAGRAM_BUSINESS_USER_ID;
     const token = process.env.INSTAGRAM_USER_ACCESS_TOKEN;
-    
-    // Fetch last 6 posts
     const url = `https://graph.facebook.com/v21.0/${myId}?fields=business_discovery.username(${username}){media.limit(6){id,caption,media_type,media_url,thumbnail_url,permalink,timestamp}}&access_token=${token}`;
-
     const res = await fetch(url);
-    if (!res.ok) {
-        const err = await res.text();
-        console.error(`   [Graph API Error] ${res.status} ${res.statusText}`);
-        console.error(`   Body: ${err}`);
-        throw new Error(`Graph API failed`);
-    }
-
+    if (!res.ok) throw new Error(`Graph API failed`);
     const data = await res.json();
     return data.business_discovery?.media?.data || [];
 }
 
-async function analyzeWithAI(openai: OpenAI, caption: string, context: string) {
+// --- UPDATED AI FUNCTION ---
+async function analyzeWithAI(openai: OpenAI, caption: string, context: string, postDateString: string) {
     if (!caption) return null;
 
+    // We explicitly tell the AI when the post was made.
     const prompt = `
-    Analyze this Instagram caption. Context clues: ${context || 'General'}.
-    Current Date: ${new Date().toDateString()}.
+    Analyze this Instagram caption.
+    CONTEXT CLUES: ${context || 'General'}.
     
-    Is this a specific event with a date?
+    CRITICAL DATE INFO:
+    - This post was uploaded on: ${postDateString}.
+    - If the text says "Today", "Tonight", or "Tomorrow", calculate the date relative to the UPLOAD DATE (${postDateString}), NOT the current real-world date.
+    
     Return JSON ONLY:
     {
       "isEvent": boolean,
@@ -179,6 +166,8 @@ async function analyzeWithAI(openai: OpenAI, caption: string, context: string) {
       "startYear": number,
       "startHourMilitaryTime": number (0-23),
       "startMinute": number,
+      "endHourMilitaryTime": number (0-23),
+      "endMinute": number,
       "location": "string"
     }
 
@@ -188,7 +177,7 @@ async function analyzeWithAI(openai: OpenAI, caption: string, context: string) {
     try {
         const completion = await openai.chat.completions.create({
             messages: [
-                { role: "system", content: "You are a JSON event parser." }, 
+                { role: "system", content: "You are a JSON event parser. Resolve relative dates based on the provided Upload Date." }, 
                 { role: "user", content: prompt }
             ],
             model: "gpt-3.5-turbo-0125",
@@ -197,17 +186,34 @@ async function analyzeWithAI(openai: OpenAI, caption: string, context: string) {
         });
 
         const raw = completion.choices[0].message.content;
-        const parsed = JSON.parse(raw);
-        
-        // Quick Zod check
-        const safe = AIEventSchema.safeParse(parsed);
-        if (safe.success) return safe.data;
-        
-        console.log(`   [AI Parse Error] Invalid JSON structure: ${raw}`);
-        return null;
-
+        return AIEventSchema.parse(JSON.parse(raw));
     } catch (e) {
-        console.error("   [OpenAI Error]", e.message);
         return null;
     }
+}
+
+function removeDuplicates(events: any[]) {
+    const uniqueEvents: any[] = [];
+    events.sort((a, b) => a.id.localeCompare(b.id));
+
+    for (const candidate of events) {
+        let isDuplicate = false;
+        for (const existing of uniqueEvents) {
+            if (candidate.start === existing.start) {
+                const cleanA = candidate.title.toLowerCase().replace(/[^\w\s]/g, '');
+                const cleanB = existing.title.toLowerCase().replace(/[^\w\s]/g, '');
+                
+                if (cleanA === cleanB) { isDuplicate = true; break; }
+
+                const wordsA = new Set(cleanA.split(/\s+/));
+                const wordsB = new Set(cleanB.split(/\s+/));
+                const stopWords = new Set(['the', 'and', 'for', 'with', 'at', 'in', 'of', 'to', 'a', 'an', 'reception', 'exhibition']);
+                const significantA = [...wordsA].filter(w => !stopWords.has(w) && w.length > 3);
+                
+                if (significantA.some(w => wordsB.has(w))) { isDuplicate = true; break; }
+            }
+        }
+        if (!isDuplicate) uniqueEvents.push(candidate);
+    }
+    return uniqueEvents;
 }

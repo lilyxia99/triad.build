@@ -60,8 +60,7 @@
             "/api/events/elfsight",
             "/api/events/libcal",
             "/api/events/apify_facebook",
-            "/api/events/apifyMeetup",
-            "/api/events/archive_meetup",
+           
              "/api/events/eventbrite",
              "/api/events/instagram"
             

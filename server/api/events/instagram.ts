@@ -163,7 +163,7 @@ async function analyzeWithAI(openai: OpenAI, caption: string, context: string, p
                 { role: "user", content: prompt }
             ],
             // SWITCHED TO 4o-mini
-            model: "gpt-4o-mini",
+            model: "gpt-5-nano",
             response_format: { type: "json_object" },
             temperature: 0,
         });

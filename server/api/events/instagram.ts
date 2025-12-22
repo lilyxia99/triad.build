@@ -18,14 +18,13 @@ const AIEventSchema = z.object({
 });
 
 export default defineEventHandler(async (event) => {
-    // 1. DIAGNOSTICS
+    // 1. DIAGNOSTICS & LOGGING
     const envStatus = {
         hasMetaToken: !!process.env.INSTAGRAM_USER_ACCESS_TOKEN,
         hasMetaID: !!process.env.INSTAGRAM_BUSINESS_USER_ID,
         hasOpenAI: !!process.env.OPENAI_API_KEY,
     };
 
-    // 2. INTERNAL LOG COLLECTOR
     const logs: string[] = [];
     const log = (msg: string) => logs.push(msg);
 
@@ -35,8 +34,6 @@ export default defineEventHandler(async (event) => {
 
     try {
         const sources = eventSourcesJSON.instagram || [];
-        log(`Found ${sources.length} sources.`);
-
         const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
         const allResults = [];
 
@@ -58,23 +55,32 @@ export default defineEventHandler(async (event) => {
                 // --- AI ANALYSIS ---
                 const aiPromises = posts.map(async (post: any) => {
                     if (!post.caption) return null;
+                    
+                    // CRITICAL: Format date to include Day Name (e.g. "Monday, December 15, 2025")
+                    // This helps the AI calculate "This Wednesday" correctly.
                     const postDateObj = new Date(post.timestamp);
-                    const postDateString = postDateObj.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+                    const postDateString = postDateObj.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
-                    // PASS THE LOG FUNCTION DOWN
-                    const aiResult = await analyzeWithAI(openai, post.caption, postDateString, log);
+                    const aiResult = await analyzeWithAI(openai, post.caption, source.context_clues?.join(', '), postDateString, log);
                     
                     if (aiResult && aiResult.isEvent && aiResult.startDay) {
                         const now = new Date();
                         const year = aiResult.startYear || now.getFullYear();
                         const monthIndex = (aiResult.startMonth || (now.getMonth() + 1)) - 1; 
+                        
                         let start = new Date(year, monthIndex, aiResult.startDay, aiResult.startHourMilitaryTime || 12, aiResult.startMinute || 0);
                         
-                        if (start < new Date() && (new Date().getMonth() - start.getMonth() > 6)) start.setFullYear(year + 1);
+                        // Fix Year Rollover (e.g. Post in Dec for Jan event)
+                        if (start < new Date() && (new Date().getMonth() - start.getMonth() > 6)) {
+                            start.setFullYear(year + 1);
+                        }
 
                         let end = new Date(start);
-                        if (aiResult.endHourMilitaryTime) end.setHours(aiResult.endHourMilitaryTime, aiResult.endMinute || 0);
-                        else end.setHours(start.getHours() + 1);
+                        if (aiResult.endHourMilitaryTime) {
+                            end.setHours(aiResult.endHourMilitaryTime, aiResult.endMinute || 0);
+                        } else {
+                            end.setHours(start.getHours() + 1);
+                        }
 
                         let title = aiResult.title || "Instagram Event";
                         let description = post.caption;
@@ -99,9 +105,9 @@ export default defineEventHandler(async (event) => {
 
                 const results = await Promise.all(aiPromises);
                 const events = results.filter(e => e !== null);
-                log(`   -> AI identified ${events.length} events.`);
                 
                 const unique = removeDuplicates(events);
+                log(`   -> AI identified ${unique.length} unique events.`);
                 allResults.push({ events: unique, city: source.city, name: source.name });
 
             } catch (e: any) {
@@ -116,18 +122,46 @@ export default defineEventHandler(async (event) => {
     }
 });
 
-// --- UPDATED HELPER WITH LOGGING ---
-async function analyzeWithAI(openai: OpenAI, caption: string, postDateString: string, log: Function) {
+// --- UPDATED AI FUNCTION (GPT-4o-mini + Better Prompt) ---
+async function analyzeWithAI(openai: OpenAI, caption: string, context: string, postDateString: string, log: Function) {
+    
+    // We strictly tell the AI to "Pretend" it is the upload date.
     const prompt = `
-    Analyze this Instagram caption. UPLOAD DATE: ${postDateString}.
-    Return JSON ONLY: { "isEvent": boolean, "title": "string", "startDay": number, "startMonth": number, "startYear": number, "startHourMilitaryTime": number, "startMinute": number, "endHourMilitaryTime": number, "location": "string" }
-    Caption: "${caption.substring(0, 500)}"
+    You are an event extraction engine.
+    
+    CRITICAL INSTRUCTION:
+    The current date is ${postDateString}. You must calculate all relative dates (like "This Wednesday", "Tomorrow", "Next Week") starting from ${postDateString}.
+    
+    Context Clues: ${context || 'None'}.
+    
+    Analyze the caption below. If it describes an event, extract the date/time.
+    - If year is missing, assume the event happens after ${postDateString}.
+    - "Wednesday" usually means the *upcoming* Wednesday after ${postDateString}.
+    
+    Return JSON ONLY: 
+    { 
+      "isEvent": boolean, 
+      "title": "string", 
+      "startDay": number, 
+      "startMonth": number, 
+      "startYear": number, 
+      "startHourMilitaryTime": number, 
+      "startMinute": number, 
+      "endHourMilitaryTime": number, 
+      "location": "string" 
+    }
+
+    Caption: "${caption.substring(0, 1000)}"
     `;
 
     try {
         const completion = await openai.chat.completions.create({
-            messages: [{ role: "system", content: "You are a JSON event parser." }, { role: "user", content: prompt }],
-            model: "gpt-3.5-turbo-0125",
+            messages: [
+                { role: "system", content: "You are a helpful assistant that extracts event JSON." }, 
+                { role: "user", content: prompt }
+            ],
+            // SWITCHED TO 4o-mini
+            model: "gpt-4o-mini",
             response_format: { type: "json_object" },
             temperature: 0,
         });
@@ -136,13 +170,12 @@ async function analyzeWithAI(openai: OpenAI, caption: string, postDateString: st
         const result = AIEventSchema.safeParse(JSON.parse(raw));
         
         if (!result.success) {
-            log(`      [AI Schema Fail] ${result.error.issues[0].message}`); // Log why schema failed
+            log(`      [AI Schema Fail] ${result.error.issues[0].message}`);
             return null;
         }
         return result.data;
 
     } catch (e: any) {
-        // LOG THE SPECIFIC OPENAI ERROR
         log(`      [AI Error] ${e.message}`);
         return null;
     }

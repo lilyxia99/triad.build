@@ -174,6 +174,9 @@ const { open: openEventModal, close: closeEventModal } = useModal({
     onConfirm() {
       closeEventModal()
     },
+    onTagClick(tag: string) {
+      handleTagClick(tag);
+    },
   },
 })
 
@@ -190,6 +193,34 @@ const createDraggableWindow = (event, x, y) => {
 
 const closeDraggableWindow = (windowId) => {
   draggableWindows.value.delete(windowId);
+};
+
+// Handle tag clicks from modals and draggable windows
+const handleTagClick = (tag: string) => {
+  // Find the tag in the tags array and set it as visible
+  const tagToShow = tags.value.find(t => t.name === tag);
+  if (tagToShow) {
+    // First, hide all non-header tags
+    tags.value.forEach(t => {
+      if (!t.isHeader) {
+        t.isVisible = false;
+      }
+    });
+    
+    // Show the clicked tag
+    tagToShow.isVisible = true;
+    
+    // Ensure all header tags are visible (community, non-profit, etc.)
+    tags.value.forEach(t => {
+      if (t.isHeader) {
+        t.isVisible = true;
+      }
+    });
+    
+    // Update the calendar display
+    updateDisplayingBasedOnTags();
+    moveListViewScrollbarToTodayAndColor();
+  }
 };
 
 const closeAllDraggableWindows = () => {
@@ -536,6 +567,7 @@ const transformEventSourcesResponse = (eventSources: Ref<Record<string, any>>) =
     :initial-y="window.y"
     @close="closeDraggableWindow"
     @minimize="() => {}"
+    @tag-click="handleTagClick"
   />
   <div class="calendar-container">
     <table style="width:100%;">

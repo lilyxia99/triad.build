@@ -100,34 +100,3 @@ export const useIsOthersInSantaCruzCountyEnabled = () => {
 	});
 }
 
-// Tag filtering functionality
-export const useSelectedTags = () => {
-	return useCookie('selectedTags', { 
-		default: () => [] as string[],
-		sameSite: 'strict'
-	});
-}
-
-export const useTagFilterEnabled = () => {
-	return useCookie('tagFilterEnabled', { 
-		default: () => false,
-		sameSite: 'strict'
-	});
-}
-
-export const setTagFilter = (tag: string) => {
-	const selectedTags = useSelectedTags();
-	const tagFilterEnabled = useTagFilterEnabled();
-	
-	// Set the selected tag and enable tag filtering
-	selectedTags.value = [tag];
-	tagFilterEnabled.value = true;
-}
-
-export const clearTagFilter = () => {
-	const selectedTags = useSelectedTags();
-	const tagFilterEnabled = useTagFilterEnabled();
-	
-	selectedTags.value = [];
-	tagFilterEnabled.value = false;
-}

@@ -227,6 +227,139 @@
         ["art"],
         ["community"]
       ]
+    },
+    {
+      "name": "GSO All Girls Walk Club",
+      "username": "gso_allgirlswalkclub", 
+      "city": "Greensboro",
+      "defaultLocation": "341 S Elm St, Greensboro, NC",
+      "context_clues": ["exercise","walk","club"],
+      "filters": [
+        ["exercise"],
+        ["community"]
+      ]
+    },
+    {
+      "name": "ZIGGYS📍GSO",
+      "username": "ziggysgso", 
+      "city": "Greensboro",
+      "defaultLocation": "523 S Elm St, Greensboro, NC 27406",
+      "context_clues": ["music","performance","club"],
+      "filters": [
+        ["music"],
+        ["performance"],
+        ["community"]
+      ]
+    },
+    {
+      "name": "Greensboro Zine Fest",
+      "username": "gsozinefest", 
+      "city": "Greensboro",
+      "defaultLocation": "Greensboro, NC",
+      "context_clues": ["market","book","fair"],
+      "filters": [
+        ["books"],
+        ["art"],
+        ["community"]
+      ]
+    },
+    {
+      "name": "Critical Mass GSO",
+      "username": "gso.criticalmass", 
+      "city": "Greensboro",
+      "defaultLocation": "Lebauer Park, Greensboro, NC",
+      "context_clues": ["market","book","fair"],
+      "filters": [
+        ["organizing"],
+        ["biking"],
+        ["community"]
+      ]
+    },
+    {
+      "name": "The Flat Iron",
+      "username": "flatirongso", 
+      "city": "Greensboro",
+      "defaultLocation": "Greensboro, NC",
+      "context_clues": ["show","live","performance"],
+      "filters": [
+        ["performance"],
+        ["music"],
+        ["community"]
+      ]
+    },
+    {
+      "name": "BOROUGH COFFEE",
+      "username": "boroughcoffeegso", 
+      "city": "Greensboro",
+      "defaultLocation": "204 N Mendenhall, Greensboro, North Carolina 27403",
+      "context_clues": ["show","music","workshop"],
+      "filters": [
+        ["performance"],
+        ["music"],
+        ["community"]
+      ]
+    },
+    {
+      "name": "Greensboro Public Library",
+      "username": "gsolibrary", 
+      "city": "Greensboro",
+      "defaultLocation": "219 N Church St, Greensboro, North Carolina 27401",
+      "context_clues": ["book","library","night","party"],
+      "filters": [
+        ["library"],
+        ["books"],
+        ["community"]
+      ]
+    },
+    {
+      "name": "People's Freedom Assembly",
+      "username": "gso_pfa", 
+      "city": "Greensboro",
+      "defaultLocation": "219 N Church St, Greensboro, North Carolina 27401",
+      "suffixDescription":"\n A Greensboro-based, Black (New Afrikan) and Indigenous-led decolonial socialist organization, serving working-class and houseless people.",
+      "context_clues": ["activism","organizing"],
+      "filters": [
+        ["activism"],
+        ["socialism"],
+        ["community"]
+      ]
+    },
+    {
+      "name": "Silent Book Club Greensboro",
+      "username": "silentbookclubgso", 
+      "city": "Greensboro",
+      "defaultLocation": "Greensboro, North Carolina",
+      "suffixDescription":"\n Chapter of @silentbookclub \n📚 Bring a book, any book.\n 🫶🏽 And a friend too.",
+      "context_clues": ["book","meeting"],
+      "filters": [
+        ["book"],
+        ["community"]
+      ]
+    },
+    {
+      "name": "Greensboro Vintage Market",
+      "username": "gsovintagemarket", 
+      "city": "Greensboro",
+      "defaultLocation": "Greensboro, North Carolina",
+      "context_clues": ["market"],
+      "filters": [
+        ["market"],
+        ["socialism"],
+        ["community"]
+      ]
+    },
+    {
+      "name": "GSO Revolutionary Socialists",
+      "username": "gso_revsocialists", 
+      "city": "Greensboro",
+      "defaultLocation": "Greensboro, North Carolina",
+      "suffixDescription":"\n Group of revolutionary socialists in Greensboro, NC and members of Tempest Collective @tempest_mag",
+      "context_clues": ["activism","organizing"],
+      "filters": [
+        ["activism"],
+        ["socialism"],
+        ["community"]
+      ]
     }
   ],
    

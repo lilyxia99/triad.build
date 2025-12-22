@@ -52,3 +52,4 @@ If you want to run the entire application locally, visit [QUICKSTART.md](QUICKST
 - [ ] fix not reading multiple images issue (with back table gso)
 - [ ] contact more orgs about triad.build
 - [ ] if hover is out of the view, change the hover position
+- [ ] possibly make an open call calendar...

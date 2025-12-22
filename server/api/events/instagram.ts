@@ -17,33 +17,49 @@ const AIEventSchema = z.object({
     location: z.string().nullable().optional(),
 });
 
+// --- HANDLER (Uncached for Debugging) ---
 export default defineEventHandler(async (event) => {
     const startTime = new Date();
     
-    // DEBUG: Check Environment Variables
-    const hasMetaToken = !!process.env.INSTAGRAM_USER_ACCESS_TOKEN;
-    const hasMetaID = !!process.env.INSTAGRAM_BUSINESS_USER_ID;
-    const hasOpenAI = !!process.env.OPENAI_API_KEY;
+    // 1. DIAGNOSTICS: Check Environment Variables
+    const envStatus = {
+        hasMetaToken: !!process.env.INSTAGRAM_USER_ACCESS_TOKEN,
+        hasMetaID: !!process.env.INSTAGRAM_BUSINESS_USER_ID,
+        hasOpenAI: !!process.env.OPENAI_API_KEY,
+        metaIdFirst4: process.env.INSTAGRAM_BUSINESS_USER_ID ? process.env.INSTAGRAM_BUSINESS_USER_ID.substring(0, 4) : 'N/A'
+    };
 
-    console.log(`\n[Instagram Init] Keys Present? MetaToken: ${hasMetaToken}, MetaID: ${hasMetaID}, OpenAI: ${hasOpenAI}`);
+    console.log(`[Instagram Init] Keys Present?`, envStatus);
 
-    if (!hasMetaToken || !hasMetaID || !hasOpenAI) {
-        console.error('[Instagram Error] Missing API Keys in .env');
-        return { body: [] };
+    // If keys are missing, return a clear error to the browser/logs
+    if (!envStatus.hasMetaToken || !envStatus.hasMetaID || !envStatus.hasOpenAI) {
+        console.error('[Instagram Error] Missing API Keys on Server');
+        return { 
+            status: "ERROR", 
+            message: "Missing Environment Variables. Check Vercel Settings.", 
+            debug: envStatus,
+            body: []
+        };
     }
 
-    const body = await fetchInstagramEvents();
-    logTimeElapsedSince(startTime.getTime(), 'Instagram: events process complete.');
-
-    return { body };
-
-}, { 
-    maxAge: 60 * 60 * 4, // 4 hours cache
-    swr: true 
+    // 2. RUN SCRAPER
+    try {
+        const body = await fetchInstagramEvents();
+        logTimeElapsedSince(startTime.getTime(), 'Instagram process complete.');
+        return { status: "SUCCESS", debug: envStatus, body };
+    } catch (e: any) {
+        console.error('[Instagram Critical Fail]', e);
+        return { 
+            status: "CRASH", 
+            message: e.message, 
+            debug: envStatus, 
+            body: [] 
+        };
+    }
 });
 
 
-// --- MAIN FUNCTION ---
+// --- MAIN LOGIC ---
 
 async function fetchInstagramEvents() {
     const sources = eventSourcesJSON.instagram || [];
@@ -64,16 +80,16 @@ async function fetchInstagramEvents() {
             const aiPromises = posts.map(async (post) => {
                 if (!post.caption) return null;
 
-                // --- 1. CONVERT TIMESTAMP TO DATE STRING ---
-                // Instagram gives "2025-12-20T14:00:00+0000"
-                // We format it to "Saturday, December 20, 2025" so the AI understands "Today"
+                // A. Convert Timestamp to Readable Date (The "Upload Date")
                 const postDateObj = new Date(post.timestamp);
                 const postDateString = postDateObj.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
+                // B. Call OpenAI
                 const aiResult = await analyzeWithAI(openai, post.caption, source.context_clues?.join(', '), postDateString);
                 
+                // C. Process Result
                 if (aiResult && aiResult.isEvent && aiResult.startDay) {
-                    console.log(`      ✅ [EVENT MATCH] "${aiResult.title}" | Date: ${aiResult.startMonth}/${aiResult.startDay}`);
+                    console.log(`      ✅ [MATCH] "${aiResult.title}" | Date: ${aiResult.startMonth}/${aiResult.startDay}`);
                     
                     const now = new Date();
                     const year = aiResult.startYear || now.getFullYear();
@@ -81,7 +97,7 @@ async function fetchInstagramEvents() {
                     
                     const start = new Date(year, monthIndex, aiResult.startDay, aiResult.startHourMilitaryTime || 12, aiResult.startMinute || 0);
                     
-                    // Year Rollover (e.g. Post in Dec for Jan event)
+                    // Year Rollover Fix (If event is in Jan but we are in Dec)
                     if (start < new Date() && (new Date().getMonth() - start.getMonth() > 6)) {
                         start.setFullYear(year + 1);
                     }
@@ -98,7 +114,11 @@ async function fetchInstagramEvents() {
                     if (source.suffixDescription) description += source.suffixDescription;
 
                     const tags = applyEventTags(source, title, description);
-                    const mainImage = (post.media_type === 'VIDEO' && post.thumbnail_url) ? post.thumbnail_url : post.media_url;
+                    
+                    // VIDEO FIX: Use thumbnail if video, else media_url
+                    const mainImage = (post.media_type === 'VIDEO' && post.thumbnail_url) 
+                        ? post.thumbnail_url 
+                        : post.media_url;
 
                     return {
                         id: `ig-${post.id}`,
@@ -116,8 +136,11 @@ async function fetchInstagramEvents() {
                 return null;
             });
 
+            // Wait for all AI calls to finish
             const results = await Promise.all(aiPromises);
             const rawEvents = results.filter(e => e !== null);
+            
+            // D. Remove Duplicates
             const uniqueEvents = removeDuplicates(rawEvents);
 
             console.log(`   -> Added ${uniqueEvents.length} unique events.`);
@@ -137,25 +160,31 @@ async function fetchInstagramEvents() {
 async function getInstagramPosts(username: string) {
     const myId = process.env.INSTAGRAM_BUSINESS_USER_ID;
     const token = process.env.INSTAGRAM_USER_ACCESS_TOKEN;
+    
+    // Note: fields includes thumbnail_url for videos
     const url = `https://graph.facebook.com/v21.0/${myId}?fields=business_discovery.username(${username}){media.limit(6){id,caption,media_type,media_url,thumbnail_url,permalink,timestamp}}&access_token=${token}`;
+    
     const res = await fetch(url);
-    if (!res.ok) throw new Error(`Graph API failed`);
+    if (!res.ok) {
+        const txt = await res.text();
+        console.error("Graph API Failed:", txt);
+        throw new Error(`Graph API failed: ${res.statusText}`);
+    }
     const data = await res.json();
     return data.business_discovery?.media?.data || [];
 }
 
-// --- UPDATED AI FUNCTION ---
 async function analyzeWithAI(openai: OpenAI, caption: string, context: string, postDateString: string) {
     if (!caption) return null;
 
-    // We explicitly tell the AI when the post was made.
     const prompt = `
     Analyze this Instagram caption.
-    CONTEXT CLUES: ${context || 'General'}.
+    CONTEXT: ${context || 'General'}.
+    UPLOAD DATE: ${postDateString}.
     
-    CRITICAL DATE INFO:
-    - This post was uploaded on: ${postDateString}.
-    - If the text says "Today", "Tonight", or "Tomorrow", calculate the date relative to the UPLOAD DATE (${postDateString}), NOT the current real-world date.
+    INSTRUCTION: 
+    1. If the text mentions "Today", "Tomorrow", "This Weekend", calculate the specific date based on the UPLOAD DATE (${postDateString}).
+    2. Ignore year if not specified, default to current year.
     
     Return JSON ONLY:
     {
@@ -186,8 +215,16 @@ async function analyzeWithAI(openai: OpenAI, caption: string, context: string, p
         });
 
         const raw = completion.choices[0].message.content;
-        return AIEventSchema.parse(JSON.parse(raw));
+        const result = AIEventSchema.safeParse(JSON.parse(raw));
+        
+        if (!result.success) {
+            console.error("   [AI Schema Error]", result.error.format());
+            return null;
+        }
+        return result.data;
+
     } catch (e) {
+        console.error("   [AI Request Error]", e.message);
         return null;
     }
 }
@@ -207,7 +244,7 @@ function removeDuplicates(events: any[]) {
 
                 const wordsA = new Set(cleanA.split(/\s+/));
                 const wordsB = new Set(cleanB.split(/\s+/));
-                const stopWords = new Set(['the', 'and', 'for', 'with', 'at', 'in', 'of', 'to', 'a', 'an', 'reception', 'exhibition']);
+                const stopWords = new Set(['the', 'and', 'for', 'with', 'at', 'in', 'of', 'to', 'a', 'an', 'reception', 'exhibition', 'event', 'show']);
                 const significantA = [...wordsA].filter(w => !stopWords.has(w) && w.length > 3);
                 
                 if (significantA.some(w => wordsB.has(w))) { isDuplicate = true; break; }

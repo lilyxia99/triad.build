@@ -1,7 +1,7 @@
 import OpenAI from 'openai';
 import { z } from 'zod';
 import eventSourcesJSON from '@/assets/event_sources.json';
-import { applyEventTags } from '@/utils/util'; // Removed logTimeElapsedSince to simplify
+import { applyEventTags } from '@/utils/util';
 
 // --- VALIDATION SCHEMA ---
 const AIEventSchema = z.object({
@@ -25,7 +25,7 @@ export default defineEventHandler(async (event) => {
         hasOpenAI: !!process.env.OPENAI_API_KEY,
     };
 
-    // 2. INTERNAL LOG COLLECTOR (To see errors in the browser)
+    // 2. INTERNAL LOG COLLECTOR
     const logs: string[] = [];
     const log = (msg: string) => logs.push(msg);
 
@@ -33,14 +33,9 @@ export default defineEventHandler(async (event) => {
         return { status: "ERROR", message: "Missing Keys", debug: envStatus };
     }
 
-    // 3. RUN SCRAPER
     try {
         const sources = eventSourcesJSON.instagram || [];
-        log(`Found ${sources.length} sources in config.`);
-
-        if (sources.length === 0) {
-            return { status: "WARNING", message: "No sources in JSON", logs };
-        }
+        log(`Found ${sources.length} sources.`);
 
         const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
         const allResults = [];
@@ -49,17 +44,13 @@ export default defineEventHandler(async (event) => {
             try {
                 log(`Processing @${source.username}...`);
                 
-                // --- GRAPH API CALL ---
+                // --- GRAPH API ---
                 const myId = process.env.INSTAGRAM_BUSINESS_USER_ID;
                 const token = process.env.INSTAGRAM_USER_ACCESS_TOKEN;
                 const url = `https://graph.facebook.com/v21.0/${myId}?fields=business_discovery.username(${source.username}){media.limit(6){id,caption,media_type,media_url,thumbnail_url,permalink,timestamp}}&access_token=${token}`;
                 
                 const res = await fetch(url);
-                if (!res.ok) {
-                    const txt = await res.text();
-                    throw new Error(`Graph API (${res.status}): ${txt}`);
-                }
-                
+                if (!res.ok) throw new Error(`Graph API (${res.status})`);
                 const data = await res.json();
                 const posts = data.business_discovery?.media?.data || [];
                 log(`   -> Found ${posts.length} posts.`);
@@ -67,14 +58,13 @@ export default defineEventHandler(async (event) => {
                 // --- AI ANALYSIS ---
                 const aiPromises = posts.map(async (post: any) => {
                     if (!post.caption) return null;
-                    
                     const postDateObj = new Date(post.timestamp);
-                    const postDateString = postDateObj.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                    const postDateString = postDateObj.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
 
-                    const aiResult = await analyzeWithAI(openai, post.caption, source.context_clues?.join(', '), postDateString);
+                    // PASS THE LOG FUNCTION DOWN
+                    const aiResult = await analyzeWithAI(openai, post.caption, postDateString, log);
                     
                     if (aiResult && aiResult.isEvent && aiResult.startDay) {
-                        // ... (Event construction logic) ...
                         const now = new Date();
                         const year = aiResult.startYear || now.getFullYear();
                         const monthIndex = (aiResult.startMonth || (now.getMonth() + 1)) - 1; 
@@ -111,12 +101,11 @@ export default defineEventHandler(async (event) => {
                 const events = results.filter(e => e !== null);
                 log(`   -> AI identified ${events.length} events.`);
                 
-                // Deduplicate
                 const unique = removeDuplicates(events);
                 allResults.push({ events: unique, city: source.city, name: source.name });
 
             } catch (e: any) {
-                log(`   -> ERROR processing ${source.username}: ${e.message}`);
+                log(`   -> ERROR source ${source.username}: ${e.message}`);
             }
         }
 
@@ -127,12 +116,14 @@ export default defineEventHandler(async (event) => {
     }
 });
 
-// --- HELPERS (Keep existing logic, just stripped for length in this view) ---
-async function analyzeWithAI(openai: OpenAI, caption: string, context: string, postDateString: string) {
-    // ... Copy your existing analyzeWithAI function here ...
-    // (Ensure you keep the exact logic we established previously)
-    if (!caption) return null;
-    const prompt = `Analyze this Instagram caption. CONTEXT: ${context}. UPLOAD DATE: ${postDateString}. Return JSON event data.`;
+// --- UPDATED HELPER WITH LOGGING ---
+async function analyzeWithAI(openai: OpenAI, caption: string, postDateString: string, log: Function) {
+    const prompt = `
+    Analyze this Instagram caption. UPLOAD DATE: ${postDateString}.
+    Return JSON ONLY: { "isEvent": boolean, "title": "string", "startDay": number, "startMonth": number, "startYear": number, "startHourMilitaryTime": number, "startMinute": number, "endHourMilitaryTime": number, "location": "string" }
+    Caption: "${caption.substring(0, 500)}"
+    `;
+
     try {
         const completion = await openai.chat.completions.create({
             messages: [{ role: "system", content: "You are a JSON event parser." }, { role: "user", content: prompt }],
@@ -140,15 +131,24 @@ async function analyzeWithAI(openai: OpenAI, caption: string, context: string, p
             response_format: { type: "json_object" },
             temperature: 0,
         });
+
         const raw = completion.choices[0].message.content;
         const result = AIEventSchema.safeParse(JSON.parse(raw));
-        if (result.success) return result.data;
+        
+        if (!result.success) {
+            log(`      [AI Schema Fail] ${result.error.issues[0].message}`); // Log why schema failed
+            return null;
+        }
+        return result.data;
+
+    } catch (e: any) {
+        // LOG THE SPECIFIC OPENAI ERROR
+        log(`      [AI Error] ${e.message}`);
         return null;
-    } catch (e) { return null; }
+    }
 }
 
 function removeDuplicates(events: any[]) {
-    // ... Copy your existing removeDuplicates function here ...
     const uniqueEvents: any[] = [];
     events.sort((a, b) => a.id.localeCompare(b.id));
     for (const candidate of events) {

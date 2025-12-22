@@ -200,22 +200,33 @@ const handleTagClick = (tag: string) => {
   // Find the tag in the tags array and set it as visible
   const tagToShow = tags.value.find(t => t.name === tag);
   if (tagToShow) {
-    // First, hide all non-header tags
-    tags.value.forEach(t => {
-      if (!t.isHeader) {
-        t.isVisible = false;
-      }
-    });
-    
-    // Show the clicked tag
-    tagToShow.isVisible = true;
-    
-    // Ensure all header tags are visible (community, non-profit, etc.)
-    tags.value.forEach(t => {
-      if (t.isHeader) {
-        t.isVisible = true;
-      }
-    });
+    if (tagToShow.isHeader) {
+      // If clicking a header tag, hide all other header tags but show all non-header tags
+      tags.value.forEach(t => {
+        if (t.isHeader) {
+          t.isVisible = (t.name === tag); // Only show the clicked header tag
+        } else {
+          t.isVisible = true; // Show all non-header tags
+        }
+      });
+    } else {
+      // If clicking a non-header tag, hide all non-header tags except the clicked one
+      tags.value.forEach(t => {
+        if (!t.isHeader) {
+          t.isVisible = false;
+        }
+      });
+      
+      // Show the clicked tag
+      tagToShow.isVisible = true;
+      
+      // Ensure all header tags are visible (community, non-profit, etc.)
+      tags.value.forEach(t => {
+        if (t.isHeader) {
+          t.isVisible = true;
+        }
+      });
+    }
     
     // Update the calendar display
     updateDisplayingBasedOnTags();

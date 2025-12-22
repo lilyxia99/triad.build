@@ -47,10 +47,12 @@ export default defineCachedEventHandler(async (event) => {
                 const url = `https://graph.facebook.com/v21.0/${myId}?fields=business_discovery.username(${source.username}){media.limit(6){id,caption,media_type,media_url,thumbnail_url,permalink,timestamp}}&access_token=${token}`;
                 
                 const res = await fetch(url);
-                if (!res.ok) throw new Error(`Graph API (${res.status})`);
-                const data = await res.json();
-                const posts = data.business_discovery?.media?.data || [];
-                log(`   -> Found ${posts.length} posts.`);
+                if (!res.ok) {
+                    // READ THE BODY TO SEE WHY IT FAILED
+                    const errorBody = await res.text();
+                    log(`   -> 🛑 API FAIL: ${errorBody}`); // <--- This will print the reason
+                    throw new Error(`Graph API (${res.status})`);
+                }
 
                 // --- AI ANALYSIS ---
                 const aiPromises = posts.map(async (post: any) => {

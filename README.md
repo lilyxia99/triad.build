@@ -44,3 +44,10 @@ If you want to run the entire application locally, visit [QUICKSTART.md](QUICKST
 ![Screenshot of Triad.Biuld](doc/Screenshot1.png)
 
 ![Screenshot of Triad.Biuld](doc/Screenshot2.png)
+
+## Todo
+- [ ] add city tags
+- [ ] add calendar submission form
+- [ ] add one-off event submission and review form
+- [ ] fix not reading multiple images issue (with back table gso)
+- [ ] contact more orgs about triad.build

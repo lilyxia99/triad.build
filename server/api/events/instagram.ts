@@ -17,7 +17,7 @@ const AIEventSchema = z.object({
     location: z.string().nullable().optional(),
 });
 
-export default defineEventHandler(async (event) => {
+export default defineCachedEventHandler(async (event) => {
     // 1. DIAGNOSTICS & LOGGING
     const envStatus = {
         hasMetaToken: !!process.env.INSTAGRAM_USER_ACCESS_TOKEN,

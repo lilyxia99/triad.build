@@ -1,6 +1,3 @@
-import { readFile, writeFile, mkdir } from 'fs/promises'
-import { join, dirname } from 'path'
-
 export default defineEventHandler(async (event) => {
   try {
     // Only allow POST requests
@@ -30,6 +27,19 @@ export default defineEventHandler(async (event) => {
       })
     }
 
+    // Check for required environment variables
+    const githubToken = process.env.GITHUB_TOKEN
+    const githubOwner = process.env.GITHUB_OWNER || 'lilyxia99'
+    const githubRepo = process.env.GITHUB_REPO || 'triad.build'
+    
+    if (!githubToken) {
+      console.error('GITHUB_TOKEN environment variable is not set')
+      throw createError({
+        statusCode: 500,
+        statusMessage: 'Server configuration error'
+      })
+    }
+
     // Create the submission object in the same format as event_sources.json
     const submission = {
       name: body.name,
@@ -44,24 +54,41 @@ export default defineEventHandler(async (event) => {
     if (body.suffixDescription) submission.suffixDescription = body.suffixDescription
     if (body.defaultLocation) submission.defaultLocation = body.defaultLocation
 
-    // Path to the incoming submissions file
-    const filePath = join(process.cwd(), 'incoming_event_source.json')
-    console.log('Process working directory:', process.cwd())
-    console.log('Attempting to write to file path:', filePath)
-    
-    // Log the submission data
     console.log('Submission data:', JSON.stringify(submission, null, 2))
+
+    // GitHub API configuration
+    const filePath = 'assets/incoming_event_source.json'
+    const githubApiUrl = `https://api.github.com/repos/${githubOwner}/${githubRepo}/contents/${filePath}`
     
+    const headers = {
+      'Authorization': `Bearer ${githubToken}`,
+      'Accept': 'application/vnd.github.v3+json',
+      'User-Agent': 'triad.build-calendar-submission'
+    }
+
     let existingData = []
-    
-    // Try to read existing file
+    let fileSha = null
+
+    // Try to get existing file from GitHub
     try {
-      const fileContent = await readFile(filePath, 'utf-8')
-      existingData = JSON.parse(fileContent)
-      console.log('Successfully read existing submissions file')
+      console.log('Fetching existing file from GitHub:', githubApiUrl)
+      const response = await fetch(githubApiUrl, { headers })
+      
+      if (response.ok) {
+        const fileData = await response.json()
+        const content = Buffer.from(fileData.content, 'base64').toString('utf-8')
+        existingData = JSON.parse(content)
+        fileSha = fileData.sha
+        console.log('Successfully read existing submissions file from GitHub, entries:', existingData.length)
+      } else if (response.status === 404) {
+        console.log('File does not exist on GitHub, will create new file')
+        existingData = []
+      } else {
+        throw new Error(`GitHub API error: ${response.status} ${response.statusText}`)
+      }
     } catch (error) {
-      // File doesn't exist or is invalid, start with empty array
-      console.log('Creating new submissions file:', error.message)
+      console.error('Error fetching file from GitHub:', error.message)
+      // Continue with empty array if we can't fetch the file
       existingData = []
     }
 
@@ -69,41 +96,54 @@ export default defineEventHandler(async (event) => {
     existingData.push(submission)
     console.log('Added new submission, total submissions:', existingData.length)
 
-    // Ensure directory exists and write file
-    try {
-      console.log('Creating directory if needed:', dirname(filePath))
-      await mkdir(dirname(filePath), { recursive: true })
-      
-      console.log('Writing file with data:', JSON.stringify(existingData, null, 2))
-      await writeFile(filePath, JSON.stringify(existingData, null, 2), 'utf-8')
-      console.log('Successfully wrote submissions to file:', filePath)
-      
-      // Verify the file was written by trying to read it back
-      try {
-        const verifyContent = await readFile(filePath, 'utf-8')
-        console.log('File verification successful, content length:', verifyContent.length)
-      } catch (verifyError) {
-        console.error('File verification failed:', verifyError)
-      }
-      
-    } catch (writeError) {
-      console.error('Error writing file:', writeError)
-      console.error('Write error details:', {
-        code: writeError.code,
-        errno: writeError.errno,
-        syscall: writeError.syscall,
-        path: writeError.path
-      })
-      throw createError({
-        statusCode: 500,
-        statusMessage: `Failed to save submission to file system: ${writeError.message}`
-      })
+    // Prepare the updated content
+    const updatedContent = JSON.stringify(existingData, null, 2)
+    const encodedContent = Buffer.from(updatedContent).toString('base64')
+
+    // Commit message
+    const commitMessage = `Add calendar submission: ${submission.name}`
+
+    // Prepare the GitHub API request body
+    const requestBody = {
+      message: commitMessage,
+      content: encodedContent,
+      ...(fileSha && { sha: fileSha }) // Include SHA if file exists
     }
 
-    // Return success response
-    return {
-      success: true,
-      message: 'Calendar submission received successfully'
+    // Push to GitHub
+    try {
+      console.log('Pushing to GitHub repository...')
+      const response = await fetch(githubApiUrl, {
+        method: 'PUT',
+        headers: {
+          ...headers,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestBody)
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        console.error('GitHub API error:', errorData)
+        throw new Error(`GitHub API error: ${response.status} ${response.statusText}`)
+      }
+
+      const result = await response.json()
+      console.log('Successfully pushed to GitHub:', result.commit.html_url)
+
+      // Return success response
+      return {
+        success: true,
+        message: 'Calendar submission received and saved to GitHub successfully',
+        commitUrl: result.commit.html_url
+      }
+
+    } catch (githubError) {
+      console.error('Error pushing to GitHub:', githubError)
+      throw createError({
+        statusCode: 500,
+        statusMessage: `Failed to save submission to GitHub: ${githubError.message}`
+      })
     }
 
   } catch (error) {

@@ -46,7 +46,11 @@ export default defineEventHandler(async (event) => {
 
     // Path to the incoming submissions file
     const filePath = join(process.cwd(), 'incoming_event_source.json')
+    console.log('Process working directory:', process.cwd())
     console.log('Attempting to write to file path:', filePath)
+    
+    // Log the submission data
+    console.log('Submission data:', JSON.stringify(submission, null, 2))
     
     let existingData = []
     
@@ -67,14 +71,32 @@ export default defineEventHandler(async (event) => {
 
     // Ensure directory exists and write file
     try {
+      console.log('Creating directory if needed:', dirname(filePath))
       await mkdir(dirname(filePath), { recursive: true })
+      
+      console.log('Writing file with data:', JSON.stringify(existingData, null, 2))
       await writeFile(filePath, JSON.stringify(existingData, null, 2), 'utf-8')
       console.log('Successfully wrote submissions to file:', filePath)
+      
+      // Verify the file was written by trying to read it back
+      try {
+        const verifyContent = await readFile(filePath, 'utf-8')
+        console.log('File verification successful, content length:', verifyContent.length)
+      } catch (verifyError) {
+        console.error('File verification failed:', verifyError)
+      }
+      
     } catch (writeError) {
       console.error('Error writing file:', writeError)
+      console.error('Write error details:', {
+        code: writeError.code,
+        errno: writeError.errno,
+        syscall: writeError.syscall,
+        path: writeError.path
+      })
       throw createError({
         statusCode: 500,
-        statusMessage: 'Failed to save submission to file system'
+        statusMessage: `Failed to save submission to file system: ${writeError.message}`
       })
     }
 

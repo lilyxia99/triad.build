@@ -1,7 +1,12 @@
 export default defineEventHandler(async (event) => {
+  console.log('=== CALENDAR SUBMISSION API CALLED ===')
+  console.log('Request method:', getMethod(event))
+  console.log('Request URL:', getRequestURL(event))
+  
   try {
     // Only allow POST requests
     if (getMethod(event) !== 'POST') {
+      console.log('ERROR: Method not allowed:', getMethod(event))
       throw createError({
         statusCode: 405,
         statusMessage: 'Method Not Allowed'
@@ -9,28 +14,41 @@ export default defineEventHandler(async (event) => {
     }
 
     // Get the request body
+    console.log('Reading request body...')
     const body = await readBody(event)
+    console.log('Request body received:', JSON.stringify(body, null, 2))
     
     // Validate required fields
+    console.log('Validating required fields...')
     if (!body.name || !body.googleCalendarId || !body.filters || body.filters.length === 0) {
+      console.log('ERROR: Missing required fields')
       throw createError({
         statusCode: 400,
         statusMessage: 'Missing required fields: name, googleCalendarId, and filters are required'
       })
     }
+    console.log('Required fields validation passed')
 
     // Validate Google Calendar ID format
+    console.log('Validating Google Calendar ID format...')
     if (!body.googleCalendarId.includes('@group.calendar.google.com') && !body.googleCalendarId.includes('@gmail.com')) {
+      console.log('ERROR: Invalid Google Calendar ID format:', body.googleCalendarId)
       throw createError({
         statusCode: 400,
         statusMessage: 'Invalid Google Calendar ID format'
       })
     }
+    console.log('Google Calendar ID validation passed')
 
     // Check for required environment variables
+    console.log('Checking environment variables...')
     const githubToken = process.env.GITHUB_TOKEN
     const githubOwner = process.env.GITHUB_OWNER || 'lilyxia99'
     const githubRepo = process.env.GITHUB_REPO || 'triad.build'
+    
+    console.log('GitHub Owner:', githubOwner)
+    console.log('GitHub Repo:', githubRepo)
+    console.log('GitHub Token present:', !!githubToken)
     
     if (!githubToken) {
       console.error('GITHUB_TOKEN environment variable is not set')
@@ -39,6 +57,7 @@ export default defineEventHandler(async (event) => {
         statusMessage: 'Server configuration error'
       })
     }
+    console.log('Environment variables check passed')
 
     // Create the submission object in the same format as event_sources.json
     const submission = {
@@ -147,18 +166,25 @@ export default defineEventHandler(async (event) => {
     }
 
   } catch (error) {
+    console.log('=== ERROR IN CALENDAR SUBMISSION API ===')
+    console.error('Error details:', error)
+    console.error('Error stack:', error.stack)
+    
     // If it's already a createError, re-throw it
     if (error.statusCode) {
+      console.log('Re-throwing createError with status:', error.statusCode)
       throw error
     }
 
     // Log the error for debugging
-    console.error('Error processing calendar submission:', error)
+    console.error('Unexpected error processing calendar submission:', error)
 
     // Return generic error
     throw createError({
       statusCode: 500,
       statusMessage: 'Internal server error while processing submission'
     })
+  } finally {
+    console.log('=== CALENDAR SUBMISSION API FINISHED ===')
   }
 })

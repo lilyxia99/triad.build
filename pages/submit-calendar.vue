@@ -90,12 +90,17 @@ const validateForm = () => {
 }
 
 const submitForm = async () => {
+  console.log('=== FORM SUBMISSION STARTED ===')
   try {
     isSubmitting.value = true
     submitError.value = ''
     submitMessage.value = ''
     
+    console.log('Form data before validation:', form.value)
+    console.log('Selected filters:', selectedFilters.value)
+    
     validateForm()
+    console.log('Form validation passed')
     
     // Prepare the data in the same format as event_sources.json
     const submissionData = {
@@ -118,10 +123,15 @@ const submitForm = async () => {
       submissionData.defaultLocation = form.value.defaultLocation.trim()
     }
     
+    console.log('Submission data prepared:', submissionData)
+    console.log('Making API call to /api/submit-calendar...')
+    
     const response = await $fetch('/api/submit-calendar', {
       method: 'POST',
       body: submissionData
     })
+    
+    console.log('API response received:', response)
     
     submitMessage.value = 'Thank you! Your calendar submission has been received and will be reviewed by the maintainers.'
     
@@ -138,9 +148,13 @@ const submitForm = async () => {
     selectedFilters.value = []
     
   } catch (error) {
-    submitError.value = error.message || 'An error occurred while submitting your calendar. Please try again.'
+    console.log('=== FORM SUBMISSION ERROR ===')
+    console.error('Error details:', error)
+    console.error('Error data:', error.data)
+    submitError.value = error.message || error.data?.message || 'An error occurred while submitting your calendar. Please try again.'
   } finally {
     isSubmitting.value = false
+    console.log('=== FORM SUBMISSION FINISHED ===')
   }
 }
 </script>

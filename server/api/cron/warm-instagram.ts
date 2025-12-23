@@ -1,29 +1,43 @@
 import eventSourcesJSON from '@/assets/event_sources.json';
 
-export default defineEventHandler(async (event) => {
-    // TEMPORARY: Comment out auth check for local testing if needed
-    const authHeader = getRequestHeader(event, 'authorization');
-    if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) { return { status: 'Unauthorized' }; }
+// 1. Helper function to create a pause
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-    console.log("[Cron] Starting Instagram Warm-up...");
+export default defineCachedEventHandler(async (event) => {
+    // Security check (Uncomment for production)
+    // const authHeader = getRequestHeader(event, 'authorization');
+    // if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) return { status: 'Unauthorized' };
+
+    console.log("[Cron] Starting Instagram Warm-up (Sequential)...");
     
     const sources = eventSourcesJSON.instagram || [];
-    
-    // Use Promise.all to fetch ALL accounts simultaneously
-    const results = await Promise.all(sources.map(async (source) => {
+    const results = [];
+
+    // 2. USE A STANDARD FOR-LOOP (Not .map or Promise.all)
+    // This forces the code to wait for one to finish before starting the next.
+    for (const source of sources) {
         try {
-            // "origin" is the current domain (localhost:3000 or your-site.vercel.app)
-            const endpoint = `${getRequestURL(event).origin}/api/events/instagram?username=${source.username}`;
+            // Get the base URL dynamically
+            const baseUrl = getRequestURL(event).origin;
+            const endpoint = `${baseUrl}/api/events/instagram?username=${source.username}`;
             
-            console.log(`[Cron] Triggering warm-up for @${source.username}...`);
+            console.log(`[Cron] Warming up @${source.username}...`);
+            
+            // Fetch and wait for the result
             await $fetch(endpoint);
             
-            return { user: source.username, status: 'Success' };
-        } catch (e) {
-            console.error(`[Cron] Failed to warm @${source.username}`);
-            return { user: source.username, status: 'Failed' };
+            results.push({ user: source.username, status: 'Success' });
+            console.log(`   -> Done.`);
+
+            // 3. THE IMPORTANT PART: Sleep for 2 seconds between requests
+            // This prevents the "Rate Limit" error.
+            await delay(2000); 
+
+        } catch (e: any) {
+            console.error(`[Cron] Failed to warm @${source.username}:`, e.message);
+            results.push({ user: source.username, status: 'Failed', error: e.message });
         }
-    }));
+    }
 
     return { success: true, results };
 });

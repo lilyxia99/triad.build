@@ -1,5 +1,5 @@
-import { readFile, writeFile } from 'fs/promises'
-import { join } from 'path'
+import { readFile, writeFile, mkdir } from 'fs/promises'
+import { join, dirname } from 'path'
 
 export default defineEventHandler(async (event) => {
   try {
@@ -46,6 +46,7 @@ export default defineEventHandler(async (event) => {
 
     // Path to the incoming submissions file
     const filePath = join(process.cwd(), 'incoming_event_source.json')
+    console.log('Attempting to write to file path:', filePath)
     
     let existingData = []
     
@@ -64,9 +65,18 @@ export default defineEventHandler(async (event) => {
     existingData.push(submission)
     console.log('Added new submission, total submissions:', existingData.length)
 
-    // Write back to file
-    await writeFile(filePath, JSON.stringify(existingData, null, 2), 'utf-8')
-    console.log('Successfully wrote submissions to file:', filePath)
+    // Ensure directory exists and write file
+    try {
+      await mkdir(dirname(filePath), { recursive: true })
+      await writeFile(filePath, JSON.stringify(existingData, null, 2), 'utf-8')
+      console.log('Successfully wrote submissions to file:', filePath)
+    } catch (writeError) {
+      console.error('Error writing file:', writeError)
+      throw createError({
+        statusCode: 500,
+        statusMessage: 'Failed to save submission to file system'
+      })
+    }
 
     // Return success response
     return {

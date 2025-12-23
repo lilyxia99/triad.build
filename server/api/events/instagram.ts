@@ -5,7 +5,7 @@ import eventSourcesJSON from '@/assets/event_sources.json';
 import { applyEventTags } from '@/utils/util';
 
 // --- CONFIGURATION ---
-const CACHE_MAX_AGE = 60 * 60 * 4; // 4 Hours
+const CACHE_MAX_AGE = 60 * 60 * 24; // 24 Hours
 
 // --- SCHEMA ---
 const SingleEventSchema = z.object({

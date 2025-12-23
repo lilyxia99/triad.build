@@ -2,8 +2,8 @@ import eventSourcesJSON from '@/assets/event_sources.json';
 
 export default defineEventHandler(async (event) => {
     // TEMPORARY: Comment out auth check for local testing if needed
-    // const authHeader = getRequestHeader(event, 'authorization');
-    // if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) { return { status: 'Unauthorized' }; }
+    const authHeader = getRequestHeader(event, 'authorization');
+    if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) { return { status: 'Unauthorized' }; }
 
     console.log("[Cron] Starting Instagram Warm-up...");
     

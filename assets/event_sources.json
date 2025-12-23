@@ -138,6 +138,7 @@
       "name": "Guilford Green Foundation & LGBTQ Center",
       "organizerId":"23342305315",
       "city": "Greensboro",
+      "prefixTitle": "🌈",
       "defaultLocation": "Greensboro, NC",
       "filters": [
         ["lgbtq"],
@@ -170,6 +171,7 @@
       "name": "Winks & Rouge Cabaret",
       "organizerId":"115725973661",
       "city": "Greensboro",
+      "prefixTitle": "👠",
       "defaultLocation": "Greensboro, NC",
       "filters": [
         ["lgbtq"],
@@ -184,6 +186,7 @@
       "name": "Greensboro Pride",
       "username": "greensboropride", 
       "city": "Greensboro",
+      "prefixTitle": "🌈",
       "defaultLocation": "Greensboro, NC",
       "context_clues": ["pride"],
       "filters": [
@@ -197,6 +200,7 @@
       "name": "Greensboro Project Space",
       "username": "greensboroprojectspace", 
       "city": "Greensboro",
+      "prefixTitle": "🎨",
       "defaultLocation": "Greensboro, NC",
       "context_clues": ["art"],
       "filters": [
@@ -208,6 +212,7 @@
       "name": "ETC.GSO",
       "username": "etc.gso", 
       "city": "Greensboro",
+      "prefixTitle": "🎵",
       "defaultLocation": "1333 Grove St, Greensboro, NC 27403",
       "context_clues": ["performance","music","event"],
       "filters": [
@@ -233,6 +238,7 @@
     {
       "name": "irving park ART & FRAME",
       "username": "irvingparkartandframe", 
+      "prefixTitle": "🖼️",
       "city": "Greensboro",
       "defaultLocation": "2800 Lawndale Drive, Suite 107, Greensboro, North Carolina 27408",
       "context_clues": ["performance","art","exhibition"],
@@ -256,6 +262,7 @@
       "name": "ZIGGYS📍GSO",
       "username": "ziggysgso", 
       "city": "Greensboro",
+      "prefixTitle": "🎵",
       "defaultLocation": "523 S Elm St, Greensboro, NC 27406",
       "context_clues": ["music","performance","club"],
       "filters": [
@@ -268,6 +275,7 @@
       "name": "Greensboro Zine Fest",
       "username": "gsozinefest", 
       "city": "Greensboro",
+      "prefixTitle": "📖",
       "defaultLocation": "Greensboro, NC",
       "context_clues": ["market","book","fair"],
       "filters": [
@@ -292,6 +300,7 @@
       "name": "The Flat Iron",
       "username": "flatirongso", 
       "city": "Greensboro",
+      "prefixTitle": "🎵",
       "defaultLocation": "Greensboro, NC",
       "context_clues": ["show","live","performance"],
       "filters": [
@@ -316,6 +325,7 @@
       "name": "Greensboro Public Library",
       "username": "gsolibrary", 
       "city": "Greensboro",
+      "prefixTitle": "📚",
       "defaultLocation": "219 N Church St, Greensboro, North Carolina 27401",
       "context_clues": ["book","library","night","party"],
       "filters": [
@@ -341,6 +351,7 @@
       "name": "Silent Book Club Greensboro",
       "username": "silentbookclubgso", 
       "city": "Greensboro",
+      "prefixTitle": "📖",
       "defaultLocation": "Greensboro, North Carolina",
       "suffixDescription":"\n Chapter of @silentbookclub \n📚 Bring a book, any book.\n 🫶🏽 And a friend too.",
       "context_clues": ["book","meeting"],
@@ -353,6 +364,7 @@
       "name": "Greensboro Vintage Market",
       "username": "gsovintagemarket", 
       "city": "Greensboro",
+      "prefixTitle": "🪸",
       "defaultLocation": "Greensboro, North Carolina",
       "context_clues": ["market"],
       "filters": [

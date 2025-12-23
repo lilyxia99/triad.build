@@ -13,6 +13,7 @@ import { replaceBadgePlaceholders } from '~~/utils/util';
             guide will be by using Google Calendar. If you have your events hosted via another service or software package online feel free to email this project's
             maintainers at leileixiawork@gmail.com to discuss integrating those to minimize your work required.</p>
         <h2>Publishing Google Calendar events</h2>
+            <p><strong>Quick submission:</strong> If you already have a public Google Calendar set up, you can use our <a href="/submit-calendar">calendar submission form</a> to request inclusion!</p>
             <ul>
                 <li><a href="https://accounts.google.com">Create a Google Account</a> for your events if one doesn't already exist. The email address associated with the
                 google calendar you publish may be visible in some cases, so, ensure it's not an email you use for your personal life.</li>
@@ -39,7 +40,7 @@ import { replaceBadgePlaceholders } from '~~/utils/util';
                 </ul>
                 <li>Now scroll down to the bottom of the page to the "Integrate calendar" section. The Calendar ID ought to be featured here like in the image below, and should end in @group.calendar.google.com
                 (in some cases it will be your email, if you feel comfortable with that you can share it but if you don't you'll have to follow the previous steps to create a new calendar). This Calendar ID is what you
-                need to send to this project's maintainers either via an <a href="mailto:host@triad.build">email</a>, a github <a href="https://github.com/NatVIII/triad.build/compare">pull request</a>, or just text one of this project's maintainers if you know their number ❤</li>
+                need to send to this project's maintainers either via our <a href="/submit-calendar">calendar submission form</a>, an <a href="mailto:host@triad.build">email</a>, a github <a href="https://github.com/NatVIII/triad.build/compare">pull request</a>, or just text one of this project's maintainers if you know their number ❤</li>
                 <ul>
                     <li><img class="cont-img" src="/contributing/GCalStep8.png" alt="Google Calender Guide Image 8"/></li>
                 </ul>

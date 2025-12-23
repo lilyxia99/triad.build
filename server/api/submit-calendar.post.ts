@@ -45,7 +45,7 @@ export default defineEventHandler(async (event) => {
     if (body.defaultLocation) submission.defaultLocation = body.defaultLocation
 
     // Path to the incoming submissions file
-    const filePath = join(process.cwd(), 'incoming_event_sources.json')
+    const filePath = join(process.cwd(), 'incoming_event_source.json')
     
     let existingData = []
     
@@ -53,16 +53,20 @@ export default defineEventHandler(async (event) => {
     try {
       const fileContent = await readFile(filePath, 'utf-8')
       existingData = JSON.parse(fileContent)
+      console.log('Successfully read existing submissions file')
     } catch (error) {
       // File doesn't exist or is invalid, start with empty array
+      console.log('Creating new submissions file:', error.message)
       existingData = []
     }
 
     // Add the new submission
     existingData.push(submission)
+    console.log('Added new submission, total submissions:', existingData.length)
 
     // Write back to file
     await writeFile(filePath, JSON.stringify(existingData, null, 2), 'utf-8')
+    console.log('Successfully wrote submissions to file:', filePath)
 
     // Return success response
     return {

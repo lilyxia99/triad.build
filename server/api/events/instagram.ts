@@ -25,7 +25,7 @@ const AIResponseSchema = z.object({
 });
 
 // --- CACHED HANDLER ---
-export default defineEventHandler(async (event) => {
+export default defineCachedEventHandler(async (event) => {
     const envStatus = {
         hasMeta: !!process.env.INSTAGRAM_USER_ACCESS_TOKEN,
         hasOpenAI: !!process.env.OPENAI_API_KEY,

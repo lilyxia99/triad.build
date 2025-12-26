@@ -3,7 +3,7 @@ import { logTimeElapsedSince, serverCacheMaxAgeSeconds, serverStaleWhileInvalida
 const isDevelopment = process.env.NODE_ENV === 'development';
 
 // export default defineCachedEventHandler(async (event) => {
-export default defineEventHandler(async (event) => {
+export default defineCachedEventHandler(async (event) => {
 	const startTime = new Date();
 	//Adding .env processing
 	if (typeof process.env.EVENT_SOURCES_ENV === 'string') {

@@ -435,7 +435,7 @@ async function getEventSources() {
 
   // First, try to load pre-scraped Instagram data
   try {
-    const { data: calendarData } = await useLazyFetch('/assets/calendar_data.json', {
+    const { data: calendarData } = await useLazyFetch('/calendar_data.json', {
       headers: clientHeaders
     });
     

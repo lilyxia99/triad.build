@@ -1,0 +1,44 @@
+name: Daily Calendar Refresh
+
+on:
+  schedule:
+    # Runs at 10:00 UTC every day (Adjust to your timezone)
+    - cron: '0 10 * * *'
+  workflow_dispatch: # Allows you to click a button to run it manually
+
+permissions:
+  contents: write # Important: Allows the bot to commit changes to your repo
+
+jobs:
+  refresh-data:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install Dependencies
+      run: npm ci
+
+    - name: Run Scraper Script
+      env:
+        # Add these in your GitHub Repo Settings -> Secrets
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        GOOGLE_CLOUD_VISION_PRIVATE_KEY: ${{ secrets.GOOGLE_CLOUD_VISION_PRIVATE_KEY }}
+        GOOGLE_CLOUD_VISION_CLIENT_EMAIL: ${{ secrets.GOOGLE_CLOUD_VISION_CLIENT_EMAIL }}
+        INSTAGRAM_USER_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_USER_ACCESS_TOKEN }}
+        INSTAGRAM_BUSINESS_USER_ID: ${{ secrets.INSTAGRAM_BUSINESS_USER_ID }}
+      run: |
+        # Use tsx to run the typescript file directly
+        npx tsx scripts/update-calendar.ts
+
+    - name: Commit and Push Changes
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        commit_message: "📅 Daily Calendar Update"
+        file_pattern: "assets/calendar_data.json"

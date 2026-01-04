@@ -1,39 +1,40 @@
+// server/routes/cron.ts (or wherever your cron handler is)
 import eventSourcesJSON from '@/assets/event_sources.json';
 
 // Helper to pause execution
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-// FIX 1: Use 'defineEventHandler' (NOT cached). 
-// We want this script to actually execute every single time it is called.
 export default defineEventHandler(async (event) => {
-    
-    // Security check (Uncomment for production)
-    // const authHeader = getRequestHeader(event, 'authorization');
-    // if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) return { status: 'Unauthorized' };
+    // 1. Determine the Base URL
+    // VERCEL_URL is provided automatically, but excludes 'https://'
+    const baseUrl = process.env.VERCEL_URL 
+        ? `https://${process.env.VERCEL_URL}` 
+        : 'http://localhost:3000';
 
-    console.log("[Cron] Starting Instagram Warm-up (Sequential)...");
+    console.log("[Cron] Starting Calendar Refresh...");
     
     const sources = eventSourcesJSON.instagram || [];
     const results = [];
 
     for (const source of sources) {
         try {
-            // FIX 2: Use a relative path. 
-            // Nuxt will call the function directly in memory. No network/port errors.
-            const endpoint = `/api/events/instagram?username=${source.username}`;
+            // 2. CRITICAL CHANGE: Use Absolute URL
+            // This forces the request out to the internet and back through Vercel's CDN,
+            // triggering the 'swr' rule we set in nuxt.config.ts.
+            const endpoint = `${baseUrl}/api/events/instagram?username=${source.username}`;
             
-            console.log(`[Cron] Warming up @${source.username}...`);
+            console.log(`[Cron] Warming public cache: ${endpoint}`);
             
+            // This request will regenerate the data and store it in the CDN
             await $fetch(endpoint);
             
-            results.push({ user: source.username, status: 'Success' });
-            console.log(`   -> Done.`);
-
-            // Wait 2 seconds to be polite (prevents Rate Limit)
+            results.push({ user: source.username, status: 'Refreshed' });
+            
+            // Polite delay
             await delay(2000); 
 
         } catch (e: any) {
-            console.error(`[Cron] Failed to warm @${source.username}:`, e.message);
+            console.error(`[Cron] Failed:`, e.message);
             results.push({ user: source.username, status: 'Failed', error: e.message });
         }
     }

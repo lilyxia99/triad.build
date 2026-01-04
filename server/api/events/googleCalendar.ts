@@ -6,7 +6,7 @@ const isDevelopment = process.env.NODE_ENV === 'development';
 export default defineCachedEventHandler(async (event) => {
 	const startTime = new Date();
 	//Adding .env processing
-	if (typeof process.env.EVENT_SOURCES_ENV === 'string') {
+	if (process.env.EVENT_SOURCES_ENV &&typeof process.env.EVENT_SOURCES_ENV === 'string') {
 		try {
 			const eventSourcesENV = JSON.parse(String(process.env.EVENT_SOURCES_ENV));
 			eventSourcesJSON.googleCalendar = [...eventSourcesJSON.googleCalendar, ...eventSourcesENV.googleCalendar];

@@ -62,7 +62,6 @@
             "/api/events/apify_facebook",
            
              "/api/events/eventbrite",
-             "/api/events/instagram"
             
           ]
     },

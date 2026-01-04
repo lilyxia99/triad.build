@@ -60,7 +60,8 @@
             "/api/events/elfsight",
             "/api/events/libcal",
             "/api/events/apify_facebook",
-            "/api/events/eventbrite"
+            "/api/events/eventbrite",
+            "/api/events/instagram"
           ]
     },
     "googleCalendar": [

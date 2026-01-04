@@ -433,45 +433,8 @@ async function getEventSources() {
     'Cache-Control': `max-age=${clientCacheMaxAgeSeconds}, stale-while-revalidate=${clientStaleWhileInvalidateSeconds}`,
   };
 
-  // First, try to load pre-scraped Instagram data
-  try {
-    const { data: calendarData } = await useLazyFetch('/calendar_data.json', {
-      headers: clientHeaders
-    });
-    
-    if (calendarData.value && Array.isArray(calendarData.value) && calendarData.value.length > 0) {
-      console.log(`Loading ${calendarData.value.length} pre-scraped Instagram event sources`);
-      
-      // Filter out sources with no events to avoid empty entries
-      const sourcesWithEvents = calendarData.value.filter(source => 
-        source.events && Array.isArray(source.events) && source.events.length > 0
-      );
-      
-      if (sourcesWithEvents.length > 0) {
-        console.log(`Found ${sourcesWithEvents.length} Instagram sources with events`);
-        
-        // Transform the Instagram data to match the expected format
-        const instagramData = {
-          value: {
-            body: sourcesWithEvents
-          }
-        };
-        
-        addEventSources(transformEventSourcesResponse(instagramData));
-      } else {
-        console.log('No Instagram sources have events yet');
-      }
-    } else {
-      console.log('Instagram calendar data is empty or invalid format');
-    }
-  } catch (error) {
-    console.warn('Failed to load pre-scraped Instagram data:', error);
-  }
-
-  // Then fetch all other event sources normally (excluding Instagram endpoint if it exists)
-  const nonInstagramEndpoints = endpoints.filter(endpoint => !endpoint.includes('/api/events/instagram'));
-  
-  Promise.allSettled(nonInstagramEndpoints.map(async (endpoint) => {
+  // Fetch all event sources normally - Instagram endpoint now loads from static data
+  Promise.allSettled(endpoints.map(async (endpoint) => {
     const { data } = await useLazyFetch(endpoint, { headers: clientHeaders });
     return addEventSources(transformEventSourcesResponse(data));
   }));

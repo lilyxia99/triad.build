@@ -26,9 +26,29 @@ const AIResponseSchema = z.object({
 
 // --- CACHED HANDLER ---
 export default defineCachedEventHandler(async (event) => {
-    // Instagram events are now handled by GitHub Actions and served from static JSON
-    console.log("[Instagram] Endpoint disabled - using GitHub Actions scraped data from /assets/calendar_data.json");
-    return { body: [] };
+    console.log("[Instagram] Loading events from GitHub Actions scraped data");
+    
+    try {
+        // Import the calendar data directly from assets
+        const calendarData = await import('@/assets/calendar_data.json');
+        
+        if (calendarData.default && Array.isArray(calendarData.default)) {
+            console.log(`[Instagram] Loaded ${calendarData.default.length} Instagram event sources`);
+            
+            // Filter out sources with no events
+            const sourcesWithEvents = calendarData.default.filter(source => 
+                source.events && Array.isArray(source.events) && source.events.length > 0
+            );
+            
+            return { body: sourcesWithEvents };
+        } else {
+            console.log("[Instagram] No valid calendar data found");
+            return { body: [] };
+        }
+    } catch (error) {
+        console.error("[Instagram] Failed to load calendar data:", error);
+        return { body: [] };
+    }
 }, {
     maxAge: CACHE_MAX_AGE,
     swr: true, 

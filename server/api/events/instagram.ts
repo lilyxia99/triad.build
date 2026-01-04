@@ -29,20 +29,32 @@ export default defineCachedEventHandler(async (event) => {
     console.log("[Instagram] Loading events from GitHub Actions scraped data");
     
     try {
-        // Import the calendar data directly from assets
-        const calendarData = await import('@/assets/calendar_data.json');
+        // Read the calendar data from the file system
+        const fs = await import('fs');
+        const path = await import('path');
         
-        if (calendarData.default && Array.isArray(calendarData.default)) {
-            console.log(`[Instagram] Loaded ${calendarData.default.length} Instagram event sources`);
+        const calendarDataPath = path.join(process.cwd(), 'assets', 'calendar_data.json');
+        
+        if (!fs.existsSync(calendarDataPath)) {
+            console.log("[Instagram] Calendar data file not found");
+            return { body: [] };
+        }
+        
+        const calendarDataRaw = fs.readFileSync(calendarDataPath, 'utf-8');
+        const calendarData = JSON.parse(calendarDataRaw);
+        
+        if (calendarData && Array.isArray(calendarData)) {
+            console.log(`[Instagram] Loaded ${calendarData.length} Instagram event sources`);
             
             // Filter out sources with no events
-            const sourcesWithEvents = calendarData.default.filter(source => 
+            const sourcesWithEvents = calendarData.filter(source => 
                 source.events && Array.isArray(source.events) && source.events.length > 0
             );
             
+            console.log(`[Instagram] Found ${sourcesWithEvents.length} sources with events`);
             return { body: sourcesWithEvents };
         } else {
-            console.log("[Instagram] No valid calendar data found");
+            console.log("[Instagram] Invalid calendar data format");
             return { body: [] };
         }
     } catch (error) {

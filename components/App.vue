@@ -442,21 +442,36 @@ async function getEventSources() {
     if (calendarData.value && Array.isArray(calendarData.value) && calendarData.value.length > 0) {
       console.log(`Loading ${calendarData.value.length} pre-scraped Instagram event sources`);
       
-      // Transform the Instagram data to match the expected format
-      const instagramData = {
-        value: {
-          body: calendarData.value
-        }
-      };
+      // Filter out sources with no events to avoid empty entries
+      const sourcesWithEvents = calendarData.value.filter(source => 
+        source.events && Array.isArray(source.events) && source.events.length > 0
+      );
       
-      addEventSources(transformEventSourcesResponse(instagramData));
+      if (sourcesWithEvents.length > 0) {
+        console.log(`Found ${sourcesWithEvents.length} Instagram sources with events`);
+        
+        // Transform the Instagram data to match the expected format
+        const instagramData = {
+          value: {
+            body: sourcesWithEvents
+          }
+        };
+        
+        addEventSources(transformEventSourcesResponse(instagramData));
+      } else {
+        console.log('No Instagram sources have events yet');
+      }
+    } else {
+      console.log('Instagram calendar data is empty or invalid format');
     }
   } catch (error) {
-    console.warn('No pre-scraped Instagram data found, skipping Instagram events');
+    console.warn('Failed to load pre-scraped Instagram data:', error);
   }
 
-  // Then fetch all other event sources normally
-  Promise.allSettled(endpoints.map(async (endpoint) => {
+  // Then fetch all other event sources normally (excluding Instagram endpoint if it exists)
+  const nonInstagramEndpoints = endpoints.filter(endpoint => !endpoint.includes('instagram'));
+  
+  Promise.allSettled(nonInstagramEndpoints.map(async (endpoint) => {
     const { data } = await useLazyFetch(endpoint, { headers: clientHeaders });
     return addEventSources(transformEventSourcesResponse(data));
   }));

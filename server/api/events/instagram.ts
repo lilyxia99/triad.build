@@ -26,25 +26,9 @@ const AIResponseSchema = z.object({
 
 // --- CACHED HANDLER ---
 export default defineCachedEventHandler(async (event) => {
-    const envStatus = {
-        hasMeta: !!process.env.INSTAGRAM_USER_ACCESS_TOKEN,
-        hasOpenAI: !!process.env.OPENAI_API_KEY,
-        hasGoogle: !!process.env.GOOGLE_CLOUD_VISION_PRIVATE_KEY
-    };
-
-    if (!envStatus.hasMeta || !envStatus.hasOpenAI) {
-        console.error("[Instagram] Missing Critical Keys");
-        return { body: [] };
-    }
-
-    try {
-        console.log(`[Instagram] Job Started. OCR Enabled: ${envStatus.hasGoogle}`);
-        const body = await fetchInstagramEvents();
-        return { body };
-    } catch (e: any) {
-        console.error(`[Instagram CRITICAL FAIL] ${e.message}`);
-        return { body: [] };
-    }
+    // Instagram events are now handled by GitHub Actions and served from static JSON
+    console.log("[Instagram] Endpoint disabled - using GitHub Actions scraped data from /assets/calendar_data.json");
+    return { body: [] };
 }, {
     maxAge: CACHE_MAX_AGE,
     swr: true, 

@@ -23,7 +23,9 @@ jobs:
         node-version: '20'
 
     - name: Install Dependencies
-      run: npm ci
+      run: |
+        npm ci
+        npm install openai @google-cloud/vision zod
 
     - name: Run Scraper Script
       env:

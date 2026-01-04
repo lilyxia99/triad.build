@@ -469,7 +469,7 @@ async function getEventSources() {
   }
 
   // Then fetch all other event sources normally (excluding Instagram endpoint if it exists)
-  const nonInstagramEndpoints = endpoints.filter(endpoint => !endpoint.includes('instagram'));
+  const nonInstagramEndpoints = endpoints.filter(endpoint => !endpoint.includes('/api/events/instagram'));
   
   Promise.allSettled(nonInstagramEndpoints.map(async (endpoint) => {
     const { data } = await useLazyFetch(endpoint, { headers: clientHeaders });

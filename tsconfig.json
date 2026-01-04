@@ -5,8 +5,13 @@
     "noEmit": false,
     "noEmitOnError": false,
     "checkJs": false,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
     "types": [
-      "jquery"
+      "jquery",
+      "node"
     ],
     "baseUrl": ".",
     "paths": {

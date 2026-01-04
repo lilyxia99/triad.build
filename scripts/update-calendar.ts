@@ -12,7 +12,7 @@ const __dirname = path.dirname(__filename);
 
 // Import your source list. 
 // NOTE: Ensure your tsconfig.json has "resolveJsonModule": true
-import eventSourcesJSON from '../assets/event_sources.json';
+import eventSourcesJSON from '../assets/event_sources.json' assert { type: 'json' };
 
 // --- CONFIGURATION ---
 const BATCH_SIZE = 5; // Process 5 users at a time
@@ -73,15 +73,24 @@ async function main() {
     const finalEvents = allResults.filter(r => r !== null); // .flat() if your worker returned arrays
 
     // 6. Save to Disk
-    console.log(`💾 Saving ${finalEvents.length} processed accounts to ${OUTPUT_FILE}...`);
+    console.log(`💾 Saving ${finalEvents.length} processed Instagram accounts to ${OUTPUT_FILE}...`);
     
     // Ensure directory exists
     const dir = path.dirname(OUTPUT_FILE);
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 
-    fs.writeFileSync(OUTPUT_FILE, JSON.stringify(finalEvents, null, 2));
+    // Save in the format expected by the Vue component
+    const outputData = {
+        lastUpdated: new Date().toISOString(),
+        eventSources: finalEvents,
+        totalSources: finalEvents.length,
+        generatedBy: "GitHub Action - Instagram scraping only"
+    };
+
+    fs.writeFileSync(OUTPUT_FILE, JSON.stringify(outputData.eventSources, null, 2));
     
-    console.log("✅ Calendar Update Complete!");
+    console.log("✅ Instagram Calendar Update Complete!");
+    console.log(`📊 Generated ${finalEvents.length} Instagram event sources`);
 }
 
 // --- WORKER LOGIC ---

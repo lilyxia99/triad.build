@@ -432,7 +432,30 @@ async function getEventSources() {
   const clientHeaders = {
     'Cache-Control': `max-age=${clientCacheMaxAgeSeconds}, stale-while-revalidate=${clientStaleWhileInvalidateSeconds}`,
   };
-  // This is to preventing the UI changes from each fetch result to cause more fetches to occur.,
+
+  // First, try to load pre-scraped Instagram data
+  try {
+    const { data: calendarData } = await useLazyFetch('/assets/calendar_data.json', {
+      headers: clientHeaders
+    });
+    
+    if (calendarData.value && Array.isArray(calendarData.value) && calendarData.value.length > 0) {
+      console.log(`Loading ${calendarData.value.length} pre-scraped Instagram event sources`);
+      
+      // Transform the Instagram data to match the expected format
+      const instagramData = {
+        value: {
+          body: calendarData.value
+        }
+      };
+      
+      addEventSources(transformEventSourcesResponse(instagramData));
+    }
+  } catch (error) {
+    console.warn('No pre-scraped Instagram data found, skipping Instagram events');
+  }
+
+  // Then fetch all other event sources normally
   Promise.allSettled(endpoints.map(async (endpoint) => {
     const { data } = await useLazyFetch(endpoint, { headers: clientHeaders });
     return addEventSources(transformEventSourcesResponse(data));

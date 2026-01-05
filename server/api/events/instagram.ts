@@ -1,20 +1,10 @@
-import fs from 'node:fs';
-import path from 'node:path';
-
 export default defineEventHandler(async (event) => {
     console.log("[Instagram] Loading events from GitHub Actions scraped data");
     
     try {
-        // Read the calendar data from public folder (same pattern as archive_meetup.ts)
-        const filePath = path.resolve(process.cwd(), 'public', 'calendar_data.json');
-        
-        if (!fs.existsSync(filePath)) {
-            console.log("[Instagram] Calendar data file not found");
-            return { body: [] };
-        }
-
-        const fileContent = fs.readFileSync(filePath, 'utf-8');
-        const calendarData = JSON.parse(fileContent);
+        // Fetch calendar data from our dedicated API endpoint
+        const response = await $fetch('/api/calendar-data');
+        const calendarData = response;
 
         if (calendarData && Array.isArray(calendarData)) {
             console.log(`[Instagram] Loaded ${calendarData.length} Instagram event sources`);

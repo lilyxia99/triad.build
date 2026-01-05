@@ -1,24 +1,24 @@
-import fs from 'node:fs';
-import path from 'node:path';
+import { defineEventHandler, setHeader } from 'h3';
 
 // --- CONFIGURATION ---
-const CACHE_MAX_AGE = 60 * 60 * 24; // 24 Hours
+const CACHE_MAX_AGE = 60 * 60 * 2; // 2 Hours (Adjust as needed)
+// This points to the raw version of the file your GitHub Action generates
+const GITHUB_DATA_URL = 'https://raw.githubusercontent.com/lilyxia99/triad.build/main/assets/calendar_data.json';
 
-// --- CACHED HANDLER ---
 export default defineEventHandler(async (event) => {
-    console.log("[Instagram] Loading events from GitHub Actions scraped data");
+    console.log("[Instagram] Loading events from GitHub Raw Data");
     
     try {
-        // Read the calendar data from assets folder (same pattern as archive_meetup.ts)
-        const filePath = path.resolve(process.cwd(), 'assets', 'calendar_data.json');
+        // Fetch the JSON directly from your repository
+        const response = await fetch(GITHUB_DATA_URL);
         
-        if (!fs.existsSync(filePath)) {
-            console.log("[Instagram] Calendar data file not found");
+        // Handle cases where the file hasn't been generated yet or is missing
+        if (!response.ok) {
+            console.error(`[Instagram] Failed to fetch data: ${response.status} ${response.statusText}`);
             return { body: [] };
         }
 
-        const fileContent = fs.readFileSync(filePath, 'utf-8');
-        const calendarData = JSON.parse(fileContent);
+        const calendarData = await response.json();
 
         if (calendarData && Array.isArray(calendarData)) {
             console.log(`[Instagram] Loaded ${calendarData.length} Instagram event sources`);
@@ -29,6 +29,11 @@ export default defineEventHandler(async (event) => {
             );
             
             console.log(`[Instagram] Found ${sourcesWithEvents.length} sources with events`);
+            
+            // Set Cache Headers: This tells Vercel/Browsers to cache this response
+            // so we don't spam GitHub with requests on every page load.
+            setHeader(event, 'Cache-Control', `public, max-age=${CACHE_MAX_AGE}, s-maxage=${CACHE_MAX_AGE}`);
+            
             return { body: sourcesWithEvents };
         } else {
             console.log("[Instagram] Invalid calendar data format");

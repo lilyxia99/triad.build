@@ -27,7 +27,16 @@ export default defineEventHandler(async (event) => {
         
         if (!fs.existsSync(filePath)) {
             console.log("[Instagram] Calendar data file not found - GitHub Actions may not have run yet");
-            return { body: [] };
+            // Return debug info in the response for client-side visibility
+            return { 
+                body: [], 
+                debug: {
+                    error: "File not found",
+                    filePath,
+                    cwd: process.cwd(),
+                    publicDirExists: fs.existsSync(path.resolve(process.cwd(), 'public'))
+                }
+            };
         }
 
         const fileContent = fs.readFileSync(filePath, 'utf-8');
@@ -50,14 +59,34 @@ export default defineEventHandler(async (event) => {
             );
             
             console.log(`[Instagram] Found ${sourcesWithEvents.length} sources with events out of ${calendarData.length} total sources`);
-            return { body: sourcesWithEvents };
+            return { 
+                body: sourcesWithEvents,
+                debug: {
+                    totalSources: calendarData.length,
+                    sourcesWithEvents: sourcesWithEvents.length,
+                    fileLength: fileContent.length
+                }
+            };
         } else {
             console.log("[Instagram] Invalid calendar data format or empty data");
-            return { body: [] };
+            return { 
+                body: [],
+                debug: {
+                    error: "Invalid data format",
+                    dataType: typeof calendarData,
+                    isArray: Array.isArray(calendarData)
+                }
+            };
         }
     } catch (error) {
         console.error("[Instagram] Failed to load calendar data:", error);
         console.error("[Instagram] Error stack:", error.stack);
-        return { body: [] };
+        return { 
+            body: [],
+            debug: {
+                error: error.message,
+                stack: error.stack
+            }
+        };
     }
 });

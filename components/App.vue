@@ -436,6 +436,15 @@ async function getEventSources() {
   // Fetch all event sources normally - Instagram endpoint now loads from static data
   Promise.allSettled(endpoints.map(async (endpoint) => {
     const { data } = await useLazyFetch(endpoint, { headers: clientHeaders });
+    
+    // Special debugging for Instagram endpoint
+    if (endpoint.includes('instagram')) {
+      console.log('[Instagram Debug] Raw response:', data.value);
+      if (data.value?.debug) {
+        console.log('[Instagram Debug] Debug info:', data.value.debug);
+      }
+    }
+    
     return addEventSources(transformEventSourcesResponse(data));
   }));
 }

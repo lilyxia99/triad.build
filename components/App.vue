@@ -433,9 +433,13 @@ async function getEventSources() {
     'Cache-Control': `max-age=${clientCacheMaxAgeSeconds}, stale-while-revalidate=${clientStaleWhileInvalidateSeconds}`,
   };
 
+  console.log('[App] Fetching from endpoints:', endpoints);
+
   // Fetch all event sources normally - Instagram endpoint now loads from static data
   Promise.allSettled(endpoints.map(async (endpoint) => {
+    console.log(`[App] Fetching from endpoint: ${endpoint}`);
     const { data } = await useLazyFetch(endpoint, { headers: clientHeaders });
+    console.log(`[App] Response from ${endpoint}:`, data.value);
     return addEventSources(transformEventSourcesResponse(data));
   }));
 }

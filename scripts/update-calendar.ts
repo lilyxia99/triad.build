@@ -16,7 +16,7 @@ import eventSourcesJSON from '../assets/event_sources.json' assert { type: 'json
 
 // --- CONFIGURATION ---
 const BATCH_SIZE = 5; // Process 5 users at a time
-const OUTPUT_FILE = path.join(__dirname, '../public/calendar_data.json');
+const OUTPUT_FILE = path.join(__dirname, '../assets/calendar_data.json');
 
 // --- SCHEMAS ---
 const SingleEventSchema = z.object({

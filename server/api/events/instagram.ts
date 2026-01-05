@@ -10,7 +10,7 @@ export default defineCachedEventHandler(async (event) => {
         const fs = await import('fs');
         const path = await import('path');
         
-        const calendarDataPath = path.join(process.cwd(), 'public', 'calendar_data.json');
+        const calendarDataPath = path.join(process.cwd(), 'assets', 'calendar_data.json');
         
         if (!fs.existsSync(calendarDataPath)) {
             console.log("[Instagram] Calendar data file not found");

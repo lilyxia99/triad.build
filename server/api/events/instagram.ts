@@ -1,44 +1,37 @@
-import { defineEventHandler, setHeader } from 'h3';
-
-// --- CONFIGURATION ---
-const GITHUB_DATA_URL = 'https://raw.githubusercontent.com/lilyxia99/triad.build/main/assets/calendar_data.json';
+import fs from 'node:fs';
+import path from 'node:path';
 
 export default defineEventHandler(async (event) => {
-    console.log("[Instagram] Loading events from GitHub Raw Data (Fresh Fetch)");
+    console.log("[Instagram] Loading events from local calendar data file");
     
     try {
-        // 1. FORCE FRESH DATA FROM GITHUB
-        // We add ?t=... to the URL. This tricks GitHub/Vercel into thinking it's a 
-        // completely new file, bypassing any "raw.githubusercontent" caching.
-        const timestamp = Date.now();
-        const freshUrl = `${GITHUB_DATA_URL}?t=${timestamp}`;
-
-        const response = await fetch(freshUrl);
+        // Read the calendar data from assets folder (same pattern as archive_meetup.ts)
+        const filePath = path.resolve(process.cwd(), 'assets', 'calendar_data.json');
         
-        if (!response.ok) {
-            console.error(`[Instagram] Failed to fetch data: ${response.status}`);
+        if (!fs.existsSync(filePath)) {
+            console.log("[Instagram] Calendar data file not found at:", filePath);
             return { body: [] };
         }
 
-        const calendarData = await response.json();
+        const fileContent = fs.readFileSync(filePath, 'utf-8');
+        const calendarData = JSON.parse(fileContent);
 
         if (calendarData && Array.isArray(calendarData)) {
+            console.log(`[Instagram] Loaded ${calendarData.length} Instagram event sources`);
+            
+            // Filter out sources with no events
             const sourcesWithEvents = calendarData.filter(source => 
                 source.events && Array.isArray(source.events) && source.events.length > 0
             );
             
-            // 2. DISABLE BROWSER/VERCEL CACHING
-            // "no-store" means: Never save this response, always run the function again.
-            setHeader(event, 'Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
-            setHeader(event, 'Pragma', 'no-cache');
-            setHeader(event, 'Expires', '0');
-            
+            console.log(`[Instagram] Found ${sourcesWithEvents.length} sources with events`);
             return { body: sourcesWithEvents };
         } else {
+            console.log("[Instagram] Invalid calendar data format");
             return { body: [] };
         }
     } catch (error) {
-        console.error("[Instagram] Failed:", error);
+        console.error("[Instagram] Failed to load calendar data:", error);
         return { body: [] };
     }
 });

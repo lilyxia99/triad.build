@@ -1,46 +1,44 @@
 import { defineEventHandler, setHeader } from 'h3';
 
 // --- CONFIGURATION ---
-const CACHE_MAX_AGE = 60 * 60 * 2; // 2 Hours (Adjust as needed)
-// This points to the raw version of the file your GitHub Action generates
 const GITHUB_DATA_URL = 'https://raw.githubusercontent.com/lilyxia99/triad.build/main/assets/calendar_data.json';
 
 export default defineEventHandler(async (event) => {
-    console.log("[Instagram] Loading events from GitHub Raw Data");
+    console.log("[Instagram] Loading events from GitHub Raw Data (Fresh Fetch)");
     
     try {
-        // Fetch the JSON directly from your repository
-        const response = await fetch(GITHUB_DATA_URL);
+        // 1. FORCE FRESH DATA FROM GITHUB
+        // We add ?t=... to the URL. This tricks GitHub/Vercel into thinking it's a 
+        // completely new file, bypassing any "raw.githubusercontent" caching.
+        const timestamp = Date.now();
+        const freshUrl = `${GITHUB_DATA_URL}?t=${timestamp}`;
+
+        const response = await fetch(freshUrl);
         
-        // Handle cases where the file hasn't been generated yet or is missing
         if (!response.ok) {
-            console.error(`[Instagram] Failed to fetch data: ${response.status} ${response.statusText}`);
+            console.error(`[Instagram] Failed to fetch data: ${response.status}`);
             return { body: [] };
         }
 
         const calendarData = await response.json();
 
         if (calendarData && Array.isArray(calendarData)) {
-            console.log(`[Instagram] Loaded ${calendarData.length} Instagram event sources`);
-            
-            // Filter out sources with no events
             const sourcesWithEvents = calendarData.filter(source => 
                 source.events && Array.isArray(source.events) && source.events.length > 0
             );
             
-            console.log(`[Instagram] Found ${sourcesWithEvents.length} sources with events`);
-            
-            // Set Cache Headers: This tells Vercel/Browsers to cache this response
-            // so we don't spam GitHub with requests on every page load.
-            setHeader(event, 'Cache-Control', `public, max-age=${CACHE_MAX_AGE}, s-maxage=${CACHE_MAX_AGE}`);
+            // 2. DISABLE BROWSER/VERCEL CACHING
+            // "no-store" means: Never save this response, always run the function again.
+            setHeader(event, 'Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+            setHeader(event, 'Pragma', 'no-cache');
+            setHeader(event, 'Expires', '0');
             
             return { body: sourcesWithEvents };
         } else {
-            console.log("[Instagram] Invalid calendar data format");
             return { body: [] };
         }
     } catch (error) {
-        console.error("[Instagram] Failed to load calendar data:", error);
+        console.error("[Instagram] Failed:", error);
         return { body: [] };
     }
 });

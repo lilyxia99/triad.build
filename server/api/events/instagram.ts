@@ -1,25 +1,25 @@
+import fs from 'node:fs';
+import path from 'node:path';
+
 // --- CONFIGURATION ---
 const CACHE_MAX_AGE = 60 * 60 * 24; // 24 Hours
 
 // --- CACHED HANDLER ---
-export default defineCachedEventHandler(async (event) => {
+export default defineEventHandler(async (event) => {
     console.log("[Instagram] Loading events from GitHub Actions scraped data");
     
     try {
-        // Read the calendar data from the file system
-        const fs = await import('fs');
-        const path = await import('path');
+        // Read the calendar data from assets folder (same pattern as archive_meetup.ts)
+        const filePath = path.resolve(process.cwd(), 'assets', 'calendar_data.json');
         
-        const calendarDataPath = path.join(process.cwd(), 'public', 'calendar_data.json');
-        
-        if (!fs.existsSync(calendarDataPath)) {
+        if (!fs.existsSync(filePath)) {
             console.log("[Instagram] Calendar data file not found");
             return { body: [] };
         }
-        
-        const calendarDataRaw = fs.readFileSync(calendarDataPath, 'utf-8');
-        const calendarData = JSON.parse(calendarDataRaw);
-        
+
+        const fileContent = fs.readFileSync(filePath, 'utf-8');
+        const calendarData = JSON.parse(fileContent);
+
         if (calendarData && Array.isArray(calendarData)) {
             console.log(`[Instagram] Loaded ${calendarData.length} Instagram event sources`);
             
@@ -38,7 +38,4 @@ export default defineCachedEventHandler(async (event) => {
         console.error("[Instagram] Failed to load calendar data:", error);
         return { body: [] };
     }
-}, {
-    maxAge: CACHE_MAX_AGE,
-    swr: true, 
 });

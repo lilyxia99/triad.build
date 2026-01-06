@@ -1,10 +1,4 @@
 {
-  "crons": [
-    {
-      "path": "/api/cron/warm-instagram",
-      "schedule": "0 0 * * *"
-    }
-  ],
   "functions": {
     "server/api/events/instagram.ts": {
       "includeFiles": "public/calendar_data.json"

@@ -42,9 +42,11 @@ export default defineEventHandler(async (event) => {
             
             if (sourcesWithEvents.length > 0) {
                 console.log(`[Instagram] Returning sources with events:`, sourcesWithEvents.map(s => s.name));
+                return { body: sourcesWithEvents };
+            } else {
+                console.log(`[Instagram] No sources have events, returning empty array`);
+                return { body: [] };
             }
-            
-            return { body: sourcesWithEvents };
         } else {
             console.log("[Instagram] Invalid calendar data format or empty data");
             return { body: [] };

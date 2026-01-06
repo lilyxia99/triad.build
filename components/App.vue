@@ -437,17 +437,6 @@ async function getEventSources() {
   Promise.allSettled(endpoints.map(async (endpoint) => {
     const { data } = await useLazyFetch(endpoint, { headers: clientHeaders });
     
-    // Add debugging for Instagram endpoint specifically
-    if (endpoint.includes('instagram')) {
-      console.log('[Instagram Debug] Endpoint:', endpoint);
-      console.log('[Instagram Debug] Raw response:', data.value);
-      console.log('[Instagram Debug] Response body length:', data.value?.body?.length || 0);
-      if (data.value?.body?.length > 0) {
-        console.log('[Instagram Debug] First source:', data.value.body[0]);
-        console.log('[Instagram Debug] Total events across all sources:', 
-          data.value.body.reduce((total, source) => total + (source.events?.length || 0), 0));
-      }
-    }
     
     return addEventSources(transformEventSourcesResponse(data));
   }));

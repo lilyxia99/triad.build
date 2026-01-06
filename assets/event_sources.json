@@ -61,7 +61,7 @@
             "/api/events/libcal",
             "/api/events/apify_facebook",
             "/api/events/eventbrite",
-            "/api/events/instagram"
+            "/api/test-instagram"
           ]
     },
     "googleCalendar": [

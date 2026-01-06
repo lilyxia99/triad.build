@@ -287,10 +287,13 @@ function removeDuplicates(events: any[]) {
 function determineTags(text: string): string[] {
     const t = text.toLowerCase();
     const tags = [];
-    if (t.includes('music') || t.includes('concert') || t.includes('live') || t.includes('band')) tags.push('Music');
-    if (t.includes('art') || t.includes('gallery') || t.includes('exhibit')) tags.push('Art');
-    if (t.includes('market') || t.includes('pop-up') || t.includes('shop')) tags.push('Market');
-    if (t.includes('book') || t.includes('reading') || t.includes('poetry')) tags.push('Literature');
+    if (t.includes('music') || t.includes('concert') || t.includes('live') || t.includes('band') || t.includes('jazz')||t.includes('Back Table')) tags.push('music');
+    if (t.includes('art') || t.includes('gallery') || t.includes('exhibit')) tags.push('art');
+    if (t.includes('market') || t.includes('pop-up') || t.includes('shop')) tags.push('market');
+    if (t.includes('book') || t.includes('reading') || t.includes('poetry')||t.includes('library')) tags.push('literature');
+    if (t.includes('revolutionary') || t.includes('organizing') || t.includes('activism')) tags.push('literature');
+    if (t.includes('library') ) tags.push('non-profit');
+    if (t.includes('Freedom Assembly') ) tags.push('community');
     return tags;
 }
 

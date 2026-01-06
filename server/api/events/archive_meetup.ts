@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import eventSourcesJSON from '@/assets/event_sources.json';
+import eventSourcesJSON from '@/assets/calendar_data.json';
 import { applyEventTags } from '@/utils/util';
 
 // --- Helper Functions ---

@@ -434,15 +434,22 @@ async function getEventSources() {
   };
 
   console.log('[App] Fetching from endpoints:', endpoints);
+  console.log('[App] Instagram endpoint included?', endpoints.includes('/api/events/instagram'));
 
   // Fetch all event sources normally - Instagram endpoint now loads from static data
-  Promise.allSettled(endpoints.map(async (endpoint) => {
-    console.log(`[App] Fetching from endpoint: ${endpoint}`);
-    const { data } = await useLazyFetch(endpoint, { headers: clientHeaders });
-    
-    console.log(`[App] Response from ${endpoint}:`, data.value);
-    return addEventSources(transformEventSourcesResponse(data));
+  const results = await Promise.allSettled(endpoints.map(async (endpoint) => {
+    console.log(`[App] Starting fetch from endpoint: ${endpoint}`);
+    try {
+      const { data } = await useLazyFetch(endpoint, { headers: clientHeaders });
+      console.log(`[App] Response from ${endpoint}:`, data.value);
+      return addEventSources(transformEventSourcesResponse(data));
+    } catch (error) {
+      console.error(`[App] Error fetching from ${endpoint}:`, error);
+      return null;
+    }
   }));
+  
+  console.log('[App] All fetch results:', results);
 }
 
 // Multiple re-renders (which may be unrelated to the fetching) cause this to be called multiple times.

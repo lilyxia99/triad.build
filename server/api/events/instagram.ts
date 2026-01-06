@@ -3,6 +3,8 @@ import path from 'node:path';
 
 export default defineEventHandler(async (event) => {
     console.log("[Instagram] ===== INSTAGRAM ENDPOINT CALLED =====");
+    console.log("[Instagram] Request URL:", event.node.req.url);
+    console.log("[Instagram] Request method:", event.node.req.method);
     console.log("[Instagram] Loading events from GitHub Actions scraped data");
     
     try {
@@ -13,6 +15,15 @@ export default defineEventHandler(async (event) => {
         console.log(`[Instagram] Current working directory: ${process.cwd()}`);
         console.log(`[Instagram] File exists: ${fs.existsSync(filePath)}`);
         
+        // List contents of public directory for debugging
+        const publicDir = path.resolve(process.cwd(), 'public');
+        if (fs.existsSync(publicDir)) {
+            const publicFiles = fs.readdirSync(publicDir);
+            console.log(`[Instagram] Public directory contents:`, publicFiles);
+        } else {
+            console.log(`[Instagram] Public directory does not exist at: ${publicDir}`);
+        }
+        
         if (!fs.existsSync(filePath)) {
             console.log("[Instagram] Calendar data file not found, returning empty array");
             return { body: [] };
@@ -20,6 +31,7 @@ export default defineEventHandler(async (event) => {
 
         const fileContent = fs.readFileSync(filePath, 'utf-8');
         console.log(`[Instagram] File content length: ${fileContent.length}`);
+        console.log(`[Instagram] First 200 chars of file:`, fileContent.substring(0, 200));
         
         if (fileContent.length === 0) {
             console.log("[Instagram] File is empty, returning empty array");
@@ -48,6 +60,7 @@ export default defineEventHandler(async (event) => {
     } catch (error) {
         console.error("[Instagram] Failed to load calendar data:", error);
         console.error("[Instagram] Error details:", error?.message);
+        console.error("[Instagram] Error stack:", error?.stack);
         return { body: [] };
     }
 });

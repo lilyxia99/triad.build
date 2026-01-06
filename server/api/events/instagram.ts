@@ -5,6 +5,7 @@ export default defineEventHandler(async (event) => {
     console.log("[Instagram] ===== INSTAGRAM ENDPOINT CALLED =====");
     console.log("[Instagram] Request URL:", event.node.req.url);
     console.log("[Instagram] Request method:", event.node.req.method);
+    console.log("[Instagram] Request headers:", event.node.req.headers);
     console.log("[Instagram] Loading events from GitHub Actions scraped data");
     
     try {

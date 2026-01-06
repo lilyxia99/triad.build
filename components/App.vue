@@ -440,8 +440,13 @@ async function getEventSources() {
   const results = await Promise.allSettled(endpoints.map(async (endpoint) => {
     console.log(`[App] Starting fetch from endpoint: ${endpoint}`);
     try {
-      const { data } = await useLazyFetch(endpoint, { headers: clientHeaders });
+      const { data, error } = await useLazyFetch(endpoint, { headers: clientHeaders });
       console.log(`[App] Response from ${endpoint}:`, data.value);
+      console.log(`[App] Error from ${endpoint}:`, error.value);
+      if (error.value) {
+        console.error(`[App] Fetch error for ${endpoint}:`, error.value);
+        return null;
+      }
       return addEventSources(transformEventSourcesResponse(data));
     } catch (error) {
       console.error(`[App] Error fetching from ${endpoint}:`, error);

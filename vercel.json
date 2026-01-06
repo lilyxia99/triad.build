@@ -6,7 +6,7 @@
     }
   ],
   "functions": {
-    "api/events/instagram.ts": {
+    "server/api/events/instagram.ts": {
       "includeFiles": "public/calendar_data.json"
     }
   }

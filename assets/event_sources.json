@@ -61,7 +61,7 @@
             "/api/events/libcal",
             "/api/events/apify_facebook",
             "/api/events/eventbrite",
-            "/api/events/archive_meetup"
+            "/api/events/calendar_event"
           ]
     },
     "googleCalendar": [

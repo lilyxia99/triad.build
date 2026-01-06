@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 export default defineEventHandler(async (event) => {
+    console.log("[Instagram] ===== INSTAGRAM ENDPOINT CALLED =====");
     console.log("[Instagram] Loading events from GitHub Actions scraped data");
     
     try {

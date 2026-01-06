@@ -60,8 +60,8 @@ function findImageUrls(description: string): string[] {
 		return url;
 	});
 	
-	console.log('Original image URLs found:', uniqueMatches);
-	console.log('Converted image URLs:', convertedMatches);
+	//console.log('Original image URLs found:', uniqueMatches);
+	//console.log('Converted image URLs:', convertedMatches);
 	
 	return convertedMatches || [];
 }

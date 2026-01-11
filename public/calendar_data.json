@@ -11,7 +11,7 @@
         "location": "Greensboro",
         "description": "The FIRST-EVER Greensboro Pride Parade is officially coming, and parade applications are NOW OPEN! 🌈🎉\n\nBe part of this historic milestone by representing your community, organization, company, or chosen family in Greensboro’s very first Pride Parade. This is your moment to show up, stand proud, and stand together, celebrating visibility, inclusion, and the impact you make every day. Whether you serve, advocate, create, or simply believe in equality, your presence matters.\n\nThis is more than a parade.\nThis is a movement.\nThis is Greensboro showing up loud, proud, and united.\n\n✨ As we celebrate 20 years of Greensboro Pride, we’re taking that pride to the streets for the very first time.\n🏳️‍🌈 Bring the color\n🎶 Bring the energy\n📣 Bring the joy, and the message you stand for\n\n📍 Spots are limited, so don’t wait.\n👉 Apply now: https://www.eventeny.com/events/2026-greensboro-pride-festival-22820/?action=application\n\nLet’s march. Let’s celebrate. Let’s make Greensboro Pride unforgettable.\n\n#GSOPride2026 #FirstPrideParade #20YearsOfPride",
         "images": [
-          "https://scontent-sjc3-1.cdninstagram.com/v/t51.71878-15/588653411_9785852894872194_5929935095560279623_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=102&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=l-thce143LEQ7kNvwGC8bja&_nc_oc=Adnj7Cs4M5wNB_O2wIDumoM09e1q4AtQ2c5DM66SinM3t_j_p7CrUOUJIqCkg8Q1CLU&_nc_zt=23&_nc_ht=scontent-sjc3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=vNBmKS62CmWpwdo9Ei6G2Q&oh=00_AfqCQTDqjijdjuMDeIXPKlJUB0Jdm95SDFSevN_jCaZC0w&oe=6967FEF3"
+          "https://scontent-sjc3-1.cdninstagram.com/v/t51.71878-15/588653411_9785852894872194_5929935095560279623_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=102&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=l-thce143LEQ7kNvwEsjDxG&_nc_oc=AdmDn-2-eCPJ09vAa8t1b7XXKzASDiMWDrxz8oHgBQiGv1pAOrM7hyov-n0SSDhWpg8&_nc_zt=23&_nc_ht=scontent-sjc3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=zzyyuwteHpigFcXmhD_HLg&oh=00_AfqYWmaeKNjsynpXSB7zTWpMiBL7ZXFqpdt5cCEr-q20Xw&oe=69695073"
         ],
         "tags": [
           "art"
@@ -27,7 +27,25 @@
     "name": "Greensboro Project Space"
   },
   {
-    "events": [],
+    "events": [
+      {
+        "id": "ig-18032855753783640-1",
+        "title": "Poetry Circle",
+        "org": "ETC.GSO",
+        "start": "2026-01-11T12:00:00.000Z",
+        "end": "2026-01-11T13:00:00.000Z",
+        "url": "https://www.instagram.com/p/DTVdPsMDaTp/",
+        "location": "Not specified",
+        "description": "Do you wanna talk about the weather?\n\nThis months poetry circle is Sunday January 11th 5-7pm\nTheme: winter\n\nBring your cold poems, the poems that keep your warm, poems about decay, poems about what comes after the thaw, poems of new starts, poems about the weather. \n\nWhether you’ve written them, they’re from your favorite poets, or you just want to come listen and huddle around a circle with us. All are welcome 🪾❄️\n\nHosted by deathsheadmothcoffee",
+        "images": [
+          "https://scontent-sjc6-1.cdninstagram.com/v/t51.82787-15/613510881_18065586260553847_6615041020031601406_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=104&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=lBPUgh6o6SYQ7kNvwGTXuq-&_nc_oc=Adn0B2DX_RDQiglleLItSQF7wSEM_dUcsYcaXmrA-Foi9hIJVf-eDmC9LRj--CmDHlc&_nc_zt=23&_nc_ht=scontent-sjc6-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=hEWv1OPd8x3iMTAK_ymx3A&oh=00_AfpyhDPAf5pF5xH3fzABTB92WP5i6rHPTZaUhXm7xh2uTg&oe=69693BF6"
+        ],
+        "tags": [
+          "art",
+          "literature"
+        ]
+      }
+    ],
     "city": "Greensboro",
     "name": "ETC.GSO"
   },
@@ -43,16 +61,16 @@
         "location": "Greensboro",
         "description": "The weekly download has arrived!! \n.\n.\n.\n.\n#greensboro #events #livemusic #venue #community",
         "images": [
-          "https://scontent-sjc6-1.cdninstagram.com/v/t51.82787-15/611728575_17908241820312023_7969160598217818156_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=108&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=fBrTq0TBvncQ7kNvwHdTO4G&_nc_oc=AdkbvPM6LzxFZlZIroKufHgSrzNgJWJ2ukbTmjTxJwOWpvHF_0BZbqq_FVzl3IjVUlc&_nc_zt=23&_nc_ht=scontent-sjc6-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=J6DeuJAKglq7aXKGA2Cb7w&oh=00_AfrmVpT4-G3GHCHc5U4Q2IO9sWTvpppWCYOGtfHgpn5iiQ&oe=6967EAF8",
-          "https://scontent-sjc3-1.cdninstagram.com/v/t51.82787-15/610785629_17908241829312023_209548619928604549_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=100&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=1bR55cWGpCwQ7kNvwExAmEZ&_nc_oc=Adk2OlF_QmM078lLUqiQhUUzTs2Rsa2dwJH1m6b8PNVpxmO-4kvhbWuK6mnYGZxShS8&_nc_zt=23&_nc_ht=scontent-sjc3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=J6DeuJAKglq7aXKGA2Cb7w&oh=00_AfrqvrsXOAlZ0ArT4fREfAyzK5cLKvUbD630gtZeVxs2aA&oe=6967DBB6",
-          "https://scontent-sjc6-1.cdninstagram.com/v/t51.82787-15/610641288_17908241844312023_1783766159051282526_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=108&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=1JhvzJ5UBpUQ7kNvwEeo277&_nc_oc=AdlKkwKOBS4BsOhQ_xfHKfe0XB-bhZpRzIx5U8rWNzoYjA_UtxV_3QX3ARFVFKwaIJw&_nc_zt=23&_nc_ht=scontent-sjc6-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=J6DeuJAKglq7aXKGA2Cb7w&oh=00_AfqiUN1e4yPHr7-2Krd24H6o2adnEL_O5dB3AD3dPBmxpQ&oe=6967EE51",
-          "https://scontent-sjc6-1.cdninstagram.com/v/t51.82787-15/608782563_17908241853312023_8937524087049139797_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=101&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=hT7GkHdjbn8Q7kNvwHX23-p&_nc_oc=AdlizxawCsvT6_-uQdBZW3O6b9zlrfGvalj33LWdgwIgozZO9s_IZlvU-od0aYvLn0w&_nc_zt=23&_nc_ht=scontent-sjc6-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=J6DeuJAKglq7aXKGA2Cb7w&oh=00_Afr8pzyFN9fIP8hMGLfjBoCKYtB7fxjohvu7ynI7dOrWlw&oe=69680A70",
-          "https://scontent-sjc3-1.cdninstagram.com/v/t51.82787-15/610597839_17908241856312023_3656278341962627435_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=102&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=IqC_RaGklX4Q7kNvwECuKIa&_nc_oc=AdmnsOoQY6aynVTtztMt2Dg__i_mB8KLefBduJYifES0-NifR7n5jaoN3Y2231ROsBw&_nc_zt=23&_nc_ht=scontent-sjc3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=J6DeuJAKglq7aXKGA2Cb7w&oh=00_Afou3IzL12leFxxRyVzqPXoaPZHIUBwRW6_rqaLNEp5nzg&oe=6967EE00",
-          "https://scontent-sjc6-1.cdninstagram.com/v/t51.82787-15/590417659_17908241865312023_2889964669385295005_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=101&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=CD0wXoTQF_MQ7kNvwEt0Zms&_nc_oc=AdlhYq21PVaTb_-Ds1KXS479CwQNuUQ3dIB6B76svGDU-0EgDcyDoOq2-QT9JWI0hmo&_nc_zt=23&_nc_ht=scontent-sjc6-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=J6DeuJAKglq7aXKGA2Cb7w&oh=00_Afps1oaJRs5av8NTNyw1kvNz58NUcZAm6W_m9ENb-IWuVg&oe=6967F796",
-          "https://scontent-sjc6-1.cdninstagram.com/v/t51.82787-15/610602250_17908241880312023_1570646225366199521_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=107&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=QbG5asmdbgsQ7kNvwGDUQ37&_nc_oc=AdltOJuGymXKHseV9MF6SpGV_eiaJ4FRumcpJc2fa0Hr9iFOVM_DDxINfH3KIZ2LWYI&_nc_zt=23&_nc_ht=scontent-sjc6-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=J6DeuJAKglq7aXKGA2Cb7w&oh=00_AfpZmp3TISYwacckQ-4wU9WWVH3domXE-i0UjTlqMGPq7A&oe=696806FB",
-          "https://scontent-sjc6-1.cdninstagram.com/v/t51.82787-15/610885033_17908241883312023_820047081402258349_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=108&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=se5_ia8cwnUQ7kNvwFf6HX-&_nc_oc=AdkV1VWXK9U9Z04sSavhYuUKOV3OKBeDSlABkLDZD3jAim5fU_L_mufBPjT8UuEi2S4&_nc_zt=23&_nc_ht=scontent-sjc6-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=J6DeuJAKglq7aXKGA2Cb7w&oh=00_AfqPWwjv_Ku5W5vwVLv6y6cEKLmq87SYvl_vnlQo-aOAnw&oe=69680007",
-          "https://scontent-sjc3-1.cdninstagram.com/v/t51.82787-15/610872239_17908241892312023_4597804167036038925_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=102&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=Z75lLDX6hBQQ7kNvwFskPED&_nc_oc=AdlMUcXqil61OQgylMJ2n6SKvNL02ySSAR_WQeNZf9ianuaJAs8UsVoG0XWw69Aq2V0&_nc_zt=23&_nc_ht=scontent-sjc3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=J6DeuJAKglq7aXKGA2Cb7w&oh=00_Afpqohv7jP0iJjgKmrWYcd5UOXdVmd4Yt1FaxungHAPHog&oe=69680DC3",
-          "https://scontent-sjc6-1.cdninstagram.com/v/t51.82787-15/610696439_17908241901312023_6706302191072191828_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=111&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=FGuFzzpLN6YQ7kNvwGRxM84&_nc_oc=AdmLO_YC8ttbt38RTAnWQYK4duFlcADn-0l8lK7Fm8UVJ0jryz1tfkyvttezOY_yb9E&_nc_zt=23&_nc_ht=scontent-sjc6-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=J6DeuJAKglq7aXKGA2Cb7w&oh=00_AfpJIIfnkoapiCgp5_jYDzfnJOnMlCxAgl3aELugxa2R9A&oe=6967EF14"
+          "https://scontent-sjc6-1.cdninstagram.com/v/t51.82787-15/611728575_17908241820312023_7969160598217818156_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=108&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=fBrTq0TBvncQ7kNvwHMmAvz&_nc_oc=AdmitATerTmGVrD4CQpByx4HAdFHmLv4k0bgbK-tt-Hpv_9ngS1vqFaRaCvlUd9fA70&_nc_zt=23&_nc_ht=scontent-sjc6-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=2RYvqyEZVf7RwkVRJvJLRA&oh=00_Afq9IpGwbSWL1h7K76lbSRIWNZu2MA4KvEdNh7FZkH6RDA&oe=69693C78",
+          "https://scontent-sjc3-1.cdninstagram.com/v/t51.82787-15/610785629_17908241829312023_209548619928604549_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=100&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=CjW0NseTtSIQ7kNvwH3u4LL&_nc_oc=Admf0a12yn6fO7yVu9moYP0-eEDlTDNsZ-ord1CMHF5dxsvmOo2CAFD2xWzfC3yMX70&_nc_zt=23&_nc_ht=scontent-sjc3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=2RYvqyEZVf7RwkVRJvJLRA&oh=00_Afr-WId2FNMIfePrRdmWuaBUapFOmdncej16xTW0349RdA&oe=69692D36",
+          "https://scontent-sjc6-1.cdninstagram.com/v/t51.82787-15/610641288_17908241844312023_1783766159051282526_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=108&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=1JhvzJ5UBpUQ7kNvwEJ645J&_nc_oc=Adm4LIRxZP1-Cr8GW6t4mzfaAYXz7yInVjDBdJQa0QJd9I7OxvEmZbOVzeMl4QEa5y4&_nc_zt=23&_nc_ht=scontent-sjc6-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=2RYvqyEZVf7RwkVRJvJLRA&oh=00_AfqXLx-XKEv4Z8REgngV7rkjXXru2sp75wcpFwdeciTyuA&oe=69693FD1",
+          "https://scontent-sjc6-1.cdninstagram.com/v/t51.82787-15/608782563_17908241853312023_8937524087049139797_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=101&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=hT7GkHdjbn8Q7kNvwHv0baV&_nc_oc=Adm-xL0uIVhl37RMqzlOv2cJznvc3Hc6bF4fIKBobZwMOZjfy5c8pepH9zAiMiph3MU&_nc_zt=23&_nc_ht=scontent-sjc6-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=2RYvqyEZVf7RwkVRJvJLRA&oh=00_Afo_KB7r1Fz0cyYaN_ow0GlTxoFn4adxmuoU85QwbUho8Q&oe=69695BF0",
+          "https://scontent-sjc3-1.cdninstagram.com/v/t51.82787-15/610597839_17908241856312023_3656278341962627435_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=102&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=IqC_RaGklX4Q7kNvwEBJlbe&_nc_oc=AdlCvabsGBDrzmqT6Zb14KlKk_y23FZZ4OxHY12HqxY9JfeojpQPuRb8Wvspl7rCkFM&_nc_zt=23&_nc_ht=scontent-sjc3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=2RYvqyEZVf7RwkVRJvJLRA&oh=00_AfpFrgJ3VLTDrKbbkBKM_utynBX2qEBbXzNiHu9dEZg7-A&oe=69693F80",
+          "https://scontent-sjc6-1.cdninstagram.com/v/t51.82787-15/590417659_17908241865312023_2889964669385295005_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=101&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=CD0wXoTQF_MQ7kNvwF_gcm_&_nc_oc=AdlPNjolgvhxybOS2pz7gGqImwIJEwuMAl-uI2AaDGeBmtjx7LJpRhEH3cL_vlr2X9w&_nc_zt=23&_nc_ht=scontent-sjc6-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=2RYvqyEZVf7RwkVRJvJLRA&oh=00_AfouFBq_412cy5dt_sDtKjS2VhHe3q_a6oxga_60hqXH9Q&oe=69694916",
+          "https://scontent-sjc6-1.cdninstagram.com/v/t51.82787-15/610602250_17908241880312023_1570646225366199521_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=107&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=QbG5asmdbgsQ7kNvwHAzaLW&_nc_oc=AdmtfmTBBiF6_toWyqcrDvTubuxYP3vdlgy08QT7Az3KweKz1txFEp0oXbbVspRDUIk&_nc_zt=23&_nc_ht=scontent-sjc6-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=2RYvqyEZVf7RwkVRJvJLRA&oh=00_AfosAb0SllAe_1E1v1_w-3dtzJZvqTXER4EZim_i34pE1w&oe=6969587B",
+          "https://scontent-sjc6-1.cdninstagram.com/v/t51.82787-15/610885033_17908241883312023_820047081402258349_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=108&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=se5_ia8cwnUQ7kNvwG86XEG&_nc_oc=Adk-NhfOEY-8MDObTO1vK3m2FuF3lcAO7UDfaPqF1VymtIs-fF7OvTkc2Z2g_K8es_g&_nc_zt=23&_nc_ht=scontent-sjc6-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=2RYvqyEZVf7RwkVRJvJLRA&oh=00_Afo4-nGg0prphUqvk7B9vNhzqxU--w-abLhY_a6GCRQlZQ&oe=69695187",
+          "https://scontent-sjc3-1.cdninstagram.com/v/t51.82787-15/610872239_17908241892312023_4597804167036038925_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=102&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=fQqhQYjdL_IQ7kNvwGZay6S&_nc_oc=AdlcnLrgQ0g2X8ooAvvYILkNCd5WbGCPygoQGjQnGZGdsX_wN5rLnpJtkRsQ0mujuI0&_nc_zt=23&_nc_ht=scontent-sjc3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=2RYvqyEZVf7RwkVRJvJLRA&oh=00_Afq-MARxD5TkadM3_QI-o80X1eNvcS773vEXnETiU1c_EQ&oe=69695F43",
+          "https://scontent-sjc6-1.cdninstagram.com/v/t51.82787-15/610696439_17908241901312023_6706302191072191828_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=111&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=FGuFzzpLN6YQ7kNvwHMIYa1&_nc_oc=Adn4ts-zRto6eLB-4mqj-saAX8OZyGiokFuPAmQDNQjhJgE7yHe3Qx5252pSrfUXk00&_nc_zt=23&_nc_ht=scontent-sjc6-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=2RYvqyEZVf7RwkVRJvJLRA&oh=00_AfockI6NZkAEU5p9sYR7xyUG6lyVTZEb36bWsQvuauyH1w&oe=69694094"
         ],
         "tags": [
           "music"
@@ -68,7 +86,7 @@
         "location": "TBD",
         "description": "Thank you to our community for a great first year of Core Memories!!! \n.\n.\n.\n.\nWe’re throwing a birthday shindig on January 17th! More details to come, but save the date✨",
         "images": [
-          "https://scontent-sjc6-1.cdninstagram.com/v/t51.71878-15/612063106_2699462707069898_2071677022847357174_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=101&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=ZcJoeKiS9HAQ7kNvwHENvEw&_nc_oc=Adm3yTgt84QatTW3RNk-ALnSOanVeAiztBSHiWqVmxs22cdL5NjHe2VT0TAvKRJh3FA&_nc_zt=23&_nc_ht=scontent-sjc6-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=J6DeuJAKglq7aXKGA2Cb7w&oh=00_Afrg3EBQrYQ0mzISeZqHxW3xxGtODAjrcfDG-HeWiBgDVQ&oe=69680F67"
+          "https://scontent-sjc6-1.cdninstagram.com/v/t51.71878-15/612063106_2699462707069898_2071677022847357174_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=101&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=ZcJoeKiS9HAQ7kNvwHuu6IJ&_nc_oc=AdksR2jnXXIV-nLnRC5CFmcEKM-EnWdzHgcYLg4OV7DrtVEcc8wt-8TLBJwZ9XJFX8w&_nc_zt=23&_nc_ht=scontent-sjc6-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=2RYvqyEZVf7RwkVRJvJLRA&oh=00_Afq5EK512w665c-0PKaLDmBFn6bFwspQKuIHHRqFjXIukg&oe=696960E7"
         ],
         "tags": []
       },
@@ -82,12 +100,12 @@
         "location": "816 S Elm St #1A, Greensboro, NC 27406",
         "description": "It’s the FIRST First Friday of 2026 and we’re kicking it off with a bang, come on out!",
         "images": [
-          "https://scontent-sjc3-1.cdninstagram.com/v/t51.82787-15/608875702_17907890814312023_9020746121859041739_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=103&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=t2-01qRvMwcQ7kNvwFkDIaa&_nc_oc=Adnbbxw6OUJ8rZGzR7owrBJo0GyXzf8Fjy05gJTMfZwGCEyeZyK-4b2IozvGAa2_FPU&_nc_zt=23&_nc_ht=scontent-sjc3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=J6DeuJAKglq7aXKGA2Cb7w&oh=00_Afopsj1zYC7ZPoGKIjmcNBKHJ7gmGdoAv-byBuWkyZL3sg&oe=6967ED9F",
-          "https://scontent-sjc6-1.cdninstagram.com/v/t51.82787-15/608413954_17907890799312023_9061395071472023566_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=101&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=qYZ19qOIeRgQ7kNvwGWxBLq&_nc_oc=AdnZZs-P1ahDema_g9S515qkn29_NwZxurgq5qlNsFIjr6yOdQGD-Bh5AoPvwH0xYaQ&_nc_zt=23&_nc_ht=scontent-sjc6-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=J6DeuJAKglq7aXKGA2Cb7w&oh=00_AfpCzizN5FjxJNZCrOVAL0yb1hBcvzTM9xqp65Hcoh2PaA&oe=6967E9C2",
-          "https://scontent-sjc6-1.cdninstagram.com/v/t51.82787-15/608616043_17907890817312023_4770461623213481823_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=109&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=oHgnW81gO9IQ7kNvwErwHaj&_nc_oc=Adm9ZirxTG6ejJh0CNX60ylQtn-pNwjaUpy15FM2eky_L_P0FrJCmTvj3-iQD5u3Hx8&_nc_zt=23&_nc_ht=scontent-sjc6-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=J6DeuJAKglq7aXKGA2Cb7w&oh=00_AfrBOXbxvf8U1Ez-pDf5ZfZk2Yy-ANwBaSSwuSXWI919SQ&oe=69680116",
-          "https://scontent-sjc3-1.cdninstagram.com/v/t51.82787-15/609153382_17907890826312023_4741069878728695785_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=100&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=hFGMgPuT0LkQ7kNvwGggxwS&_nc_oc=AdkAldN2Ddxohdelb8m6aZB-01JunkbP6UmmAJBbP2lR7j4zbq-2Qh1JCAcZOxDoJrM&_nc_zt=23&_nc_ht=scontent-sjc3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=J6DeuJAKglq7aXKGA2Cb7w&oh=00_AfoV7Gab4GGCSDaqtGOByFhwZ7pzMLs08r4XMzla6zLi8Q&oe=6967F324",
-          "https://scontent-sjc3-1.cdninstagram.com/v/t51.82787-15/609004462_17907890835312023_7321908927313382212_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=110&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=zcfLAv5jSWwQ7kNvwGSeleb&_nc_oc=AdmWkSLy-FB-sZZtgyMbuecqdr9lYqu1ZDyb6AexiZ9WkWPUatcqRP4VtzKbqNVyaoA&_nc_zt=23&_nc_ht=scontent-sjc3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=J6DeuJAKglq7aXKGA2Cb7w&oh=00_AfphXikFuVtqMTsUqt2qZRipeFUwN1FFAsEiGNA4AP-U-Q&oe=6967EFAF",
-          "https://scontent-sjc6-1.cdninstagram.com/v/t51.82787-15/610695253_17907890844312023_1492493781067300194_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=108&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=hi9go0T4iUsQ7kNvwEH3N8W&_nc_oc=AdmP_eQMCOcTCSC6U_TIWEsxWdRN_BBpsa6T3fXUz2qyoSYj5-iBL7vL5TECry0Cn2Q&_nc_zt=23&_nc_ht=scontent-sjc6-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=J6DeuJAKglq7aXKGA2Cb7w&oh=00_Afpg7El5f7oO3n7oKELkIVEbHJ9NlFN2viz1Kd9gZ8hEvA&oe=6967EC28"
+          "https://scontent-sjc3-1.cdninstagram.com/v/t51.82787-15/608875702_17907890814312023_9020746121859041739_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=103&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=t2-01qRvMwcQ7kNvwF_3m6x&_nc_oc=AdkNhF5hK1Dcx5XT9Bpe1CNfqYiPchPXczcO3Xk-z_WOJGmgXQG4Q70xmWMm1znc7dw&_nc_zt=23&_nc_ht=scontent-sjc3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=2RYvqyEZVf7RwkVRJvJLRA&oh=00_AfrhzMms8bn2kqRjFqr8Cy2U7D6tHz7BKr8BQiAldbFKZg&oe=69693F1F",
+          "https://scontent-sjc6-1.cdninstagram.com/v/t51.82787-15/608413954_17907890799312023_9061395071472023566_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=101&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=tLSRnuczhrYQ7kNvwEME4jI&_nc_oc=Adk00RxpoA1xsEVmlE7xHXCi64DA721W2lz5bg4lrWWy-oYijS__1KG81oAtMwPDwM8&_nc_zt=23&_nc_ht=scontent-sjc6-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=2RYvqyEZVf7RwkVRJvJLRA&oh=00_Afr1oiOMvIscm0hPoLwC1PeJu3Qw3IVxDt7CD63mysl-jw&oe=69693B42",
+          "https://scontent-sjc6-1.cdninstagram.com/v/t51.82787-15/608616043_17907890817312023_4770461623213481823_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=109&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=SpMSTh2s6FYQ7kNvwF7SBpi&_nc_oc=AdnveRCEuEN-75JrvbjDKGxoxMlaxts58xxb_RpFOwEOy1f-UzP1idHX_wb91faHoCk&_nc_zt=23&_nc_ht=scontent-sjc6-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=2RYvqyEZVf7RwkVRJvJLRA&oh=00_AfoIAQKsiSv_i6ny601wZ4ToqGA1dWH4EOjavR1cBI4l5g&oe=69695296",
+          "https://scontent-sjc3-1.cdninstagram.com/v/t51.82787-15/609153382_17907890826312023_4741069878728695785_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=100&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=hFGMgPuT0LkQ7kNvwEMQM9X&_nc_oc=AdmusI-8GuBc87UdNNIlBIlNjYHob9HXmT3YZivWJhN6y4y52qvVJpa7e9U-c56tB7c&_nc_zt=23&_nc_ht=scontent-sjc3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=2RYvqyEZVf7RwkVRJvJLRA&oh=00_Afq4t6X5m9rxH67s1W7FpkptiSxUtDP_ZSMedvgo23X9mw&oe=696944A4",
+          "https://scontent-sjc3-1.cdninstagram.com/v/t51.82787-15/609004462_17907890835312023_7321908927313382212_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=110&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=zcfLAv5jSWwQ7kNvwF5IFKp&_nc_oc=Admf1-OgH_exyf1UykNjiLklDOfPlYw9bSo0TznX2CJbR54LMG0S09Tri6-XoJ3RXU0&_nc_zt=23&_nc_ht=scontent-sjc3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=2RYvqyEZVf7RwkVRJvJLRA&oh=00_AfrhkS9zHAVLeqTWGK8kIc-bE0gG9ll-I3hfo2JoWau3eA&oe=6969412F",
+          "https://scontent-sjc6-1.cdninstagram.com/v/t51.82787-15/610695253_17907890844312023_1492493781067300194_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=108&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=hi9go0T4iUsQ7kNvwGlcmPs&_nc_oc=Adnd4VWPLLz0sJ4YqLOLrOmzSwFFI0XOGEMjPwmSRL8q1LAYVVTCihtyKrJQHkKPTv4&_nc_zt=23&_nc_ht=scontent-sjc6-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=2RYvqyEZVf7RwkVRJvJLRA&oh=00_AfoUH-TCUAbfossyFTFe0PIFL4Rg41fSJTLmweXvy4kl6Q&oe=69693DA8"
         ],
         "tags": []
       }
@@ -99,7 +117,7 @@
     "events": [
       {
         "id": "ig-17899088433292352-1",
-        "title": "LEAF LITTER Exhibition",
+        "title": "LEAF LITTER Exhibition featuring 'Abalone Variation 1–6' by KT Wilson",
         "org": "irving park ART & FRAME",
         "start": "2025-10-01T12:00:00.000Z",
         "end": "2025-10-01T13:00:00.000Z",
@@ -107,8 +125,8 @@
         "location": "Irving Park Art & Frame",
         "description": "We’re thrilled to spotlight a truly captivating series in our current exhibition, LEAF LITTER—‘Abalone Variation 1–6’ by the talented artist KT Wilson. These original works are a celebration of the subtle, often overlooked wonders of nature, and we invite you to experience them in person at Irving Park Art & Frame.\nEach piece in this series features a sustainably sourced abalone shell (pāua) from the pristine waters of New Zealand. Revered for their iridescent beauty and cultural significance, New Zealand abalone shells are harvested under one of the world’s most robust sustainability systems, ensuring that their natural populations are protected for generations to come. These shells, considered ‘taonga’ (treasures) in Māori culture, are not only a feast for the eyes but also a testament to the harmony of art and ecological responsibility⁠.\nKT Wilson’s approach transforms each shell into a meditative focal point by mounting them in custom shadowbox frames. Rather than traditional fastenings, Wilson uses carefully woven textiles and thread to cradle each shell in place. This technique both secures the shell and highlights its natural form, color, and texture, drawing attention to the unique qualities of each specimen. The interplay between the organic shell and the geometric textile work invites viewers to contemplate the contrast and connection between the natural world and human creativity.\nThe ‘Abalone Variation’ series is a perfect fit for LEAF LITTER, our exhibition dedicated to the nuanced, often unnoticed aspects of nature. This show brings together artists whose work delves into the delicate, the intricate, and the ephemeral—reminding us that beauty is often found in quiet details. KT Wilson’s pieces exemplify this ethos, offering viewers a chance to slow down and appreciate the subtle complexity of natural materials and thoughtful craft.\n.\nVisit us at Irving Park Art & Frame to see KT Wilson’s work and explore the full LEAF LITTER exhibition. Support local art, sustainable materials, and the ongoing conversation between human hands and the natural world.\n.\n.\n.\n#ArtExhibition #ContemporaryArt #NatureInspired #KTWilson #AbaloneArt #SustainableArt #PauaShel",
         "images": [
-          "https://scontent-sjc6-1.cdninstagram.com/v/t51.82787-15/557199403_18401345317188760_8258404046253283905_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=108&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=cCSP5l1X2uYQ7kNvwHTj0D5&_nc_oc=AdmCN2C3sN7OclQdes4sNrDW4oT8M7QZwG3vGhA0hd237kjnhexI7XB12QN519rOPL8&_nc_zt=23&_nc_ht=scontent-sjc6-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=68iVrocgMgSIpLxOaKrz9A&oh=00_AfpdpIX759UpjDdSRjT4bSgkzujvdZPuZtSGqLBJAMl9Ig&oe=6967DD02",
-          "https://scontent-sjc3-1.cdninstagram.com/v/t51.82787-15/557023441_18401345308188760_5504401008820991411_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=106&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=4fXPZRFs7UAQ7kNvwGdZmxF&_nc_oc=AdnvzYvvYYtg9PScSbiMfrNbU_Y6OwDfyaxeAGyRQvonoK3FIJRLUVBiBXRrVDXHEbk&_nc_zt=23&_nc_ht=scontent-sjc3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=68iVrocgMgSIpLxOaKrz9A&oh=00_AfqBuDXS_L3e4Bu5YQNcpdJuOlgZQwirdB6fJjakIXGR5A&oe=6967EABD"
+          "https://scontent-sjc6-1.cdninstagram.com/v/t51.82787-15/557199403_18401345317188760_8258404046253283905_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=108&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=cCSP5l1X2uYQ7kNvwESYWaB&_nc_oc=AdlXX5-8zGNDbImQUYn1lYtDJVWgtkePFvQkFwj06BZ87tZ8DxqRtKM53hTL3hSG7Kc&_nc_zt=23&_nc_ht=scontent-sjc6-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=44AXrPuFitnDc4iUyT2gOg&oh=00_AfqJ_VAANH24b5dynUDKbRln02MwkUVjD6daMdEhBZrcHA&oe=69692E82",
+          "https://scontent-sjc3-1.cdninstagram.com/v/t51.82787-15/557023441_18401345308188760_5504401008820991411_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=106&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=4fXPZRFs7UAQ7kNvwHOJ7vD&_nc_oc=Adkl2kSFZaJ1VQvtBfygnhjyAgxg09bytJp9EMjcTBBP8aw8L0JpW4VpP-IcXc19F1c&_nc_zt=23&_nc_ht=scontent-sjc3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=44AXrPuFitnDc4iUyT2gOg&oh=00_Afr-paCbWL9y01oh1nk-tKbsl8AgJ4ijHqRc4n9HAkjUnQ&oe=69693C3D"
         ],
         "tags": [
           "art"
@@ -131,16 +149,32 @@
   {
     "events": [
       {
-        "id": "ig-18019284437804945-1",
+        "id": "ig-17913129174270615-1",
+        "title": "Live Performance",
+        "org": "The Flat Iron",
+        "start": "2026-01-09T12:00:00.000Z",
+        "end": "2026-01-09T13:00:00.000Z",
+        "url": "https://www.instagram.com/p/DTTjqqpkd59/",
+        "location": "TBD",
+        "description": "Tonight, Friday the 9th!\nDoors at 7pm\nShow at 8pm",
+        "images": [
+          "https://scontent-sjc3-1.cdninstagram.com/v/t51.82787-15/613497767_18108912928638998_6598585826398070268_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=100&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=dtt8d-OpW8AQ7kNvwHHujUb&_nc_oc=AdkZM7lXHyf14bQb226i7Zbem9enGwJCl6K1PGXPhL-w_zZkd7jwNJ8EtfOx-7wyJCs&_nc_zt=23&_nc_ht=scontent-sjc3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=Tm_Ro7VjgkAKjvfEqpLDug&oh=00_Afqyof7WPAEaBE28lrowAt9opeOeljcugWysaAx1Qp3UBA&oe=69694522"
+        ],
+        "tags": [
+          "music"
+        ]
+      },
+      {
+        "id": "ig-18019284437804945-2",
         "title": "Live Performance",
         "org": "The Flat Iron",
         "start": "2026-01-11T12:00:00.000Z",
         "end": "2026-01-11T13:00:00.000Z",
         "url": "https://www.instagram.com/p/DTSzfc_ESm6/",
-        "location": "TBD",
+        "location": "Not specified",
         "description": "This Sunday the 11th!\nDoors at 7pm\nShow at 8pm\n\nCome check out these three in a different setting than you’re used to seeing them in!",
         "images": [
-          "https://scontent-sjc3-1.cdninstagram.com/v/t51.82787-15/613566291_18108885121638998_2412047532850380476_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=110&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=sgxBsHgSe7kQ7kNvwEkHxlz&_nc_oc=Admjf3Qj6_tndLJnloLY8IGY5r1Bi2WB2hPWlA4_Z8FgkYmc71eO3YjLUq9jb15W0dw&_nc_zt=23&_nc_ht=scontent-sjc3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=SdgB0pWHdO55D4oVyrzAxw&oh=00_Afrv0z-NGceJ6yXoSKH7WflS8at6hvuj0nZutluyRYWitw&oe=6967F000"
+          "https://scontent-sjc3-1.cdninstagram.com/v/t51.82787-15/613566291_18108885121638998_2412047532850380476_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=110&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=sgxBsHgSe7kQ7kNvwHWgrSv&_nc_oc=AdncxLLgpYkntFbxjCC3vpMgW8xGuLqmq9po08y7uZhpD1k5LvLwyNSnlIBrgQzi8UM&_nc_zt=23&_nc_ht=scontent-sjc3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=Tm_Ro7VjgkAKjvfEqpLDug&oh=00_Afo0Bm4rATlrpVmqyZBAmnoxX8asIGp9ivZNaqp67UMSow&oe=69694180"
         ],
         "tags": [
           "music"
@@ -159,11 +193,11 @@
         "start": "2026-01-02T12:00:00.000Z",
         "end": "2026-01-02T13:00:00.000Z",
         "url": "https://www.instagram.com/p/DS-s7FwDEIJ/",
-        "location": "Not specified",
+        "location": "204 N Mendenhall, Greensboro, North Carolina 27403",
         "description": "Happy New Year everyone! Tomorrow we’re back to our normal schedule and back with our programming as well! \n\n- Friday (4:30-6:30): Jazz Jam with samuhrlass._ quartet \n- Sunday (4-6): Swingtime Sunday with doc_bush and Jim Carson",
         "images": [
-          "https://scontent-sjc3-1.cdninstagram.com/v/t51.82787-15/609630938_18067192940544341_7476563283119057539_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=100&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=jPABKFkzxrgQ7kNvwEfG6e5&_nc_oc=AdlXC5yvafsd7FwaKrmqp45VNh4z9JWiqq5D4r-sqUxWdVlAZeBFvuch0o5S9up20ps&_nc_zt=23&_nc_ht=scontent-sjc3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=KRvGJbDuE9J9iVYDRCeeDw&oh=00_AfrB6OyfD47JIa1N4r0Qom9Hqp5zseV1kjy5xJtRIHp55w&oe=6967ED99",
-          "https://scontent-sjc6-1.cdninstagram.com/v/t51.82787-15/609543074_18067192928544341_6103861538146775533_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=111&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=4lYQYuLOwDMQ7kNvwFu2bGM&_nc_oc=AdnXg1fqn7ZbcQD-M5PfTtQxTU4Mv1-NL5Ds487GlQrYBhgVrCxg94mO_kgQJc2IxZQ&_nc_zt=23&_nc_ht=scontent-sjc6-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=KRvGJbDuE9J9iVYDRCeeDw&oh=00_AfpYTHZrckD5eoVZxahxuxYcmlO43vG4isVd0hz968aOnA&oe=69680C33"
+          "https://scontent-sjc3-1.cdninstagram.com/v/t51.82787-15/609630938_18067192940544341_7476563283119057539_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=100&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=jPABKFkzxrgQ7kNvwEKobFt&_nc_oc=AdkAEDph0dwVr_OqMZNO2iMvnStb4urYoFXQqCMBiDJCjetxmDTWk6B-ImeWDkalteQ&_nc_zt=23&_nc_ht=scontent-sjc3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=AVgxkGw_WThHrTd3Ij7-Wg&oh=00_Afov7bPd225IxtwR7gps04bheoqsTYpdER-cm0Wnz6PQjg&oe=69693F19",
+          "https://scontent-sjc6-1.cdninstagram.com/v/t51.82787-15/609543074_18067192928544341_6103861538146775533_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=111&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=4lYQYuLOwDMQ7kNvwEbrv0p&_nc_oc=Adm6p2FilndwykPJfvEKGWMBH6SqHI3Ry1A2oC81s4gZwU-Hsgn9yMpDTZRuIiQ-o58&_nc_zt=23&_nc_ht=scontent-sjc6-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=AVgxkGw_WThHrTd3Ij7-Wg&oh=00_Afp5BG0n30MCC3HxG2KCwze_vuNZJcXBpcmLi8h2vOTIHA&oe=69695DB3"
         ],
         "tags": [
           "music",
@@ -177,11 +211,11 @@
         "start": "2026-01-04T12:00:00.000Z",
         "end": "2026-01-04T13:00:00.000Z",
         "url": "https://www.instagram.com/p/DS-s7FwDEIJ/",
-        "location": "Not specified",
+        "location": "204 N Mendenhall, Greensboro, North Carolina 27403",
         "description": "Happy New Year everyone! Tomorrow we’re back to our normal schedule and back with our programming as well! \n\n- Friday (4:30-6:30): Jazz Jam with samuhrlass._ quartet \n- Sunday (4-6): Swingtime Sunday with doc_bush and Jim Carson",
         "images": [
-          "https://scontent-sjc3-1.cdninstagram.com/v/t51.82787-15/609630938_18067192940544341_7476563283119057539_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=100&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=jPABKFkzxrgQ7kNvwEfG6e5&_nc_oc=AdlXC5yvafsd7FwaKrmqp45VNh4z9JWiqq5D4r-sqUxWdVlAZeBFvuch0o5S9up20ps&_nc_zt=23&_nc_ht=scontent-sjc3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=KRvGJbDuE9J9iVYDRCeeDw&oh=00_AfrB6OyfD47JIa1N4r0Qom9Hqp5zseV1kjy5xJtRIHp55w&oe=6967ED99",
-          "https://scontent-sjc6-1.cdninstagram.com/v/t51.82787-15/609543074_18067192928544341_6103861538146775533_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=111&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=4lYQYuLOwDMQ7kNvwFu2bGM&_nc_oc=AdnXg1fqn7ZbcQD-M5PfTtQxTU4Mv1-NL5Ds487GlQrYBhgVrCxg94mO_kgQJc2IxZQ&_nc_zt=23&_nc_ht=scontent-sjc6-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=KRvGJbDuE9J9iVYDRCeeDw&oh=00_AfpYTHZrckD5eoVZxahxuxYcmlO43vG4isVd0hz968aOnA&oe=69680C33"
+          "https://scontent-sjc3-1.cdninstagram.com/v/t51.82787-15/609630938_18067192940544341_7476563283119057539_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=100&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=jPABKFkzxrgQ7kNvwEKobFt&_nc_oc=AdkAEDph0dwVr_OqMZNO2iMvnStb4urYoFXQqCMBiDJCjetxmDTWk6B-ImeWDkalteQ&_nc_zt=23&_nc_ht=scontent-sjc3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=AVgxkGw_WThHrTd3Ij7-Wg&oh=00_Afov7bPd225IxtwR7gps04bheoqsTYpdER-cm0Wnz6PQjg&oe=69693F19",
+          "https://scontent-sjc6-1.cdninstagram.com/v/t51.82787-15/609543074_18067192928544341_6103861538146775533_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=111&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=4lYQYuLOwDMQ7kNvwEbrv0p&_nc_oc=Adm6p2FilndwykPJfvEKGWMBH6SqHI3Ry1A2oC81s4gZwU-Hsgn9yMpDTZRuIiQ-o58&_nc_zt=23&_nc_ht=scontent-sjc6-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=AVgxkGw_WThHrTd3Ij7-Wg&oh=00_Afp5BG0n30MCC3HxG2KCwze_vuNZJcXBpcmLi8h2vOTIHA&oe=69695DB3"
         ],
         "tags": [
           "music",
@@ -204,25 +238,7 @@
         "location": "Glenn McNairy Branch",
         "description": "The Bullet Journal Creation 101 program at the Glenn McNairy Branch last weekend was a super fun start to 2026 and people had a great time planning their goals and resolution trackers! What are some of your New Years' resolutions? ⭐",
         "images": [
-          "https://scontent-sjc6-1.cdninstagram.com/v/t39.30808-6/613667546_1186269913679463_2658532399517581775_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=111&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=KD6sikQQigsQ7kNvwFFAl0g&_nc_oc=AdneR6LarIBYRajOp-k_k1jCc6VmR5Tp7C8NlIpAEZehJBn4Y0K1a060o3Iv9jVYXR4&_nc_zt=23&_nc_ht=scontent-sjc6-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=eST08QAOp4xYMSkGmnUHhg&oh=00_AfpQMt6N02bLohhXNcZP6pOOEcZAGt98j7CzB9XmqT11hA&oe=6967E132"
-        ],
-        "tags": [
-          "art",
-          "literature",
-          "non-profit"
-        ]
-      },
-      {
-        "id": "ig-17984427917775509-2",
-        "title": "Wednesday S.T.E.A.M. featuring Greensboro Police Department's Crime Scene Investigation Team",
-        "org": "Greensboro Public Library",
-        "start": "2026-01-14T12:00:00.000Z",
-        "end": "2026-01-14T13:00:00.000Z",
-        "url": "https://www.instagram.com/p/DTNrY3pAEV3/",
-        "location": "Glenwood Recreation Center",
-        "description": "Wednesday S.T.E.A.M. will feature a special guest, the Greensboro Police Department's Crime Scene Investigation Team. They will share what tools are used and the science behind being a crime scene investigator. There will be a fingerprint activity and a Blue Star demonstration. 🔎\n\n📍 Glenwood Recreation Center (2010 Coliseum Blvd.)\n📆 Wednesday, January 14\n⏰ 3:30 - 4:30 pm",
-        "images": [
-          "https://scontent-sjc6-1.cdninstagram.com/v/t39.30808-6/611712210_1183168997322888_1191262939865810303_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=108&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=JRfrR2gn9SIQ7kNvwH3rpMP&_nc_oc=AdnEJaHGoNwcJuvmk7NsvVqdzj5v1FWwnGtF3teeFzpslWeWiWwkjXK4cOaFx0SDygU&_nc_zt=23&_nc_ht=scontent-sjc6-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=eST08QAOp4xYMSkGmnUHhg&oh=00_Afp5nL3PzPKPDVsW8JpYacuD_Q3G0zb3ZCseFKBwv-iZpw&oe=6967EE81"
+          "https://scontent-sjc6-1.cdninstagram.com/v/t39.30808-6/613667546_1186269913679463_2658532399517581775_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=111&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=DU96neFyYzYQ7kNvwHi4AWd&_nc_oc=AdntWjXVmVr3XUsfo0iiP-TZPRZFxROINQGfwrL59b6LcoC7hL4IAxuyN9szmZQU0ro&_nc_zt=23&_nc_ht=scontent-sjc6-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=flQbkKHVYNUA6lAeOFlzhw&oh=00_AfpwIU6hRIvyVyeQjNEkxEhpAeMjbys-Ru8TrfZ32Wm8GA&oe=696932B2"
         ],
         "tags": [
           "art",
@@ -246,7 +262,7 @@
         "location": "219 N Church St, Greensboro, North Carolina 27401",
         "description": "Rest In Power, Chairman Fred Hampton. He was assassinated by the FBI and the Chicago Police Department on this date, December 4, 1969.\n\nHis legacy lives on through all of those who choose to follow his example.\n A Greensboro-based, Black (New Afrikan) and Indigenous-led decolonial socialist organization, serving working-class and houseless people.",
         "images": [
-          "https://scontent-sjc3-1.cdninstagram.com/v/t51.29350-15/264489380_280632507456536_5686692735129256250_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=100&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=g6DZjAYN4EIQ7kNvwHaNaYQ&_nc_oc=AdkI3IRwjW2QkjdkozF0O_w5yzBuNJqPBZV2s2wi-uPaguxfnsvhMY9AjBXjpHuDHJ4&_nc_zt=23&_nc_ht=scontent-sjc3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=rqQNqZeDffDVTAsmi878Zw&oh=00_AfpkC4q9_ZPLYFAAeRLiwhPerYadf7KHQg6RSUOqHfAh_w&oe=69681088"
+          "https://scontent-sjc3-1.cdninstagram.com/v/t51.29350-15/264489380_280632507456536_5686692735129256250_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=100&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=tYyUgXWPtZ8Q7kNvwFYq_hN&_nc_oc=Adk1L1MMpN1F9lkui8s6d1TRbxAdf7-mRs3Lp33HPSPhZPS0xwShC7O7GdTdRKqit_k&_nc_zt=23&_nc_ht=scontent-sjc3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=MvfGRQncmw108PFkw6-wvQ&oh=00_Afrqqr7CQms6QZ3Lq_TNVNqjzVe8rFPErdg-mtGsmejFgQ&oe=69696208"
         ],
         "tags": [
           "music",
@@ -263,7 +279,7 @@
         "location": "219 N Church St, Greensboro, North Carolina 27401",
         "description": "Assata Shakur Saturday:\n\n“A revolutionary woman can't have no reactionary man.”\n A Greensboro-based, Black (New Afrikan) and Indigenous-led decolonial socialist organization, serving working-class and houseless people.",
         "images": [
-          "https://scontent-sjc3-1.cdninstagram.com/v/t51.29350-15/263285249_404945381361933_3996294737801835873_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=_OrNZ0bGMq0Q7kNvwGrd5EP&_nc_oc=AdmIlXgI-EtTKdYpxjiFOiS6HiEOk0jOobhEHFeXERcKgpuI1QcG8LHKAcR_TMLixvg&_nc_zt=23&_nc_ht=scontent-sjc3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=rqQNqZeDffDVTAsmi878Zw&oh=00_AfrStbCAcXZNce9JUr1MAXkmr2ekbXjtiXxhAMF8gwYkXw&oe=6967F6C5"
+          "https://scontent-sjc3-1.cdninstagram.com/v/t51.29350-15/263285249_404945381361933_3996294737801835873_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=_OrNZ0bGMq0Q7kNvwEUZF3i&_nc_oc=Adlbx-j4LwarEhsmKg2ymRPmDEDhhPP_peZcDZ0KmCD1Xb5Ap8-KuncWpZAmCSlEvf8&_nc_zt=23&_nc_ht=scontent-sjc3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=MvfGRQncmw108PFkw6-wvQ&oh=00_AfoRpDLTyYeUZroz4hdlALEqwbw8eXMBaKlNLMNn0ksbrQ&oe=69694845"
         ],
         "tags": [
           "literature"
@@ -279,7 +295,7 @@
         "location": "219 N Church St, Greensboro, North Carolina 27401",
         "description": "Frantz Fanon Friday:\n\n“When we revolt it’s not for a particular culture. We revolt simply because, for many reasons, we can no longer breathe.”\n A Greensboro-based, Black (New Afrikan) and Indigenous-led decolonial socialist organization, serving working-class and houseless people.",
         "images": [
-          "https://scontent-sjc3-1.cdninstagram.com/v/t51.29350-15/263606741_637885374049237_1818337660881570147_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=100&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=jDqfKS6l3H8Q7kNvwFO8DCR&_nc_oc=AdlxZlksQhqujqiTHEkL0oYxYaDx4oMRESOS9M-wMD8PxUpigd4Wy4ZjOTTY6G-SKx8&_nc_zt=23&_nc_ht=scontent-sjc3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=rqQNqZeDffDVTAsmi878Zw&oh=00_AfrPxcYNLb-NXlpKoYfJCLf5ALHbzJC4NSC5YXZgd9Mi7g&oe=69680D80"
+          "https://scontent-sjc3-1.cdninstagram.com/v/t51.29350-15/263606741_637885374049237_1818337660881570147_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=100&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=jDqfKS6l3H8Q7kNvwGJP9-k&_nc_oc=AdnMttLLM1f-Uf-IVsFjfrxXIqklBg2EyT6KPw8Q3t-nJsgIJ9YfzFW153DsdOXRM-k&_nc_zt=23&_nc_ht=scontent-sjc3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=MvfGRQncmw108PFkw6-wvQ&oh=00_Afrmc49f9KqMyThP6e8MpkyjEcT1YUWqDmcxz5uirDHAQw&oe=69695F00"
         ],
         "tags": [
           "art"
@@ -298,15 +314,15 @@
     "events": [
       {
         "id": "ig-18033104036759490-1",
-        "title": "Vendor Sign Ups Open",
+        "title": "Vendor Sign Ups for Market",
         "org": "Greensboro Vintage Market",
         "start": "2026-02-01T12:00:00.000Z",
         "end": "2026-02-01T13:00:00.000Z",
         "url": "https://www.instagram.com/p/DTEGiTYj6RP/",
-        "location": "Market",
+        "location": "Online",
         "description": "Vendor sign ups for FEB 1st are open now 🙏🏾 Link in Bio! \n\nAll Vintage Clothing, jewelry, bags and memorabilia vendors welcome!",
         "images": [
-          "https://scontent-sjc3-1.cdninstagram.com/v/t51.82787-15/610796684_17891140482403009_7380795582746816039_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=RBvfIpLNLMoQ7kNvwGoy9xu&_nc_oc=AdmI5DPXJ1x1hsJWth7FekHam7gqns5VSDimYzHF8tNexTh0E2UD0y4WjRVmI63PLE4&_nc_zt=23&_nc_ht=scontent-sjc3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=W8wzxZF4YP7lpvHDGJk-bw&oh=00_AfpJNBE1JiHFgtDsuF6oqKX8cPa7cEI8nBdec_f8KuoDEw&oe=69680470"
+          "https://scontent-sjc3-1.cdninstagram.com/v/t51.82787-15/610796684_17891140482403009_7380795582746816039_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=g77DP-QP6hEQ7kNvwFFNCc_&_nc_oc=Adl0e3eb_fpqMgkrx_s505ebodAo7XPGmkMADVfTL9fdSvMYG1DWflgTn43J6wtv9-g&_nc_zt=23&_nc_ht=scontent-sjc3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=lYhgdKEvzx94iMhTCz35Tg&oh=00_Afq5PH8mO0PUhHp90cAVMcgkpFyjOAVbM32QOPOPeGJw6A&oe=696955F0"
         ],
         "tags": [
           "market"
@@ -322,10 +338,10 @@
         "location": "Greensboro",
         "description": "Merry Christmas & Happy Holidays 🎄 As we approach the end of the year , we are thankful for all of the love and support we’ve gotten thus far. It’s never easy starting something new, you’ve gotta just put your best foot forward and go. But with God, the right people around you and a community-centric town like Greensboro, there’s no way to lose ❤️ so I appreciate everyone who has shared a post, told a friend, or dragged a family member to one of our events. We’ve done a lot in 9 months thanks to y’all, looking forward to what the next year brings! \n\nAnd since it’s the giving season we figured we’d give you the date of our next event 😄 February 1st! More details and vendor information coming soon . Stay Tuned, Stay Warm, Stay Safe! 🫡\n\n📸 | shottbyverde",
         "images": [
-          "https://scontent-sjc6-1.cdninstagram.com/v/t51.82787-15/606362155_17889940053403009_5097794986307149677_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=101&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=Al8g_l0y7PcQ7kNvwGY3cZJ&_nc_oc=AdlLUuoQ2P3kvXE62jQUERG7D2Bj09Z1_ry3Mtjsvni8OwXZ6Kjx9yiPS97fB2ZR1Ao&_nc_zt=23&_nc_ht=scontent-sjc6-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=W8wzxZF4YP7lpvHDGJk-bw&oh=00_Afpist5BbT7AwwKpyF2-QgI5rzzToPB6LgNCJgPcaccLUw&oe=6967F146",
-          "https://scontent-sjc3-1.cdninstagram.com/v/t51.82787-15/606301406_17889940062403009_1142763301108402048_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=102&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=iX1tfNu8QC4Q7kNvwGJDiSj&_nc_oc=AdllHocUPH4FgpBzpgmJuBHqKOu_ksDI1CMR5T_tD7qLlB8vJI2kmalC31hBfq8CPiw&_nc_zt=23&_nc_ht=scontent-sjc3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=W8wzxZF4YP7lpvHDGJk-bw&oh=00_AfrlowOkHATcXKERa_1fH6prb7iZOGTkXjdVxm3NMM2ltQ&oe=696805AA",
-          "https://scontent-sjc3-1.cdninstagram.com/v/t51.82787-15/606490882_17889940071403009_2852552318076339978_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=102&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=j_KabOlu0DkQ7kNvwE_5wFD&_nc_oc=AdlI5M3sBGI5yNlvWlko8hQNxDRzlDmUNtRTN_ZT3VX7feLsuJZtYXkE26z68QussXM&_nc_zt=23&_nc_ht=scontent-sjc3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=W8wzxZF4YP7lpvHDGJk-bw&oh=00_AfpgUqTdWxQ6AwabjmxIprK1DSwS7Sv6mz5bkdp_hyZ_hw&oe=6967EEAE",
-          "https://scontent-sjc3-1.cdninstagram.com/v/t51.82787-15/606413008_17889940080403009_4156906290354007172_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=110&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=Y8DJXPdFaDcQ7kNvwFriTr_&_nc_oc=Adm56NJ7poyMlyBUSdQKU5tbcQB503pLo--aX6lFmkyjq5jQjT0F2gfFzT79r8RV6wU&_nc_zt=23&_nc_ht=scontent-sjc3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=W8wzxZF4YP7lpvHDGJk-bw&oh=00_AfpmQ0pBQQQo_LN1PKjXS7t9Z24kQAepxZwOTb8P17GoWQ&oe=6967EE6E"
+          "https://scontent-sjc6-1.cdninstagram.com/v/t51.82787-15/606362155_17889940053403009_5097794986307149677_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=101&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=Al8g_l0y7PcQ7kNvwHJPtND&_nc_oc=Adn69Vp41WR-J9avOVvYzoQWMvWSa7_ZDiquvu0qs2BsSeZHSRbyM7c-4TEcFt3dNEg&_nc_zt=23&_nc_ht=scontent-sjc6-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=lYhgdKEvzx94iMhTCz35Tg&oh=00_AfozkObGunGX_h-eJA6DMKtxt1CxRRQyN63LnH3PCz_60w&oe=696942C6",
+          "https://scontent-sjc3-1.cdninstagram.com/v/t51.82787-15/606301406_17889940062403009_1142763301108402048_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=102&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=iX1tfNu8QC4Q7kNvwG26JPQ&_nc_oc=AdmhtvXY-NvlgJoaZRZdz-7g0K1d0Uj2kuWip95bOycU20bikS5f-LKtG-Butz9VqJc&_nc_zt=23&_nc_ht=scontent-sjc3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=lYhgdKEvzx94iMhTCz35Tg&oh=00_AfqJSfoeIe7ogSBNpl7ufsTPi3mun_NyB0bkhyJlkBUD_Q&oe=6969572A",
+          "https://scontent-sjc3-1.cdninstagram.com/v/t51.82787-15/606490882_17889940071403009_2852552318076339978_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=102&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=j_KabOlu0DkQ7kNvwFvpXSR&_nc_oc=AdmZMAyQy-AC_chzMFuhBnIn2hpJraek_KakfEVeG-AEJEfkr3s8K75pgSKGvtZ7GyU&_nc_zt=23&_nc_ht=scontent-sjc3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=lYhgdKEvzx94iMhTCz35Tg&oh=00_Afqqk0lB2P6jeECt8MWOn_UJvZDviA7jYoUpiUYVCy8Jxg&oe=6969402E",
+          "https://scontent-sjc3-1.cdninstagram.com/v/t51.82787-15/606413008_17889940080403009_4156906290354007172_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=110&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=Y8DJXPdFaDcQ7kNvwHdIijB&_nc_oc=Adnylqy-sDQ5e92w-bQedU4PgkW4cbuByTxX9PTi97ZbHlbUR7hUk2VnytBOAom3gtM&_nc_zt=23&_nc_ht=scontent-sjc3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=lYhgdKEvzx94iMhTCz35Tg&oh=00_AfqRQ-z0j2kc2BszuMRFQ_kNVJyHYawDhbcnAemuYdqIzQ&oe=69693FEE"
         ],
         "tags": [
           "art",
@@ -348,7 +364,7 @@
         "location": "Venezuela",
         "description": "President Trump has illegally bombed Venezuela and arrested Maduro and we unequivocally stand against this imperialist war and in solidarity with the Venezuelan people.\n Group of revolutionary socialists in Greensboro, NC and members of Tempest Collective @tempest_mag",
         "images": [
-          "https://scontent-sjc3-1.cdninstagram.com/v/t51.82787-15/608847314_18335262340240576_469561477119903109_n.heic?stp=dst-jpg_e35_tt6&_nc_cat=103&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=82xPi9XdNd4Q7kNvwFfs_Gy&_nc_oc=Adnk7Np1-c5JoXIp31Ks01AcrnlMKbLnkyz7fxbpNEFh0-dgh66NwXhsArKaWCxyxZs&_nc_zt=23&_nc_ht=scontent-sjc3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=oWaZARR7JyP6CgI0cEAsVQ&oh=00_Afo-7yHHWoQUvcRDnRT6J_skNVs1r3IiGT1ZwovBGVQZbw&oe=6967F5B8"
+          "https://scontent-sjc3-1.cdninstagram.com/v/t51.82787-15/608847314_18335262340240576_469561477119903109_n.heic?stp=dst-jpg_e35_tt6&_nc_cat=103&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=4BcyJVGwyhEQ7kNvwEot_x1&_nc_oc=AdlzMjcdyt6OqjYraxRtDbmWdMRlEugdmkeaIw0jfIQnfoBSSscIFz-D_1_2LzZes1c&_nc_zt=23&_nc_ht=scontent-sjc3-1.cdninstagram.com&edm=AL-3X8kEAAAA&_nc_gid=eBt-m4hj5LmG-_Kww8CwcQ&oh=00_Afom_ZXYid4FHbK6T5kPsDCEoogYKe5iJIMFfkKvkFjAhw&oe=69694738"
         ],
         "tags": [
           "literature"

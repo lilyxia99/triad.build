@@ -16,6 +16,9 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+      with:
+        ref: main          # 1. Explicitly checkout the branch, not a detached commit
+        fetch-depth: 0     # 2. Download full history so 'git pull --rebase' works
 
     - name: Setup Node.js
       uses: actions/setup-node@v4

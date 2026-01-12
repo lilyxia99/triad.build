@@ -52,6 +52,9 @@ const SingleEventSchema = z.object({
     startYear: z.number().nullable().optional(),
     startHourMilitaryTime: z.number().nullable().optional(),
     startMinute: z.number().nullable().optional(),
+    endDay: z.number().nullable().optional(),
+    endMonth: z.number().nullable().optional(),
+    endYear: z.number().nullable().optional(),
     endHourMilitaryTime: z.number().nullable().optional(),
     endMinute: z.number().nullable().optional(),
     location: z.string().nullable().optional(),
@@ -280,47 +283,37 @@ async function doOCR(client: any, url: string) {
 }
 
 async function analyzeWithAI(openai: OpenAI, caption: string, ocrTextData: string, context: string, postDateString: string) {
-    // 1. We give the AI the current date context so it can calculate "Next Friday" etc.
     const today = new Date();
     const currentYear = today.getFullYear();
 
     const prompt = `
-    You are an expert Event Extractor for a community calendar. 
-    Your job is to extract concrete event details from Instagram posts (captions + image text).
+    You are an expert Event Extractor. Extract concrete event details from this Instagram post.
 
     --- INPUT DATA ---
     POST DATE: ${postDateString}
-    CONTEXT CLUES: ${context} (Use these to infer location or city if missing)
+    CONTEXT CLUES: ${context}
     CURRENT YEAR: ${currentYear}
     
-    CAPTION: 
-    "${caption.substring(0, 1500)}"
-
-    OCR TEXT (Text found inside the image/flyer): 
-    "${ocrTextData.substring(0, 15000)}"
+    CAPTION: "${caption.substring(0, 1500)}"
+    OCR TEXT: "${ocrTextData.substring(0, 15000)}"
 
     --- RULES ---
-    1. **Relative Dates:** If the post says "This Friday" or "Tomorrow", calculate the actual numeric date based on the POST DATE provided above.
-    2. **Year Inference:** If the flyer says "Dec 5" but no year, assume it is the upcoming Dec 5 relative to the Post Date.
-    3. **Flyers vs Captions:** Often the real info is in the OCR TEXT (the flyer). Trust the flyer if the caption is just emojis or generic hype.
-    4. **Multiple Events:** If a post lists a schedule (e.g. "Weekly Lineup"), extract EACH event as a separate item in the array.
-    5. **Ignore Recaps:** If the post is clearly a "Thanks for coming" or "Recap" of a past event, return an empty array.
-    6. **Missing Info:** If a start time is not explicitly stated but implied (e.g. "Doors 7pm"), use that. If completely missing, use null.
+    1. **Relative Dates:** If post says "This Friday", calculate the numeric date based on POST DATE.
+    2. **Flyers First:** Trust the OCR text (flyer) over the caption if they conflict.
+    3. **Exhibitions & Runs:** - If an event spans dates (e.g. "On view Jan 10 - Feb 20" or "Running through March 5"), EXTRACT the start AND end dates.
+       - If it's an "Opening Reception", treat it as a single-day event.
+    4. **Times:** If implied (e.g. "Doors 7pm"), use that. If no time is listed for an exhibition, assume 10:00 (10am) to 18:00 (6pm).
+    5. **Multiple Events:** If a post lists a schedule, output multiple events.
+    6. **Ignore Recaps:** Do not extract events from "Thank you for coming" posts.
 
-    --- OUTPUT FORMAT ---
-    Return ONLY valid JSON matching this structure:
+    --- OUTPUT JSON ---
     { 
       "events": [
         { 
-          "title": "Short descriptive title", 
-          "startDay": 12, 
-          "startMonth": 11, 
-          "startYear": 2025, 
-          "startHourMilitaryTime": 19, 
-          "startMinute": 0,
-          "endHourMilitaryTime": 21,
-          "endMinute": 0,
-          "location": "Venue Name or Address"
+          "title": "Exhibition Title or Event Name", 
+          "startDay": 10, "startMonth": 1, "startYear": 2026, "startHourMilitaryTime": 18, "startMinute": 0,
+          "endDay": 20, "endMonth": 2, "endYear": 2026, "endHourMilitaryTime": 17, "endMinute": 0,
+          "location": "Gallery Name"
         }
       ] 
     }
@@ -328,13 +321,13 @@ async function analyzeWithAI(openai: OpenAI, caption: string, ocrTextData: strin
 
     try {
         const completion = await openai.chat.completions.create({
-            model: "gpt-4o-mini", // fast and cheap, but capable enough with this better prompt
+            model: "gpt-4o-mini",
             messages: [
-                { role: "system", content: "You are a precise data extraction assistant. You output only JSON." }, 
+                { role: "system", content: "You are a precise data extraction assistant. Return valid JSON only." }, 
                 { role: "user", content: prompt }
             ],
             response_format: { type: "json_object" },
-            temperature: 0.1, // Low temperature = more factual/rigid
+            temperature: 0,
         });
 
         const raw = completion.choices[0].message.content;

@@ -14,7 +14,7 @@ import eventSourcesJSON from '../assets/event_sources.json' assert { type: 'json
 
 // --- CONFIGURATION ---
 const BATCH_SIZE = 5; 
-const OUTPUT_FILE = path.join(__dirname, '../public/calendar_data.json');
+const OUTPUT_FILE = path.join(__dirname, '../server/assets/instagram_data.json');
 
 // --- INTERFACES & TYPES ---
 

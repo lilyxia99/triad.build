@@ -12,7 +12,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // ✅ FIX: Pointing to the correct location in server/assets
-import eventSourcesJSON from '../server/assets/event_sources.json' assert { type: 'json' };
+import eventSourcesJSON from '../assets/event_sources.json' assert { type: 'json' };
 
 // --- CONFIGURATION ---
 const BATCH_SIZE = 5; 

@@ -43,14 +43,22 @@ jobs:
         npx tsx scripts/update-calendar.ts
 
 # 👇 ADD THIS STEP 👇
-    - name: Pull latest changes to avoid conflicts
-      run: git pull origin main --rebase --autostash
+    - name: Pull latest changes
+      run: |
+        git config pull.rebase true
+        git pull origin main
+        git reset --hard origin/main
         
-    - name: Commit and Push Changes
+    - name: Commit and push changes
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
-        commit_message: "📅 Daily Calendar Update"
-        file_pattern: "server/assets/instagram_data.json"
+      commit_message: "📅 Daily Calendar Update"
+      file_pattern: "server/assets/instagram_data.json"
+      commit_user_name: "github-actions[bot]"
+      commit_user_email: "41898282+github-actions[bot]@users.noreply.github.com"
+      commit_author: "lilyxia99 <45969277+lilyxia99@users.noreply.github.com>"
+      # Add this to force push
+      push_options: "--force"
 
         # ADD THIS STEP:
     - name: Trigger Vercel Redeploy

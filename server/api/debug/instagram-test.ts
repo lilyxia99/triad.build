@@ -26,7 +26,7 @@ export default defineEventHandler(async (event) => {
         }
 
         // Check calendar data file
-        const calendarFile = path.resolve(process.cwd(), 'public', 'calendar_data.json');
+        const calendarFile = path.resolve(process.cwd(), 'server', 'instagram_data.json');
         debug.paths.calendarFileExists = fs.existsSync(calendarFile);
         
         if (debug.paths.calendarFileExists) {

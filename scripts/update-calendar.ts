@@ -197,7 +197,8 @@ async function processSingleSource(source: InstagramSource, openai: OpenAI, visi
             const aiResponse = await analyzeWithAI(openai, post.caption || "", ocrTextData, source.context_clues?.join(', ') || "", postDateString);
 
             if (aiResponse && aiResponse.events.length > 0) {
-                console.log(`   ✅ [AI Match] Post ${postCounter} (${postDateString}): Found ${aiResponse.events.length} event(s).`);
+                // Added source.username to the log
+                console.log(`   ✅ [AI Match] @${source.username} | Post ${postCounter} (${postDateString}): Found ${aiResponse.events.length} event(s).`);
                 
                 const now = new Date();
                 
@@ -279,32 +280,68 @@ async function doOCR(client: any, url: string) {
 }
 
 async function analyzeWithAI(openai: OpenAI, caption: string, ocrTextData: string, context: string, postDateString: string) {
-    const prompt = `
-    Extract events from this Instagram post.
-    POST DATE: ${postDateString}
-    CONTEXT: ${context}
-    
-    CAPTION: "${caption.substring(0, 1000)}"
-    OCR DATA: "${ocrTextData.substring(0, 15000)}"
+    // 1. We give the AI the current date context so it can calculate "Next Friday" etc.
+    const today = new Date();
+    const currentYear = today.getFullYear();
 
-    Return JSON: { "events": [{ "title": "...", "startDay": 1, ... }] }
+    const prompt = `
+    You are an expert Event Extractor for a community calendar. 
+    Your job is to extract concrete event details from Instagram posts (captions + image text).
+
+    --- INPUT DATA ---
+    POST DATE: ${postDateString}
+    CONTEXT CLUES: ${context} (Use these to infer location or city if missing)
+    CURRENT YEAR: ${currentYear}
+    
+    CAPTION: 
+    "${caption.substring(0, 1500)}"
+
+    OCR TEXT (Text found inside the image/flyer): 
+    "${ocrTextData.substring(0, 15000)}"
+
+    --- RULES ---
+    1. **Relative Dates:** If the post says "This Friday" or "Tomorrow", calculate the actual numeric date based on the POST DATE provided above.
+    2. **Year Inference:** If the flyer says "Dec 5" but no year, assume it is the upcoming Dec 5 relative to the Post Date.
+    3. **Flyers vs Captions:** Often the real info is in the OCR TEXT (the flyer). Trust the flyer if the caption is just emojis or generic hype.
+    4. **Multiple Events:** If a post lists a schedule (e.g. "Weekly Lineup"), extract EACH event as a separate item in the array.
+    5. **Ignore Recaps:** If the post is clearly a "Thanks for coming" or "Recap" of a past event, return an empty array.
+    6. **Missing Info:** If a start time is not explicitly stated but implied (e.g. "Doors 7pm"), use that. If completely missing, use null.
+
+    --- OUTPUT FORMAT ---
+    Return ONLY valid JSON matching this structure:
+    { 
+      "events": [
+        { 
+          "title": "Short descriptive title", 
+          "startDay": 12, 
+          "startMonth": 11, 
+          "startYear": 2025, 
+          "startHourMilitaryTime": 19, 
+          "startMinute": 0,
+          "endHourMilitaryTime": 21,
+          "endMinute": 0,
+          "location": "Venue Name or Address"
+        }
+      ] 
+    }
     `;
 
     try {
         const completion = await openai.chat.completions.create({
-            model: "gpt-4o-mini",
+            model: "gpt-4o-mini", // fast and cheap, but capable enough with this better prompt
             messages: [
-                { role: "system", content: "You are an event extraction assistant. Return valid JSON only." }, 
+                { role: "system", content: "You are a precise data extraction assistant. You output only JSON." }, 
                 { role: "user", content: prompt }
             ],
             response_format: { type: "json_object" },
-            temperature: 0,
+            temperature: 0.1, // Low temperature = more factual/rigid
         });
 
         const raw = completion.choices[0].message.content;
         const result = AIResponseSchema.safeParse(JSON.parse(raw || "{}"));
         return result.success ? result.data : null;
     } catch (e) {
+        console.error("AI Analysis Failed:", e);
         return null;
     }
 }

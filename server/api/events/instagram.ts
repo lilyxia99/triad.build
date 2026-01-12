@@ -1,47 +1,23 @@
-import fs from 'node:fs';
-import path from 'node:path';
-
 export default defineEventHandler(async (event) => {
-    console.log("[Instagram] ===== READING LOCAL FILE =====");
-    
+    console.log("[Instagram] ===== READING ASSET VIA STORAGE =====");
+
     try {
-        // Construct the path to server/assets/instagram_data.json
-        // process.cwd() is the root of your project
-        const filePath = path.resolve(process.cwd(), 'server', 'assets', 'instagram_data.json');
+        // Nuxt automatically mounts 'server/assets' to 'assets:server'
+        // useStorage().getItem() automatically parses JSON files!
+        const data = await useStorage().getItem('assets:server:instagram_data.json');
+
+        if (!data) {
+            console.warn("[Instagram] File is empty or not found via storage");
+            return { body: [] };
+        }
+
+        console.log(`[Instagram] Successfully loaded item from storage.`);
         
-        console.log(`[Instagram] Looking for file at: ${filePath}`);
-
-        if (!fs.existsSync(filePath)) {
-            console.error("[Instagram] File NOT found at path!");
-            // List folder contents to help you debug path issues
-            const dir = path.dirname(filePath);
-            if (fs.existsSync(dir)) {
-                console.log(`[Instagram] Contents of ${dir}:`, fs.readdirSync(dir));
-            } else {
-                console.log(`[Instagram] Directory ${dir} does not exist`);
-            }
-            return { body: [] };
-        }
-
-        const fileContent = fs.readFileSync(filePath, 'utf-8');
-        
-        if (!fileContent) {
-            console.warn("[Instagram] File is empty");
-            return { body: [] };
-        }
-
-        const calendarData = JSON.parse(fileContent);
-
-        if (Array.isArray(calendarData)) {
-            console.log(`[Instagram] Successfully loaded ${calendarData.length} items from local file.`);
-            return { body: calendarData };
-        } else {
-            console.error("[Instagram] Data is not an array");
-            return { body: [] };
-        }
+        // Since getItem parses JSON automatically, 'data' is already an object/array
+        return { body: data };
 
     } catch (error) {
-        console.error("[Instagram] System Error:", error);
+        console.error("[Instagram] Storage Error:", error);
         return { body: [] };
     }
 });

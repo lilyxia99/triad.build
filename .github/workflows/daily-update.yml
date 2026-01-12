@@ -54,7 +54,7 @@ jobs:
       with:
       commit_message: "📅 Daily Calendar Update"
       file_pattern: "server/assets/instagram_data.json"
-      commit_user_name: "github-actions[bot]"
+      commit_user_name: "Leilei Xia"
       commit_user_email: "41898282+github-actions[bot]@users.noreply.github.com"
       commit_author: "lilyxia99 <45969277+lilyxia99@users.noreply.github.com>"
       # Add this to force push

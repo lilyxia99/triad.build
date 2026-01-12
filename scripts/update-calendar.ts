@@ -6,17 +6,44 @@ import { z } from 'zod';
 import vision from '@google-cloud/vision';
 
 // --- IMPORTS & PATH SETUP ---
-// We need to reconstruct __dirname because we are in a module environment
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Import your source list. 
-// NOTE: Ensure your tsconfig.json has "resolveJsonModule": true
+// Import your source list.
 import eventSourcesJSON from '../assets/event_sources.json' assert { type: 'json' };
 
 // --- CONFIGURATION ---
-const BATCH_SIZE = 5; // Process 5 users at a time
+const BATCH_SIZE = 5; 
 const OUTPUT_FILE = path.join(__dirname, '../public/calendar_data.json');
+
+// --- INTERFACES & TYPES ---
+
+// 1. Define types to match your event_sources.json structure
+interface TagDef {
+    name: string;
+    fullName: string;
+    defaultValue: string;
+    // Optional: Add 'keywords' here if you ever add custom keywords to your JSON
+    keywords?: string[]; 
+}
+
+interface AppConfig {
+    tagsToShow: TagDef[][]; // Array of Arrays of TagDefs
+}
+
+interface InstagramSource {
+    name: string;
+    username: string;
+    city: string;
+    defaultLocation: string;
+    filters?: string[][]; // The tags to inherit
+    context_clues?: string[];
+    suffixDescription?: string;
+}
+
+// Extract the appConfig and flatten the tags for easy searching
+const appConfig = (eventSourcesJSON as any).appConfig as AppConfig;
+const ALL_TAGS = appConfig.tagsToShow.flat();
 
 // --- SCHEMAS ---
 const SingleEventSchema = z.object({
@@ -39,12 +66,10 @@ const AIResponseSchema = z.object({
 async function main() {
     console.log("📅 Starting Daily Calendar Update via GitHub Action...");
 
-    // 1. Validate Environment
     if (!process.env.OPENAI_API_KEY || !process.env.INSTAGRAM_USER_ACCESS_TOKEN) {
-        throw new Error("Missing required environment variables (OPENAI_API_KEY or INSTAGRAM_USER_ACCESS_TOKEN).");
+        throw new Error("Missing required environment variables.");
     }
 
-    // 2. Initialize Clients
     const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
     let visionClient = null;
     
@@ -60,26 +85,20 @@ async function main() {
         console.warn("⚠️ Google Vision Key missing. OCR will be skipped.");
     }
 
-    const sources = eventSourcesJSON.instagram || [];
+    // Cast sources to our typed interface
+    const sources = (eventSourcesJSON.instagram || []) as InstagramSource[];
     console.log(`🚀 Found ${sources.length} sources to process.`);
 
-    // 3. Define the Worker (Processes 1 User)
-    const worker = (source: any) => processSingleSource(source, openai, visionClient);
-
-    // 4. Run with Throttling (Batch Processing)
+    const worker = (source: InstagramSource) => processSingleSource(source, openai, visionClient);
     const allResults = await processInChunks(sources, BATCH_SIZE, worker);
 
-    // 5. Flatten results (remove nulls)
-    const finalEvents = allResults.filter(r => r !== null); // .flat() if your worker returned arrays
+    const finalEvents = allResults.filter(r => r !== null);
 
-    // 6. Save to Disk
     console.log(`💾 Saving ${finalEvents.length} processed Instagram accounts to ${OUTPUT_FILE}...`);
     
-    // Ensure directory exists
     const dir = path.dirname(OUTPUT_FILE);
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 
-    // Save in the format expected by the Vue component
     const outputData = {
         lastUpdated: new Date().toISOString(),
         eventSources: finalEvents,
@@ -90,16 +109,14 @@ async function main() {
     fs.writeFileSync(OUTPUT_FILE, JSON.stringify(outputData.eventSources, null, 2));
     
     console.log("✅ Instagram Calendar Update Complete!");
-    console.log(`📊 Generated ${finalEvents.length} Instagram event sources`);
 }
 
 // --- WORKER LOGIC ---
 
-async function processSingleSource(source: any, openai: OpenAI, visionClient: any) {
+async function processSingleSource(source: InstagramSource, openai: OpenAI, visionClient: any) {
     try {
         console.log(`   Processing @${source.username}...`);
         
-        // A. Fetch Instagram Data
         const myId = process.env.INSTAGRAM_BUSINESS_USER_ID;
         const token = process.env.INSTAGRAM_USER_ACCESS_TOKEN;
         const url = `https://graph.facebook.com/v21.0/${myId}?fields=business_discovery.username(${source.username}){media.limit(6){id,caption,media_type,media_url,thumbnail_url,permalink,timestamp,children{media_url,media_type,thumbnail_url}}}&access_token=${token}`;
@@ -116,7 +133,6 @@ async function processSingleSource(source: any, openai: OpenAI, visionClient: an
         const posts = data.business_discovery?.media?.data || [];
         let sourceEvents: any[] = [];
 
-        // B. Process Posts
         for (const post of posts) {
             const postDateObj = new Date(post.timestamp);
             const postDateString = postDateObj.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
@@ -137,7 +153,7 @@ async function processSingleSource(source: any, openai: OpenAI, visionClient: an
             // OCR
             let ocrTextData = "";
             if (visionClient && mediaUrls.length > 0) {
-                const imagesToScan = mediaUrls.slice(0, 3); // Limit to 3 to save cost
+                const imagesToScan = mediaUrls.slice(0, 3);
                 const ocrResults = await Promise.all(imagesToScan.map(url => doOCR(visionClient, url)));
                 ocrTextData = ocrResults
                     .map((txt, idx) => `\n--- IMG ${idx + 1} ---\n${txt}\n`)
@@ -145,9 +161,8 @@ async function processSingleSource(source: any, openai: OpenAI, visionClient: an
             }
 
             // AI Analysis
-            const aiResponse = await analyzeWithAI(openai, post.caption || "", ocrTextData, source.context_clues?.join(', '), postDateString);
+            const aiResponse = await analyzeWithAI(openai, post.caption || "", ocrTextData, source.context_clues?.join(', ') || "", postDateString);
 
-            // Convert to Event Objects
             if (aiResponse && aiResponse.events.length > 0) {
                 const now = new Date();
                 
@@ -159,7 +174,6 @@ async function processSingleSource(source: any, openai: OpenAI, visionClient: an
                     
                     let start = new Date(year, monthIndex, ev.startDay, ev.startHourMilitaryTime || 12, ev.startMinute || 0);
                     
-                    // Future/Past Logic
                     if (start < new Date() && (new Date().getMonth() - start.getMonth() > 6)) start.setFullYear(year + 1);
 
                     let end = new Date(start);
@@ -171,8 +185,10 @@ async function processSingleSource(source: any, openai: OpenAI, visionClient: an
                     if (!description && ocrTextData) description = "See flyer image for details.";
                     if (source.suffixDescription) description += source.suffixDescription;
 
-                    // Tagging (Inline simplified version since we are outside Nuxt)
-                    const tags = determineTags(title + " " + description + " " + source.name);
+                    // --- NEW TAGGING LOGIC ---
+                    // Combine relevant text for keyword scanning
+                    const combinedText = `${title} ${description} ${source.name} ${ocrTextData}`;
+                    const tags = generateTagsForPost(combinedText, source);
 
                     sourceEvents.push({
                         id: `ig-${post.id}-${sourceEvents.length + 1}`,
@@ -190,7 +206,6 @@ async function processSingleSource(source: any, openai: OpenAI, visionClient: an
             }
         }
 
-        // C. Deduplicate
         const uniqueEvents = removeDuplicates(sourceEvents);
         return { events: uniqueEvents, city: source.city, name: source.name };
 
@@ -207,14 +222,9 @@ async function processInChunks(items: any[], chunkSize: number, iteratorFn: Func
     for (let i = 0; i < items.length; i += chunkSize) {
         const chunk = items.slice(i, i + chunkSize);
         console.log(`   📦 Batch ${Math.floor(i/chunkSize) + 1}: Processing ${chunk.length} items...`);
-        
         const chunkResults = await Promise.all(chunk.map(item => iteratorFn(item)));
         results.push(...chunkResults);
-        
-        // Polite delay between batches
-        if (i + chunkSize < items.length) {
-            await new Promise(r => setTimeout(r, 2000));
-        }
+        if (i + chunkSize < items.length) await new Promise(r => setTimeout(r, 2000));
     }
     return results;
 }
@@ -268,7 +278,6 @@ function removeDuplicates(events: any[]) {
         for (const existing of uniqueEvents) {
             const dateA = new Date(candidate.start);
             const dateB = new Date(existing.start);
-            // Same Day check
             if (dateA.toDateString() === dateB.toDateString()) {
                 const titleA = normalize(candidate.title);
                 const titleB = normalize(existing.title);
@@ -283,18 +292,38 @@ function removeDuplicates(events: any[]) {
     return uniqueEvents;
 }
 
-// Simple Tagging Helper (Inline replacement for your util function)
-function determineTags(text: string): string[] {
-    const t = text.toLowerCase();
-    const tags = [];
-    if (t.includes('music') || t.includes('concert') || t.includes('live') || t.includes('band') || t.includes('jazz')||t.includes('Back Table')) tags.push('music');
-    if (t.includes('art') || t.includes('gallery') || t.includes('exhibit')) tags.push('art');
-    if (t.includes('market') || t.includes('pop-up') || t.includes('shop')) tags.push('market');
-    if (t.includes('book') || t.includes('reading') || t.includes('poetry')||t.includes('library')) tags.push('literature');
-    if (t.includes('revolutionary') || t.includes('organizing') || t.includes('activism')) tags.push('literature');
-    if (t.includes('library') ) tags.push('non-profit');
-    if (t.includes('Freedom Assembly') ) tags.push('community');
-    return tags;
+// --- NEW TAGGING FUNCTION ---
+function generateTagsForPost(textToScan: string, sourceConfig: InstagramSource): string[] {
+    const finalTags = new Set<string>();
+    const normalizedText = textToScan.toLowerCase();
+
+    // 1. Inherit tags from the Account Source (e.g. "lgbtq" for Pride accounts)
+    if (sourceConfig.filters) {
+        sourceConfig.filters.forEach(tagGroup => {
+            tagGroup.forEach(tag => {
+                if (tag) finalTags.add(tag);
+            });
+        });
+    }
+
+    // 2. Detect Keywords from appConfig (e.g. scan text for "soccer", "music")
+    ALL_TAGS.forEach(tagDef => {
+        // Basic Check: Does the tag name exist in the text?
+        if (normalizedText.includes(tagDef.name.toLowerCase())) {
+            finalTags.add(tagDef.name);
+        }
+
+        // Optional: specific overrides or custom keyword mapping
+        // Example: if tag is 'music', also look for 'concert' or 'band'
+        if (tagDef.name === 'music' && (normalizedText.includes('concert') || normalizedText.includes('live band'))) {
+            finalTags.add('music');
+        }
+        if (tagDef.name === 'art' && (normalizedText.includes('gallery') || normalizedText.includes('exhibition'))) {
+            finalTags.add('art');
+        }
+    });
+
+    return Array.from(finalTags);
 }
 
 // Execute

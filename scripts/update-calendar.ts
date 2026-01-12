@@ -65,6 +65,7 @@ const AIResponseSchema = z.object({
 });
 
 // --- MAIN EXECUTION ---
+// --- MAIN EXECUTION ---
 async function main() {
     console.log("📅 Starting Daily Calendar Update via GitHub Action...");
 
@@ -72,6 +73,7 @@ async function main() {
         throw new Error("Missing required environment variables.");
     }
 
+    // 1. SETUP AI & CLIENTS
     const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
     let visionClient = null;
     
@@ -83,32 +85,96 @@ async function main() {
                 client_email: process.env.GOOGLE_CLOUD_VISION_CLIENT_EMAIL,
             },
         });
-    } else {
-        console.warn("⚠️ Google Vision Key missing. OCR will be skipped.");
     }
 
+    // 2. LOAD EXISTING DATA (HISTORY)
+    // We load the old file so we don't lose events from posts that are now older than our scrape limit.
+    const previousSourcesMap = new Map<string, any>();
+    if (fs.existsSync(OUTPUT_FILE)) {
+        try {
+            const rawData = fs.readFileSync(OUTPUT_FILE, 'utf-8');
+            const parsed = JSON.parse(rawData);
+            const oldSources = parsed.eventSources || [];
+            
+            // Store them in a Map keyed by the Source Name (e.g. "Gate City Casino")
+            for (const src of oldSources) {
+                previousSourcesMap.set(src.name, src);
+            }
+            console.log(`📂 Loaded history for ${previousSourcesMap.size} accounts from previous run.`);
+        } catch (e) {
+            console.warn("⚠️ Could not read existing file. Starting fresh.");
+        }
+    }
+
+    // 3. RUN SCRAPER (FRESH DATA)
     const sources = (eventSourcesJSON.instagram || []) as InstagramSource[];
     console.log(`🚀 Found ${sources.length} sources to process.`);
 
     const worker = (source: InstagramSource) => processSingleSource(source, openai, visionClient);
-    const allResults = await processInChunks(sources, BATCH_SIZE, worker);
+    const newResults = await processInChunks(sources, BATCH_SIZE, worker);
 
-    const finalEvents = allResults.filter(r => r !== null);
+    // 4. MERGE LOGIC (THE MAGIC STEP)
+    const finalSources: any[] = [];
+    const processedNames = new Set<string>();
 
-    console.log(`💾 Saving ${finalEvents.length} processed Instagram accounts to ${OUTPUT_FILE}...`);
+    for (const freshSource of newResults) {
+        if (!freshSource) continue; // Skip failed scrapes
+
+        processedNames.add(freshSource.name);
+        const oldSource = previousSourcesMap.get(freshSource.name);
+
+        if (oldSource) {
+            // MERGE EVENTS:
+            // 1. Start with a map of OLD events (Key: ID, Value: Event)
+            const eventMap = new Map();
+            if (Array.isArray(oldSource.events)) {
+                oldSource.events.forEach((e: any) => eventMap.set(e.id, e));
+            }
+
+            // 2. Overwrite/Add NEW events
+            // This ensures we get the latest updates, but keep old events that fell off the feed
+            let newCount = 0;
+            for (const newEvent of freshSource.events) {
+                if (!eventMap.has(newEvent.id)) newCount++;
+                eventMap.set(newEvent.id, newEvent);
+            }
+
+            // 3. Convert back to array & sort by date
+            const mergedEvents = Array.from(eventMap.values()).sort((a: any, b: any) => 
+                new Date(a.start).getTime() - new Date(b.start).getTime()
+            );
+            
+            console.log(`   Start Merge @${freshSource.name}: ${oldSource.events.length} old + ${freshSource.events.length} fresh => ${mergedEvents.length} total (+${newCount} new)`);
+            
+            freshSource.events = mergedEvents;
+        }
+
+        finalSources.push(freshSource);
+    }
+
+    // 5. RESTORE MISSING SOURCES
+    // If a source failed to scrape today (API error?), keep its old data!
+    for (const [name, oldSource] of previousSourcesMap) {
+        if (!processedNames.has(name)) {
+            console.log(`   ♻️ Restoring skipped source: ${name} (${oldSource.events.length} events)`);
+            finalSources.push(oldSource);
+        }
+    }
+
+    // 6. SAVE
+    console.log(`💾 Saving ${finalSources.length} accounts to ${OUTPUT_FILE}...`);
     
     const dir = path.dirname(OUTPUT_FILE);
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 
     const outputData = {
         lastUpdated: new Date().toISOString(),
-        eventSources: finalEvents,
-        totalSources: finalEvents.length,
+        eventSources: finalSources,
+        totalSources: finalSources.length,
         generatedBy: "GitHub Action - Instagram scraping only"
     };
 
     fs.writeFileSync(OUTPUT_FILE, JSON.stringify(outputData.eventSources, null, 2));
-    
     console.log("✅ Instagram Calendar Update Complete!");
 }
 
@@ -205,23 +271,30 @@ async function processSingleSource(source: InstagramSource, openai: OpenAI, visi
                 
                 const now = new Date();
                 
-                for (const ev of aiResponse.events) {
-                    if (!ev.startDay) {
-                        console.log(`      ⚠️ Skipped event "${ev.title}" (Missing start day)`);
-                        continue;
-                    }
+                // 1. Create a local counter for THIS post only
+                let eventIndex = 0;
 
+                for (const ev of aiResponse.events) {
+                    if (!ev.startDay) continue;
+
+                    // ... (Date calculation logic remains the same) ...
                     const year = ev.startYear || now.getFullYear();
                     const monthIndex = (ev.startMonth || (now.getMonth() + 1)) - 1; 
                     
                     let start = new Date(year, monthIndex, ev.startDay, ev.startHourMilitaryTime || 12, ev.startMinute || 0);
-                    
                     if (start < new Date() && (new Date().getMonth() - start.getMonth() > 6)) start.setFullYear(year + 1);
 
                     let end = new Date(start);
-                    if (ev.endHourMilitaryTime) end.setHours(ev.endHourMilitaryTime, ev.endMinute || 0);
-                    else end.setHours(start.getHours() + 1);
+                    // ... (End date logic remains the same) ...
+                    if (ev.endDay && ev.endMonth) {
+                        const endYear = ev.endYear || (ev.endMonth < monthIndex ? year + 1 : year);
+                        end = new Date(endYear, ev.endMonth - 1, ev.endDay, ev.endHourMilitaryTime || 23, ev.endMinute || 59);
+                    } else {
+                        if (ev.endHourMilitaryTime) end.setHours(ev.endHourMilitaryTime, ev.endMinute || 0);
+                        else end.setHours(start.getHours() + 1);
+                    }
 
+                    // ... (Description logic remains the same) ...
                     let title = ev.title || "Instagram Event";
                     let description = post.caption || "";
                     if (!description && ocrTextData) description = "See flyer image for details.";
@@ -230,8 +303,14 @@ async function processSingleSource(source: InstagramSource, openai: OpenAI, visi
                     const combinedText = `${title} ${description} ${source.name} ${ocrTextData}`;
                     const tags = generateTagsForPost(combinedText, source);
 
+                    // 👇 THE FIX IS HERE 👇
+                    // We use the Instagram ID + the local 'eventIndex' (0, 1, 2...)
+                    // This ensures the ID is always 'ig-123456789-0' for the first event of that post.
+                    const uniqueId = `ig-${post.id}-${eventIndex}`;
+                    eventIndex++; // Increment for the next event in THIS SAME post
+
                     sourceEvents.push({
-                        id: `ig-${post.id}-${sourceEvents.length + 1}`,
+                        id: uniqueId,
                         title,
                         org: source.name,
                         start: start.toISOString(),

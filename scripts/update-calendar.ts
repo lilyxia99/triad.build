@@ -119,7 +119,7 @@ async function processSingleSource(source: InstagramSource, openai: OpenAI, visi
         
         const myId = process.env.INSTAGRAM_BUSINESS_USER_ID;
         const token = process.env.INSTAGRAM_USER_ACCESS_TOKEN;
-        const url = `https://graph.facebook.com/v21.0/${myId}?fields=business_discovery.username(${source.username}){media.limit(6){id,caption,media_type,media_url,thumbnail_url,permalink,timestamp,children{media_url,media_type,thumbnail_url}}}&access_token=${token}`;
+        const url = `https://graph.facebook.com/v21.0/${myId}?fields=business_discovery.username(${source.username}){media.limit(25){id,caption,media_type,media_url,thumbnail_url,permalink,timestamp,children{media_url,media_type,thumbnail_url}}}&access_token=${token}`;
         
         const res = await fetch(url);
         if (!res.ok) {

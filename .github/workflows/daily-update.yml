@@ -16,9 +16,6 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-      with:
-        ref: main          # 1. Explicitly checkout the branch, not a detached commit
-        fetch-depth: 0     # 2. Download full history so 'git pull --rebase' works
 
     - name: Setup Node.js
       uses: actions/setup-node@v4
@@ -42,25 +39,12 @@ jobs:
         # Use tsx to run the typescript file directly
         npx tsx scripts/update-calendar.ts
 
-# 👇 ADD THIS STEP 👇
-    - name: Pull latest changes
-      run: |
-        git config pull.rebase true
-        git pull origin main
-        git reset --hard origin/main
-        
-    - name: Commit and push changes
+    - name: Commit and Push Changes
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
-      commit_message: "📅 Daily Calendar Update"
-      file_pattern: "server/assets/instagram_data.json"
-      commit_user_name: "Leilei Xia"
-      commit_user_email: "41898282+github-actions[bot]@users.noreply.github.com"
-      commit_author: "lilyxia99 <45969277+lilyxia99@users.noreply.github.com>"
-      # Add this to force push
-      push_options: "--force"
-
-        # ADD THIS STEP:
+        commit_message: "📅 Daily Calendar Update"
+        file_pattern: "server/assets/instagram_data.json"
+        
     - name: Trigger Vercel Redeploy
       if: success() # Only run if the previous steps worked
       run: curl -X POST ${{ secrets.VERCEL_DEPLOY_HOOK }}

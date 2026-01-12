@@ -43,4 +43,4 @@ jobs:
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
         commit_message: "📅 Daily Calendar Update"
-        file_pattern: "public/calendar_data.json"
+        file_pattern: "server/assets/instagram_data.json"

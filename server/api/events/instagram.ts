@@ -2,66 +2,46 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 export default defineEventHandler(async (event) => {
-    console.log("[Instagram] ===== INSTAGRAM ENDPOINT CALLED =====");
-    console.log("[Instagram] Request URL:", event.node.req.url);
-    console.log("[Instagram] Request method:", event.node.req.method);
-    console.log("[Instagram] Request headers:", event.node.req.headers);
-    console.log("[Instagram] Loading events from GitHub Actions scraped data");
+    console.log("[Instagram] ===== READING LOCAL FILE =====");
     
     try {
-        // Read the calendar data from public folder (same pattern as other endpoints)
-        const filePath = path.resolve(process.cwd(), 'public', 'calendar_data.json');
+        // Construct the path to server/assets/instagram_data.json
+        // process.cwd() is the root of your project
+        const filePath = path.resolve(process.cwd(), 'server', 'assets', 'instagram_data.json');
         
         console.log(`[Instagram] Looking for file at: ${filePath}`);
-        console.log(`[Instagram] Current working directory: ${process.cwd()}`);
-        console.log(`[Instagram] File exists: ${fs.existsSync(filePath)}`);
-        
-        // List contents of public directory for debugging
-        const publicDir = path.resolve(process.cwd(), 'public');
-        if (fs.existsSync(publicDir)) {
-            const publicFiles = fs.readdirSync(publicDir);
-            console.log(`[Instagram] Public directory contents:`, publicFiles);
-        } else {
-            console.log(`[Instagram] Public directory does not exist at: ${publicDir}`);
-        }
-        
+
         if (!fs.existsSync(filePath)) {
-            console.log("[Instagram] Calendar data file not found, returning empty array");
+            console.error("[Instagram] File NOT found at path!");
+            // List folder contents to help you debug path issues
+            const dir = path.dirname(filePath);
+            if (fs.existsSync(dir)) {
+                console.log(`[Instagram] Contents of ${dir}:`, fs.readdirSync(dir));
+            } else {
+                console.log(`[Instagram] Directory ${dir} does not exist`);
+            }
             return { body: [] };
         }
 
         const fileContent = fs.readFileSync(filePath, 'utf-8');
-        console.log(`[Instagram] File content length: ${fileContent.length}`);
-        console.log(`[Instagram] First 200 chars of file:`, fileContent.substring(0, 200));
         
-        if (fileContent.length === 0) {
-            console.log("[Instagram] File is empty, returning empty array");
+        if (!fileContent) {
+            console.warn("[Instagram] File is empty");
             return { body: [] };
         }
-        
-        const calendarData = JSON.parse(fileContent);
-        console.log(`[Instagram] Parsed data type: ${typeof calendarData}, is array: ${Array.isArray(calendarData)}`);
-        console.log(`[Instagram] Total items in array: ${calendarData?.length || 0}`);
 
-        if (calendarData && Array.isArray(calendarData)) {
-            console.log(`[Instagram] Loaded ${calendarData.length} Instagram event sources`);
-            
-            // Log each source for debugging
-            calendarData.forEach((source, index) => {
-                console.log(`[Instagram] Source ${index}: ${source.name}, events: ${source.events?.length || 0}`);
-            });
-            
-            // Return all sources, even those without events (to match other endpoints)
-            console.log(`[Instagram] Returning all ${calendarData.length} Instagram sources`);
+        const calendarData = JSON.parse(fileContent);
+
+        if (Array.isArray(calendarData)) {
+            console.log(`[Instagram] Successfully loaded ${calendarData.length} items from local file.`);
             return { body: calendarData };
         } else {
-            console.log("[Instagram] Invalid calendar data format, returning empty array");
+            console.error("[Instagram] Data is not an array");
             return { body: [] };
         }
+
     } catch (error) {
-        console.error("[Instagram] Failed to load calendar data:", error);
-        console.error("[Instagram] Error details:", error?.message);
-        console.error("[Instagram] Error stack:", error?.stack);
+        console.error("[Instagram] System Error:", error);
         return { body: [] };
     }
 });

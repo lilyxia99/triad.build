@@ -37,14 +37,14 @@ jobs:
         INSTAGRAM_BUSINESS_USER_ID: ${{ secrets.INSTAGRAM_BUSINESS_USER_ID }}
       run: |
         # Use tsx to run the typescript file directly
-        npx tsx scripts/update-calendar.ts
+        npx -y tsx scripts/update-calendar.ts
 
     - name: Commit and Push Changes
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
         commit_message: "📅 Daily Calendar Update"
         file_pattern: "server/assets/instagram_data.json"
-        
+
     - name: Trigger Vercel Redeploy
       if: success() # Only run if the previous steps worked
       run: curl -X POST ${{ secrets.VERCEL_DEPLOY_HOOK }}

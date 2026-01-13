@@ -469,11 +469,12 @@ onMounted(() => {
   // Expose the calendar instance to the window object for debugging
   if (calendarRef.value) window.myCalendar = calendarRef.value.getApi();
   //For the headImage rendering
-  async function fetchGrave() {
+  /*async function fetchBrick() {
     const svgResponse = await fetch('/css/triad-build.svg');
     headImage.value = await svgResponse.text();
   }
-  fetchGrave();
+  fetchBrick();*/
+  headImage.value = '/css/triad-build-pixel.png';
 });
 onUpdated(() => {
 });
@@ -602,7 +603,7 @@ const transformEventSourcesResponse = (eventSources: Ref<Record<string, any>>) =
     <table style="width:100%;">
       <tbody>
         <tr>
-          <td class="blurb-image"> <div v-html="headImage"></div> </td>
+          <td class="blurb-image"> <img :src="headImage" alt="Triad Build Logo" style="max-width: 100%; height: auto;" /><!--<div v-html="headImage"></div>--> </td>
           <td>
             <div class="blurb-text">
               A communal board for fun GSO events

@@ -318,6 +318,7 @@ div.fc-scrollgrid-sync-inner:not(.fc-daygrid-day-frame) {
   font-family: sans-serif;
   letter-spacing: 0.15rem;
   text-transform: lowercase;
+  margin-left:1vw;
 }
   
 .blurb-text {

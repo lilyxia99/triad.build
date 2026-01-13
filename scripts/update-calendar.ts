@@ -303,9 +303,14 @@ async function processSingleSource(source: InstagramSource, openai: OpenAI, visi
                     const combinedText = `${title} ${description} ${source.name} ${ocrTextData}`;
                     const tags = generateTagsForPost(combinedText, source);
 
-                    // 👇 THE FIX IS HERE 👇
-                    // We use the Instagram ID + the local 'eventIndex' (0, 1, 2...)
-                    // This ensures the ID is always 'ig-123456789-0' for the first event of that post.
+                    // 👇 NEW: ADD EMOJI PREFIX 👇
+                    const emoji = getCategoryEmoji(tags);
+                    // Only add if we found an emoji AND the title doesn't already have one
+                    if (emoji && !title.includes(emoji)) {
+                        title = `${emoji} ${title}`;
+                    }
+
+                    // Generate Stable ID
                     const uniqueId = `ig-${post.id}-${eventIndex}`;
                     eventIndex++; // Increment for the next event in THIS SAME post
 
@@ -466,6 +471,50 @@ function generateTagsForPost(textToScan: string, sourceConfig: InstagramSource):
     });
 
     return Array.from(finalTags);
+}
+
+function getCategoryEmoji(tags: string[]): string {
+    // Define your priority list. The first matching tag wins.
+    const EMOJI_MAP: Record<string, string> = {
+        'music': '🎵',
+        'live music': '🎵',
+        'concert': '🎵',
+        'art': '🎨',
+        'gallery': '🎨',
+        'exhibition': '🎨',
+        'comedy': '🎤',
+        'open mic': '🎤',
+        'food': '🍽️',
+        'drink': '🍸',
+        'bar': '🍸',
+        'party': '🎉',
+        'nightlife': '🎉',
+        'market': '🛍️',
+        'shopping': '🛍️',
+        'workshop': '🛠️',
+        'class': '🛠️',
+        'sports': '⚽',
+        'fitness': '💪',
+        'yoga': '🧘',
+        'community': '🤝',
+        'family': '👨‍👩‍👧',
+        'theater': '🎭',
+        'film': '🎬',
+        'movie': '🎬',
+        'dance': '💃',
+        'drag': '👠',
+        'lgbtq': '🌈',
+        'nature': '🌲',
+    };
+
+    for (const tag of tags) {
+        const lowerTag = tag.toLowerCase();
+        if (EMOJI_MAP[lowerTag]) {
+            return EMOJI_MAP[lowerTag];
+        }
+    }
+
+    return ''; // No emoji found
 }
 
 // Execute

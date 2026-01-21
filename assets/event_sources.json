@@ -97,12 +97,13 @@
             "googleCalendarId": "dfd48c58b37c06f978ed4f52a74f53775627a26ee306694daa87965e335b5a99@group.calendar.google.com",
             "prefixTitle": "🆘 ",
             "suffixTitle": "private calendar",
+            "suffixDescription":"",
+            "defaultLocation": " ",
             "filters": [
                 ["organizing"],
                 ["nonprofit"]
             ]
-        },
-        
+        }
     ],
     "apify": [
     {

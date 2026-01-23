@@ -261,7 +261,7 @@ Or just the calendar ID: abc123@group.calendar.google.com"
         <p><small>Select all categories that apply to your events. You must select at least one.</small></p>
 
         <div class="filter-section">
-          <h4>Organization Type (select one):</h4>
+          <h4>Organization Type (select one) *:</h4>
           <div class="filter-grid">
             <div v-for="filter in availableFilters.filter(f => f.isHeader)" :key="filter.name" class="filter-item">
               <label>

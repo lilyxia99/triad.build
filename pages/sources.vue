@@ -122,6 +122,8 @@ onMounted(() => {
   <div class="desc sources-page">
     <h1>Event Sources</h1>
     <p>These organizations and groups share their events on triad.build. Check out their calendars and follow them!</p>
+    <strong>Note:</strong> If you are the owner of an instagram page that is listed here, I would <strong>STRONGLY </strong>recommend you submit your calendar through google calendar. The instagram scraping mechanism is NOT super correct all the time, so a maintained google calendar will always be preferred. 
+    <p>This list is curated by mmyself and may not include all sources. If you know of an organization or group that should be added, please submit a calendar.</p>
 
     <div class="sources-filters">
       <input

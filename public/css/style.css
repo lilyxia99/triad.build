@@ -440,8 +440,14 @@ body.no-scroll {
 }
 
 .popper-box-inner .bottom {
+  display:flex;
+  justify-content: center;
+  flex-direction: row;
+  gap:20px;
   margin-top: 10px;
   text-align: center;
+  height:120px;
+  align-items: center;
 }
 
 .fc .fc-h-event .fc-event-time {
@@ -451,6 +457,8 @@ body.no-scroll {
 
 .popper-box-inner .bottom button {
   font-size: 14px;
+  width:120px;
+  padding:8px;
 }
 .popper-box-inner .bottom button:active {
   transition: 0s 1s;
@@ -881,4 +889,8 @@ input[type="checkbox"]:checked::before {
   background-color: var(--button-select);
   box-shadow: inset 1px 1px var(--background-alt), inset -1px -1px var(--text-faded);
   font-weight: bold;
+}
+
+.source-page p{
+  margin-top: 7px;
 }

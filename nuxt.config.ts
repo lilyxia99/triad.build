@@ -14,6 +14,21 @@ export default defineNuxtConfig({
   routeRules: {
     '/cuba': { redirect: 'https://secure.givelively.org/donate/peoples-forum-inc/let-cuba-live-bread-for-our-neighbors/let-cuba-live-rva' },
     '/api/events/instagram': { swr: 86400 },
+    '/api/upload-calendar': {
+      security: {
+        allowedMethodsRestricter: ['POST']
+      }
+    },
+    '/api/submit-calendar': {
+      security: {
+        allowedMethodsRestricter: ['POST']
+      }
+    },
+    '/api/admin/**': {
+      security: {
+        allowedMethodsRestricter: ['GET', 'POST']
+      }
+    },
   },
   typescript: {
     // This ignores errors on build too.

@@ -657,3 +657,228 @@ input[type="checkbox"]:checked::before {
   padding-top: 0.2em;
   padding-bottom: 0.2em;
 }
+
+
+/* Sources page styles */
+.sources-page {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.sources-filters {
+  margin: 2rem 0;
+}
+
+.sources-search {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--border-outer);
+  box-shadow: inset 1px 1px var(--background-alt), inset -1px -1px var(--text-faded);
+  background-color: var(--background-inner);
+  color: var(--text-normal);
+  font-family: var(--body-font);
+}
+
+.sources-filter-buttons {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.sources-filter-btn {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--border-outer);
+  background-color: var(--background-inner);
+  color: var(--text-normal);
+  cursor: pointer;
+  font-family: var(--body-font);
+  box-shadow: var(--button-box-shadow);
+}
+
+.sources-filter-btn:hover {
+  box-shadow: var(--button-hover-bezel);
+}
+
+.sources-filter-btn.active {
+  background-color: var(--button-select);
+  box-shadow: inset 1px 1px var(--background-alt), inset -1px -1px var(--text-faded);
+}
+
+.sources-loading,
+.sources-empty,
+.sources-error {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-faded);
+}
+
+.sources-error {
+  color: var(--rip-red);
+}
+
+.sources-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.source-card, .contributing-section{
+  border: 2px solid var(--border-outer);
+  padding: 1rem;
+  background-color: var(--background-inner);
+  box-shadow: 2px 2px var(--border-outer);
+}
+
+.source-header {
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-outer);
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+}
+
+.source-header h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: var(--text-normal);
+  flex: 1;
+}
+
+.source-type {
+  font-size: 0.75rem;
+  color: var(--text-faded);
+  text-transform: uppercase;
+  margin-left: 0.5rem;
+}
+
+.source-tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+  
+}
+
+.source-tag {
+  background-color: var(--button-hover);
+  color: var(--text-normal);
+  padding: 0.2rem 0.5rem;
+  border: 1px solid var(--border-outer);
+  font-size: 0.8rem;
+  margin-left:0.5rem;
+}
+
+.source-description {
+  color: var(--text-faded);
+  line-height: 1.4;
+  margin: 0.75rem 0;
+  font-size: 0.9rem;
+}
+
+.source-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin: 0.75rem 0;
+}
+
+.source-links a {
+  color: var(--text-linked);
+  font-size: 0.9rem;
+}
+
+.source-location {
+  color: var(--text-faded);
+  font-size: 0.85rem;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-outer);
+}
+
+.sources-submit {
+  margin: 3rem 0 2rem 0;
+  padding: 1.5rem;
+  text-align: center;
+  border: 2px solid var(--border-outer);
+  background-color: var(--background-inner);
+}
+
+.sources-submit h2 {
+  margin-top: 0;
+}
+
+@media (max-width: 768px) {
+  .sources-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .sources-filter-buttons {
+    justify-content: center;
+  }
+}
+
+/* Sources filter modal */
+.sources-filter-more {
+  font-weight: bold;
+}
+
+.sources-tag-group {
+  margin-bottom: 1.5rem;
+}
+
+.sources-group-label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: var(--text-normal);
+}
+
+.sources-modal-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.sources-modal-tag {
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--border-outer);
+  background-color: var(--background-inner);
+  color: var(--text-normal);
+  cursor: pointer;
+  font-family: var(--body-font);
+  box-shadow: var(--button-box-shadow);
+  font-size: 0.9rem;
+}
+
+.sources-modal-tag:hover {
+  box-shadow: var(--button-hover-bezel);
+}
+
+.sources-modal-tag.tag-selected {
+  background-color: var(--button-select);
+  box-shadow: inset 1px 1px var(--background-alt), inset -1px -1px var(--text-faded);
+}
+
+/* Clickable tags on cards */
+.source-tag {
+  background-color: var(--button-hover);
+  color: var(--text-normal);
+  padding: 0.2rem 0.5rem;
+  border: 1px solid var(--border-outer);
+  font-size: 0.8rem;
+  cursor: pointer;
+  font-family: var(--body-font);
+  transition: none;
+}
+
+.source-tag:hover {
+  box-shadow: var(--button-hover-bezel);
+}
+
+.source-tag.tag-selected {
+  background-color: var(--button-select);
+  box-shadow: inset 1px 1px var(--background-alt), inset -1px -1px var(--text-faded);
+  font-weight: bold;
+}

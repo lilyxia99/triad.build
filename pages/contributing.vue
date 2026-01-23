@@ -4,7 +4,7 @@ import { replaceBadgePlaceholders } from '~~/utils/util';
 
 <template>
     <div class="desc">
-        <h1 v-badge> :triad: Contributing Events to triad.build!</h1>
+        <h1 v-badge> Contributing Events to triad.build!</h1>
             <p>Welcome! Contributing events to triad.build is easy and accessible. By contributing events to triad.build you help to ensure that the events you or your
             org host are accessible to the wider Triad community outside of Lex and Instagram, you're able to make your events posted on triad.build look exactly how you want, and
             ensure that events posted are as up-to-date and accurate as possible. This project's maintainers hope you'll join them in trying to help foster a greater and more integrated queer community
@@ -12,8 +12,14 @@ import { replaceBadgePlaceholders } from '~~/utils/util';
             <p>There are a couple different ways to contribute events to the calendar, but the main way that'll be gone over in this
             guide will be by using Google Calendar. If you have your events hosted via another service or software package online feel free to email this project's
             maintainers at leileixiawork@gmail.com to discuss integrating those to minimize your work required.</p>
+       <div class="contributing-section">
+        <h2 v-badge style="margin-top:5px">:triad: Quick Submit - Already Have a Public Calendar?</h2>
+        <p>If your Google Calendar is already public, skip the setup steps below and submit it for review!</p>
+        <p><strong><a href="/upload-calendar">📅 Submit Your Calendar Now</a></strong></p>
+        <p>Your submission will be reviewed by our team and added to the site once approved. See all existing sources on our <a href="/sources">sources page</a>!</p>
+       </div>
         <h2>Publishing Google Calendar events</h2>
-            <p><strong>Quick submission:</strong> If you already have a public Google Calendar set up, you can use our <a href="/submit-calendar">calendar submission form</a> to request inclusion!</p>
+        <p>Follow the steps below to make your Google Calendar public, then submit it using the form above.</p>
             <ul>
                 <li><a href="https://accounts.google.com">Create a Google Account</a> for your events if one doesn't already exist. The email address associated with the
                 google calendar you publish may be visible in some cases, so, ensure it's not an email you use for your personal life.</li>
@@ -141,3 +147,4 @@ import { replaceBadgePlaceholders } from '~~/utils/util';
     </div>
     <Footer />
 </template>
+

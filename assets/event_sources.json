@@ -278,28 +278,6 @@
                     "nonprofit"
                 ]
             ]
-        },
-        {
-            "name": "Test Calendar",
-            "googleCalendarId": "test@group.calendar.google.com",
-            "filters": [
-                [
-                    "community"
-                ],
-                [
-                    "music"
-                ]
-            ]
-        },
-        {
-            "name": "testing 2",
-            "googleCalendarId": "862d10972873d298d71266ead4dfd3cb5cac4f50031dbe4516b320a7c70bbb20@group.calendar.google.com",
-            "filters": [
-                [
-                    "commercial",
-                    "organizing"
-                ]
-            ]
         }
     ],
     "apify": [

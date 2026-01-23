@@ -628,7 +628,7 @@ const transformEventSourcesResponse = (eventSources: Ref<Record<string, any>>) =
     <div style="display: flex; align-items: center; flex-direction: row;">
       <div class="desc" style="padding-bottom: 0;">
         <p>triad.build is a forever free commual calendar for folks to find and create community! As a new GSOer I hope to connect with you in this way too :P. The events here are drawn from various 
-          <a href="https://github.com/lilyxia99/triad.build/blob/main/assets/event_sources.json">organizer listings</a> that
+          <a href="/sources">organizer listings</a> that
           contributors have provided. <span style="color:red">(We are looking for more! Plz join!)</span> I hope you be encouraged to build your own community too! If you'd like to become
           a contributor of events, check out our contributing guide <a href="/contributing">here</a>! The events presented here are in a constant state of community-based vetting; don't hesitate to provide feedback! For suggestions and questions
           email <a href="mailto:leileixiawork@gmail.com">leileixiawork@gmail.com</a> </p>

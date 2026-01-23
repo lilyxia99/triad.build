@@ -23,6 +23,7 @@ onMounted(() => {
         <div class="desc no-toppy">
           <a href="/">home</a> |
           <a href="/contributing">how to contribute</a> | 
+          <a href="/sources">event sources</a> |
           <a href="https://github.com/lilyxia99/triad.build">source code</a> 
         </div>
         <div class="desc no-toppy">

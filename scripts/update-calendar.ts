@@ -377,30 +377,47 @@ async function analyzeWithAI(openai: OpenAI, caption: string, ocrTextData: strin
     POST DATE: ${postDateString}
     CONTEXT CLUES: ${context}
     CURRENT YEAR: ${currentYear}
-    
+
     CAPTION: "${caption.substring(0, 1500)}"
     OCR TEXT: "${ocrTextData.substring(0, 15000)}"
 
     --- RULES ---
     1. **Relative Dates:** If post says "This Friday", calculate the numeric date based on POST DATE.
     2. **Flyers First:** Trust the OCR text (flyer) over the caption if they conflict.
-    3. **Exhibitions & Runs:** - If an event spans dates (e.g. "On view Jan 10 - Feb 20" or "Running through March 5"), EXTRACT the start AND end dates.
-       - If it's an "Opening Reception", treat it as a single-day event.
-    4. **Times:** If implied (e.g. "Doors 7pm"), use that. If no time is listed for an exhibition, assume 10:00 (10am) to 18:00 (6pm).
-    5. **Multiple Events:** If a post lists a schedule, output multiple events.
-    6. **Ignore Recaps:** Do not extract events from "Thank you for coming" posts.
+    3. **Exhibitions & Runs:**
+       - If an event spans dates (e.g. "On view Jan 10 - Feb 20" or "Running through March 5"), EXTRACT the start AND end dates for the exhibition run.
+       - If it's an "Opening Reception" with a time, treat it as a single-day event with the reception time as both start and end.
+       - For ongoing exhibitions without a specific time, use 10:00 to 18:00 (10am to 6pm).
+    4. **Time Parsing - CRITICAL:**
+       - ALWAYS convert times to 24-hour military time format.
+       - "6pm", "6 PM", "6:00pm" = 18 (NOT 13, NOT 6)
+       - "1pm", "1 PM", "1:00pm" = 13
+       - "7pm", "7 PM", "7:00pm" = 19
+       - "10am", "10 AM", "10:00am" = 10
+       - "noon", "12pm" = 12
+       - "midnight", "12am" = 0
+       - If time says "Doors 7pm" or "Doors at 7", the event starts at 19:00 (7pm).
+       - If no time is explicitly stated, use context clues (e.g., "evening event" = 19:00, "morning walk" = 10:00).
+    5. **Year Validation:**
+       - All event years MUST be between CURRENT YEAR and CURRENT YEAR + 1.
+       - NEVER use years before ${currentYear} or after ${currentYear + 1}.
+       - If a date is ambiguous, assume it's in the future (current year or next year).
+    6. **Multiple Events:** If a post lists a schedule, output multiple events.
+    7. **Ignore Recaps:** Do not extract events from "Thank you for coming" posts.
 
     --- OUTPUT JSON ---
-    { 
+    {
       "events": [
-        { 
-          "title": "Exhibition Title or Event Name", 
+        {
+          "title": "Exhibition Title or Event Name",
           "startDay": 10, "startMonth": 1, "startYear": 2026, "startHourMilitaryTime": 18, "startMinute": 0,
-          "endDay": 20, "endMonth": 2, "endYear": 2026, "endHourMilitaryTime": 17, "endMinute": 0,
+          "endDay": 20, "endMonth": 2, "endYear": 2026, "endHourMilitaryTime": 20, "endMinute": 0,
           "location": "Gallery Name"
         }
-      ] 
+      ]
     }
+
+    REMINDER: Times MUST be in 24-hour format. 6pm = 18, 7pm = 19, 1pm = 13, etc.
     `;
 
     try {

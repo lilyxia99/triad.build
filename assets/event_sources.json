@@ -1,57 +1,217 @@
 {
     "appConfig": {
         "tagsHeader": [
-            {"name": "community", "fullName": "🫂 Community", "defaultValue": "true"},
-            {"name": "commercial", "fullName": "🎩 Commercial", "defaultValue": "true"},
-            {"name": "nonprofit", "fullName": "🏛️ Nonprofit", "defaultValue": "true"}
+            {
+                "name": "community",
+                "fullName": "🫂 Community",
+                "defaultValue": "true"
+            },
+            {
+                "name": "commercial",
+                "fullName": "🎩 Commercial",
+                "defaultValue": "true"
+            },
+            {
+                "name": "nonprofit",
+                "fullName": "🏛️ Nonprofit",
+                "defaultValue": "true"
+            }
         ],
-        "tagsHidden": ["hidden", "invisible", "internal"],
+        "tagsHidden": [
+            "hidden",
+            "invisible",
+            "internal"
+        ],
         "tagsToShow": [
             [
-                {"name": "activism", "fullName": "Critical Work", "defaultValue": "true"},
-                {"name": "palestine", "fullName": "🇵🇸 Palestine", "defaultValue": "true"},
-                {"name": "socialism", "fullName": "🚩 Socialism", "defaultValue": "true"},
-                {"name": "ecology", "fullName": "🌿 Ecology", "defaultValue": "true"},
-                {"name": "organizing", "fullName": "🤝 Organizing", "defaultValue": "true"}
+                {
+                    "name": "activism",
+                    "fullName": "Critical Work",
+                    "defaultValue": "true"
+                },
+                {
+                    "name": "palestine",
+                    "fullName": "🇵🇸 Palestine",
+                    "defaultValue": "true"
+                },
+                {
+                    "name": "socialism",
+                    "fullName": "🚩 Socialism",
+                    "defaultValue": "true"
+                },
+                {
+                    "name": "ecology",
+                    "fullName": "🌿 Ecology",
+                    "defaultValue": "true"
+                },
+                {
+                    "name": "organizing",
+                    "fullName": "🤝 Organizing",
+                    "defaultValue": "true"
+                }
             ],
             [
-                {"name": "activities", "fullName": "Activities", "defaultValue": "true"},
-                {"name": "soccer", "fullName": "⚽ Soccer", "defaultValue": "true"},
-                {"name": "biking", "fullName": "🚲 Biking", "defaultValue": "true"},
-                {"name": "skating", "fullName": "🛼🛹 Skating", "defaultValue": "true"},
-                {"name": "exercise", "fullName": "💪 Exercise", "defaultValue": "true"},
-                {"name": "yoga", "fullName": "🧘 Yoga", "defaultValue": "true"},
-                {"name": "dance", "fullName": "🪩 Dancing", "defaultValue": "true"},
-                {"name": "singing", "fullName": "🎤 Singing/Karaoke", "defaultValue": "true"},
-                {"name": "games", "fullName": "🀄🖥️ Games", "defaultValue": "true"},
-                {"name": "motorcycles", "fullName": "🏍️ Motorcycles VROOM VROOM", "defaultValue": "true"}
+                {
+                    "name": "activities",
+                    "fullName": "Activities",
+                    "defaultValue": "true"
+                },
+                {
+                    "name": "soccer",
+                    "fullName": "⚽ Soccer",
+                    "defaultValue": "true"
+                },
+                {
+                    "name": "biking",
+                    "fullName": "🚲 Biking",
+                    "defaultValue": "true"
+                },
+                {
+                    "name": "skating",
+                    "fullName": "🛼🛹 Skating",
+                    "defaultValue": "true"
+                },
+                {
+                    "name": "exercise",
+                    "fullName": "💪 Exercise",
+                    "defaultValue": "true"
+                },
+                {
+                    "name": "yoga",
+                    "fullName": "🧘 Yoga",
+                    "defaultValue": "true"
+                },
+                {
+                    "name": "dance",
+                    "fullName": "🪩 Dancing",
+                    "defaultValue": "true"
+                },
+                {
+                    "name": "singing",
+                    "fullName": "🎤 Singing/Karaoke",
+                    "defaultValue": "true"
+                },
+                {
+                    "name": "games",
+                    "fullName": "🀄🖥️ Games",
+                    "defaultValue": "true"
+                },
+                {
+                    "name": "motorcycles",
+                    "fullName": "🏍️ Motorcycles VROOM VROOM",
+                    "defaultValue": "true"
+                }
             ],
             [
-                {"name": "performance", "fullName": "Performances", "defaultValue": "true"},
-                {"name": "theater", "fullName": "🎭 Theater", "defaultValue": "true"},
-                {"name": "music", "fullName": "🎸 Music", "defaultValue": "true"},
-                {"name": "drag", "fullName": "👠 Drag", "defaultValue": "true"},
-                {"name": "movies", "fullName": "📽️ Film & Movies", "defaultValue": "true"}
+                {
+                    "name": "performance",
+                    "fullName": "Performances",
+                    "defaultValue": "true"
+                },
+                {
+                    "name": "theater",
+                    "fullName": "🎭 Theater",
+                    "defaultValue": "true"
+                },
+                {
+                    "name": "music",
+                    "fullName": "🎸 Music",
+                    "defaultValue": "true"
+                },
+                {
+                    "name": "drag",
+                    "fullName": "👠 Drag",
+                    "defaultValue": "true"
+                },
+                {
+                    "name": "movies",
+                    "fullName": "📽️ Film & Movies",
+                    "defaultValue": "true"
+                }
             ],
             [
-                {"name": "interests", "fullName": "Interest & Hobbies", "defaultValue": "true"},
-                {"name": "diy", "fullName": "🔧 DIY", "defaultValue": "true"},
-                {"name": "books", "fullName": "📚 Books", "defaultValue": "true"},
-                {"name": "food", "fullName": "🍲 Food", "defaultValue": "true"},
-                {"name": "art", "fullName": "🎨 Art", "defaultValue": "true"},
-                {"name": "discussion", "fullName": "🗨️ Yapping & Talking", "defaultValue": "true"},
-                {"name": "sobriety", "fullName": "🚭 Sobriety", "defaultValue": "true"}
+                {
+                    "name": "interests",
+                    "fullName": "Interest & Hobbies",
+                    "defaultValue": "true"
+                },
+                {
+                    "name": "diy",
+                    "fullName": "🔧 DIY",
+                    "defaultValue": "true"
+                },
+                {
+                    "name": "books",
+                    "fullName": "📚 Books",
+                    "defaultValue": "true"
+                },
+                {
+                    "name": "food",
+                    "fullName": "🍲 Food",
+                    "defaultValue": "true"
+                },
+                {
+                    "name": "art",
+                    "fullName": "🎨 Art",
+                    "defaultValue": "true"
+                },
+                {
+                    "name": "discussion",
+                    "fullName": "🗨️ Yapping & Talking",
+                    "defaultValue": "true"
+                },
+                {
+                    "name": "sobriety",
+                    "fullName": "🚭 Sobriety",
+                    "defaultValue": "true"
+                }
             ],
             [
-                {"name": "other", "fullName": "Misc", "defaultValue": "true"},
-                {"name": "free stuff", "fullName": "🈶 Free Stuff", "defaultValue": "true"},
-                {"name": "volunteering", "fullName": "♻️ Volunteering", "defaultValue": "true"},
-                {"name": "market", "fullName": "🛍️ Market", "defaultValue": "true"},
-                {"name": "transgender", "fullName": "🏳️‍⚧️ Transgeder :3", "defaultValue": "true"},
-                {"name": "lgbtq", "fullName": "🏳️‍🌈 LGBTQ", "defaultValue": "true"},
-                {"name": "festival", "fullName": "🎪 Festival", "defaultValue": "true"},
-                {"name": "announcement", "fullName": "🗣️ Announcements!!!!", "defaultValue": "true"},
-                {"name": "unknownType", "fullName": "🤷 idk", "defaultValue": "true"}
+                {
+                    "name": "other",
+                    "fullName": "Misc",
+                    "defaultValue": "true"
+                },
+                {
+                    "name": "free stuff",
+                    "fullName": "🈶 Free Stuff",
+                    "defaultValue": "true"
+                },
+                {
+                    "name": "volunteering",
+                    "fullName": "♻️ Volunteering",
+                    "defaultValue": "true"
+                },
+                {
+                    "name": "market",
+                    "fullName": "🛍️ Market",
+                    "defaultValue": "true"
+                },
+                {
+                    "name": "transgender",
+                    "fullName": "🏳️‍⚧️ Transgeder :3",
+                    "defaultValue": "true"
+                },
+                {
+                    "name": "lgbtq",
+                    "fullName": "🏳️‍🌈 LGBTQ",
+                    "defaultValue": "true"
+                },
+                {
+                    "name": "festival",
+                    "fullName": "🎪 Festival",
+                    "defaultValue": "true"
+                },
+                {
+                    "name": "announcement",
+                    "fullName": "🗣️ Announcements!!!!",
+                    "defaultValue": "true"
+                },
+                {
+                    "name": "unknownType",
+                    "fullName": "🤷 idk",
+                    "defaultValue": "true"
+                }
             ]
         ],
         "eventApiToGrab": [
@@ -62,21 +222,26 @@
             "/api/events/apify_facebook",
             "/api/events/eventbrite",
             "/api/events/instagram"
-          ]
+        ]
     },
     "googleCalendar": [
-
         {
             "name": "Gaymer's Night @ Dragon's Hoard",
             "googleCalendarId": "0d0f28e1f0a3bcab9a47120deefdcec2b12b5ebe15c6f33af9511a4192404af3@group.calendar.google.com",
             "prefixTitle": ":game: ",
             "suffixTitle": "Gaymer's Night @ Dragon's Hoard",
-            "suffixDescription":"discord group: <a href=\"https://discord.gg/dragonshoard\">https://discord.gg/dragonshoard</a>",
+            "suffixDescription": "discord group: <a href=\"https://discord.gg/dragonshoard\">https://discord.gg/dragonshoard</a>",
             "defaultLocation": " 4645 W Market St Suite A2, Greensboro, NC 27407",
             "filters": [
-                ["community"],
-                ["lgbtq"],
-                ["games"]
+                [
+                    "community"
+                ],
+                [
+                    "lgbtq"
+                ],
+                [
+                    "games"
+                ]
             ]
         },
         {
@@ -84,12 +249,18 @@
             "googleCalendarId": "11baf8e1a3d9733b4629247d8a4ac8571bae660681b235878ad98226eac078ed@group.calendar.google.com",
             "prefixTitle": "🌽 ",
             "suffixTitle": "Food Not Bombs GSO",
-            "suffixDescription":"\nMutual aid group providing free vegan meals to our community Fridays at 6:30pm. DMs not regularly monitored, please use <a href=\"https://docs.google.com/forms/d/e/1FAIpQLSdZcZxP2LYjEwKLOshMEpZr8nQgNbb3FgmaA9oKRwLvpguMZg/viewform?fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGnedFh2Xxl_EOohR_BdCfxAtW5nhlP1pbIvg6kD4L0ieMPLteO_cOn09BIOfA_aem_fP5W1jEM8ZeVxWr6GxkGNA\">sign up form</a> 2 get involved ",
+            "suffixDescription": "\nMutual aid group providing free vegan meals to our community Fridays at 6:30pm. DMs not regularly monitored, please use <a href=\"https://docs.google.com/forms/d/e/1FAIpQLSdZcZxP2LYjEwKLOshMEpZr8nQgNbb3FgmaA9oKRwLvpguMZg/viewform?fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGnedFh2Xxl_EOohR_BdCfxAtW5nhlP1pbIvg6kD4L0ieMPLteO_cOn09BIOfA_aem_fP5W1jEM8ZeVxWr6GxkGNA\">sign up form</a> 2 get involved ",
             "defaultLocation": "1104 W Florida St, Greensboro, NC 27401, USA",
             "filters": [
-                ["organizing"],
-                ["food"],
-                ["nonprofit"]
+                [
+                    "organizing"
+                ],
+                [
+                    "food"
+                ],
+                [
+                    "nonprofit"
+                ]
             ]
         },
         {
@@ -97,315 +268,506 @@
             "googleCalendarId": "dfd48c58b37c06f978ed4f52a74f53775627a26ee306694daa87965e335b5a99@group.calendar.google.com",
             "prefixTitle": "🆘 ",
             "suffixTitle": "private calendar",
-            "suffixDescription":"",
+            "suffixDescription": "",
             "defaultLocation": " ",
             "filters": [
-                ["organizing"],
-                ["nonprofit"]
+                [
+                    "organizing"
+                ],
+                [
+                    "nonprofit"
+                ]
+            ]
+        },
+        {
+            "name": "Test Calendar",
+            "googleCalendarId": "test@group.calendar.google.com",
+            "filters": [
+                [
+                    "community"
+                ],
+                [
+                    "music"
+                ]
             ]
         }
     ],
     "apify": [
-    {
-      "name": "Queer",
-      "city": "Greensboro",
-      "datasetId": "1eBv8ROWEielPSiID", 
-      "defaultLocation": "2729 W Broad St, Richmond, VA",
-      "filters": [
-        ["lgbtq"],
-        ["community"]        
-
-      ]  
-    },
-    {
-      "name": "Game",
-      "city": "Greensboro",
-      "datasetId": "wBFRo3640Dym55I9O", 
-      "defaultLocation": "2729 W Broad St, Richmond, VA",
-      "filters": [
-        ["games"],
-        ["community"]
-
-      ]  
-    }
-],
+        {
+            "name": "Queer",
+            "city": "Greensboro",
+            "datasetId": "1eBv8ROWEielPSiID",
+            "defaultLocation": "2729 W Broad St, Richmond, VA",
+            "filters": [
+                [
+                    "lgbtq"
+                ],
+                [
+                    "community"
+                ]
+            ]
+        },
+        {
+            "name": "Game",
+            "city": "Greensboro",
+            "datasetId": "wBFRo3640Dym55I9O",
+            "defaultLocation": "2729 W Broad St, Richmond, VA",
+            "filters": [
+                [
+                    "games"
+                ],
+                [
+                    "community"
+                ]
+            ]
+        }
+    ],
     "apifyMeetup": [
-    {
-      "name": "Greensboro Sports Meet up",
-      "jsonFile": "meetup_exercise.json", 
-      "city": "Greensboro",
-      "defaultLocation": "Greensboro, NC",
-      "suffixDescription": " #community #sports", 
-      "filters": [
-        ["community"],
-        ["exercise"]
-      ]
-    }
-   ],
-   "eventbrite": [               
-    {
-      "name": "Guilford Green Foundation & LGBTQ Center",
-      "organizerId":"23342305315",
-      "city": "Greensboro",
-      "prefixTitle": "🌈",
-      "defaultLocation": "Greensboro, NC",
-      "filters": [
-        ["lgbtq"],
-        ["nonprofit"],
-        ["transgender"]
-      ]
-    },
-    {
-      "name": "BuffBoyzz Gay Friendly Male Strippers & Male Strip Club Shows",
-      "organizerId":"18051701526",
-      "city": "Greensboro",
-      "defaultLocation": "Greensboro, NC",
-      "filters": [
-        ["lgbtq"],
-        ["commercial"]
-      ]
-    },
-    {
-      "name": "Greensboro Drag Brunch",
-      "organizerId":"18339520252",
-      "city": "Greensboro",
-      "defaultLocation": "Greensboro, NC",
-      "filters": [
-        ["lgbtq"],
-        ["commercial"],
-        ["transgender"]
-      ]
-    },
-    {
-      "name": "Winks & Rouge Cabaret",
-      "organizerId":"115725973661",
-      "city": "Greensboro",
-      "prefixTitle": "👠",
-      "defaultLocation": "Greensboro, NC",
-      "filters": [
-        ["lgbtq"],
-        ["community"],
-        ["drag"],
-        ["transgender"]
-      ]
-    }
-  ],
-  "instagram": [
-    {
-      "name": "Greensboro Pride",
-      "username": "greensboropride", 
-      "city": "Greensboro",
-      "prefixTitle": "🌈",
-      "defaultLocation": "Greensboro, NC",
-      "context_clues": ["pride"],
-      "filters": [
-        ["lgbtq"],
-        ["community"],
-        ["drag"],
-        ["transgender"]
-      ]
-    },
-    {
-      "name": "Greensboro Project Space",
-      "username": "greensboroprojectspace", 
-      "city": "Greensboro",
-      "prefixTitle": "🎨",
-      "defaultLocation": "Greensboro, NC",
-      "context_clues": ["art"],
-      "filters": [
-        ["art"],
-        ["nonprofit"]
-      ]
-    },
-    {
-      "name": "ETC.GSO",
-      "username": "etc.gso", 
-      "city": "Greensboro",
-      "prefixTitle": "🎵",
-      "defaultLocation": "1333 Grove St, Greensboro, NC 27403",
-      "context_clues": ["performance","music","event"],
-      "filters": [
-        ["art"],
-        ["community"],
-        ["performance"],
-        ["music"]
-      ]
-    },
-    {
-      "name": "Back Table",
-      "username": "backtablegso", 
-      "city": "Greensboro",
-      "defaultLocation": "816 S Elm St #1A, Greensboro, NC 27406",
-      "context_clues": ["performance","music","open mic"],
-      "filters": [
-        ["art"],
-        ["commercial"],
-        ["performance"],
-        ["music"]
-      ]
-    },
-    {
-      "name": "irving park ART & FRAME",
-      "username": "irvingparkartandframe", 
-      "prefixTitle": "🖼️",
-      "city": "Greensboro",
-      "defaultLocation": "2800 Lawndale Drive, Suite 107, Greensboro, North Carolina 27408",
-      "context_clues": ["performance","art","exhibition"],
-      "filters": [
-        ["art"],
-        ["commercial"]
-      ]
-    },
-    {
-      "name": "GSO All Girls Walk Club",
-      "username": "gso_allgirlswalkclub", 
-      "city": "Greensboro",
-      "defaultLocation": "341 S Elm St, Greensboro, NC",
-      "context_clues": ["exercise","walk","club"],
-      "filters": [
-        ["exercise"],
-        ["community"]
-      ]
-    },
-    {
-      "name": "ZIGGYS📍GSO",
-      "username": "ziggysgso", 
-      "city": "Greensboro",
-      "prefixTitle": "🎵",
-      "defaultLocation": "523 S Elm St, Greensboro, NC 27406",
-      "context_clues": ["music","performance","club"],
-      "filters": [
-        ["music"],
-        ["performance"],
-        ["community"]
-      ]
-    },
-    {
-      "name": "Greensboro Zine Fest",
-      "username": "gsozinefest", 
-      "city": "Greensboro",
-      "prefixTitle": "📖",
-      "defaultLocation": "Greensboro, NC",
-      "context_clues": ["market","book","fair"],
-      "filters": [
-        ["books"],
-        ["art"],
-        ["community"]
-      ]
-    },
-    {
-      "name": "Critical Mass GSO",
-      "username": "gso.criticalmass", 
-      "city": "Greensboro",
-      "defaultLocation": "Lebauer Park, Greensboro, NC",
-      "context_clues": ["market","book","fair"],
-      "filters": [
-        ["organizing"],
-        ["biking"],
-        ["community"]
-      ]
-    },
-    {
-      "name": "The Flat Iron",
-      "username": "flatirongso", 
-      "city": "Greensboro",
-      "prefixTitle": "🎵",
-      "defaultLocation": "Greensboro, NC",
-      "context_clues": ["show","live","performance"],
-      "filters": [
-        ["performance"],
-        ["music"],
-        ["commercial"]
-      ]
-    },
-    {
-      "name": "BOROUGH COFFEE",
-      "username": "boroughcoffeegso", 
-      "city": "Greensboro",
-      "defaultLocation": "204 N Mendenhall, Greensboro, North Carolina 27403",
-      "context_clues": ["show","music","workshop"],
-      "filters": [
-        ["performance"],
-        ["music"],
-        ["community"]
-      ]
-    },
-    {
-      "name": "Greensboro Public Library",
-      "username": "gsolibrary", 
-      "city": "Greensboro",
-      "prefixTitle": "📚",
-      "defaultLocation": "219 N Church St, Greensboro, North Carolina 27401",
-      "context_clues": ["book","library","night","party"],
-      "filters": [
-        ["library"],
-        ["books"],
-        ["community"]
-      ]
-    },
-    {
-      "name": "People's Freedom Assembly",
-      "username": "gso_pfa", 
-      "city": "Greensboro",
-      "defaultLocation": "219 N Church St, Greensboro, North Carolina 27401",
-      "suffixDescription":"\n A Greensboro-based, Black (New Afrikan) and Indigenous-led decolonial socialist organization, serving working-class and houseless people.",
-      "context_clues": ["activism","organizing"],
-      "filters": [
-        ["activism"],
-        ["socialism"],
-        ["community"]
-      ]
-    },
-    {
-      "name": "Silent Book Club Greensboro",
-      "username": "silentbookclubgso", 
-      "city": "Greensboro",
-      "prefixTitle": "📖",
-      "defaultLocation": "Greensboro, North Carolina",
-      "suffixDescription":"\n Chapter of @silentbookclub \n📚 Bring a book, any book.\n 🫶🏽 And a friend too.",
-      "context_clues": ["book","meeting"],
-      "filters": [
-        ["book"],
-        ["community"]
-      ]
-    },
-    {
-      "name": "Greensboro Vintage Market",
-      "username": "gsovintagemarket", 
-      "city": "Greensboro",
-      "prefixTitle": "🪸",
-      "defaultLocation": "Greensboro, North Carolina",
-      "context_clues": ["market"],
-      "filters": [
-        ["market"],
-        ["socialism"],
-        ["commercial"]
-      ]
-    },
-    {
-      "name": "GSO Revolutionary Socialists",
-      "username": "gso_revsocialists", 
-      "city": "Greensboro",
-      "defaultLocation": "Greensboro, North Carolina",
-      "suffixDescription":"\n Group of revolutionary socialists in Greensboro, NC and members of Tempest Collective @tempest_mag",
-      "context_clues": ["activism","organizing"],
-      "filters": [
-        ["activism"],
-        ["socialism"],
-        ["community"]
-      ]
-    }
-  ],
-   
-    "squarespace": [
+        {
+            "name": "Greensboro Sports Meet up",
+            "jsonFile": "meetup_exercise.json",
+            "city": "Greensboro",
+            "defaultLocation": "Greensboro, NC",
+            "suffixDescription": " #community #sports",
+            "filters": [
+                [
+                    "community"
+                ],
+                [
+                    "exercise"
+                ]
+            ]
+        }
     ],
-    "elfsight": [
-        
+    "eventbrite": [
+        {
+            "name": "Guilford Green Foundation & LGBTQ Center",
+            "organizerId": "23342305315",
+            "city": "Greensboro",
+            "prefixTitle": "🌈",
+            "defaultLocation": "Greensboro, NC",
+            "filters": [
+                [
+                    "lgbtq"
+                ],
+                [
+                    "nonprofit"
+                ],
+                [
+                    "transgender"
+                ]
+            ]
+        },
+        {
+            "name": "BuffBoyzz Gay Friendly Male Strippers & Male Strip Club Shows",
+            "organizerId": "18051701526",
+            "city": "Greensboro",
+            "defaultLocation": "Greensboro, NC",
+            "filters": [
+                [
+                    "lgbtq"
+                ],
+                [
+                    "commercial"
+                ]
+            ]
+        },
+        {
+            "name": "Greensboro Drag Brunch",
+            "organizerId": "18339520252",
+            "city": "Greensboro",
+            "defaultLocation": "Greensboro, NC",
+            "filters": [
+                [
+                    "lgbtq"
+                ],
+                [
+                    "commercial"
+                ],
+                [
+                    "transgender"
+                ]
+            ]
+        },
+        {
+            "name": "Winks & Rouge Cabaret",
+            "organizerId": "115725973661",
+            "city": "Greensboro",
+            "prefixTitle": "👠",
+            "defaultLocation": "Greensboro, NC",
+            "filters": [
+                [
+                    "lgbtq"
+                ],
+                [
+                    "community"
+                ],
+                [
+                    "drag"
+                ],
+                [
+                    "transgender"
+                ]
+            ]
+        }
     ],
-    "libcal": [
-        
-       
-    ]
+    "instagram": [
+        {
+            "name": "Greensboro Pride",
+            "username": "greensboropride",
+            "city": "Greensboro",
+            "prefixTitle": "🌈",
+            "defaultLocation": "Greensboro, NC",
+            "context_clues": [
+                "pride"
+            ],
+            "filters": [
+                [
+                    "lgbtq"
+                ],
+                [
+                    "community"
+                ],
+                [
+                    "drag"
+                ],
+                [
+                    "transgender"
+                ]
+            ]
+        },
+        {
+            "name": "Greensboro Project Space",
+            "username": "greensboroprojectspace",
+            "city": "Greensboro",
+            "prefixTitle": "🎨",
+            "defaultLocation": "Greensboro, NC",
+            "context_clues": [
+                "art"
+            ],
+            "filters": [
+                [
+                    "art"
+                ],
+                [
+                    "nonprofit"
+                ]
+            ]
+        },
+        {
+            "name": "ETC.GSO",
+            "username": "etc.gso",
+            "city": "Greensboro",
+            "prefixTitle": "🎵",
+            "defaultLocation": "1333 Grove St, Greensboro, NC 27403",
+            "context_clues": [
+                "performance",
+                "music",
+                "event"
+            ],
+            "filters": [
+                [
+                    "art"
+                ],
+                [
+                    "community"
+                ],
+                [
+                    "performance"
+                ],
+                [
+                    "music"
+                ]
+            ]
+        },
+        {
+            "name": "Back Table",
+            "username": "backtablegso",
+            "city": "Greensboro",
+            "defaultLocation": "816 S Elm St #1A, Greensboro, NC 27406",
+            "context_clues": [
+                "performance",
+                "music",
+                "open mic"
+            ],
+            "filters": [
+                [
+                    "art"
+                ],
+                [
+                    "commercial"
+                ],
+                [
+                    "performance"
+                ],
+                [
+                    "music"
+                ]
+            ]
+        },
+        {
+            "name": "irving park ART & FRAME",
+            "username": "irvingparkartandframe",
+            "prefixTitle": "🖼️",
+            "city": "Greensboro",
+            "defaultLocation": "2800 Lawndale Drive, Suite 107, Greensboro, North Carolina 27408",
+            "context_clues": [
+                "performance",
+                "art",
+                "exhibition"
+            ],
+            "filters": [
+                [
+                    "art"
+                ],
+                [
+                    "commercial"
+                ]
+            ]
+        },
+        {
+            "name": "GSO All Girls Walk Club",
+            "username": "gso_allgirlswalkclub",
+            "city": "Greensboro",
+            "defaultLocation": "341 S Elm St, Greensboro, NC",
+            "context_clues": [
+                "exercise",
+                "walk",
+                "club"
+            ],
+            "filters": [
+                [
+                    "exercise"
+                ],
+                [
+                    "community"
+                ]
+            ]
+        },
+        {
+            "name": "ZIGGYS📍GSO",
+            "username": "ziggysgso",
+            "city": "Greensboro",
+            "prefixTitle": "🎵",
+            "defaultLocation": "523 S Elm St, Greensboro, NC 27406",
+            "context_clues": [
+                "music",
+                "performance",
+                "club"
+            ],
+            "filters": [
+                [
+                    "music"
+                ],
+                [
+                    "performance"
+                ],
+                [
+                    "community"
+                ]
+            ]
+        },
+        {
+            "name": "Greensboro Zine Fest",
+            "username": "gsozinefest",
+            "city": "Greensboro",
+            "prefixTitle": "📖",
+            "defaultLocation": "Greensboro, NC",
+            "context_clues": [
+                "market",
+                "book",
+                "fair"
+            ],
+            "filters": [
+                [
+                    "books"
+                ],
+                [
+                    "art"
+                ],
+                [
+                    "community"
+                ]
+            ]
+        },
+        {
+            "name": "Critical Mass GSO",
+            "username": "gso.criticalmass",
+            "city": "Greensboro",
+            "defaultLocation": "Lebauer Park, Greensboro, NC",
+            "context_clues": [
+                "market",
+                "book",
+                "fair"
+            ],
+            "filters": [
+                [
+                    "organizing"
+                ],
+                [
+                    "biking"
+                ],
+                [
+                    "community"
+                ]
+            ]
+        },
+        {
+            "name": "The Flat Iron",
+            "username": "flatirongso",
+            "city": "Greensboro",
+            "prefixTitle": "🎵",
+            "defaultLocation": "Greensboro, NC",
+            "context_clues": [
+                "show",
+                "live",
+                "performance"
+            ],
+            "filters": [
+                [
+                    "performance"
+                ],
+                [
+                    "music"
+                ],
+                [
+                    "commercial"
+                ]
+            ]
+        },
+        {
+            "name": "BOROUGH COFFEE",
+            "username": "boroughcoffeegso",
+            "city": "Greensboro",
+            "defaultLocation": "204 N Mendenhall, Greensboro, North Carolina 27403",
+            "context_clues": [
+                "show",
+                "music",
+                "workshop"
+            ],
+            "filters": [
+                [
+                    "performance"
+                ],
+                [
+                    "music"
+                ],
+                [
+                    "community"
+                ]
+            ]
+        },
+        {
+            "name": "Greensboro Public Library",
+            "username": "gsolibrary",
+            "city": "Greensboro",
+            "prefixTitle": "📚",
+            "defaultLocation": "219 N Church St, Greensboro, North Carolina 27401",
+            "context_clues": [
+                "book",
+                "library",
+                "night",
+                "party"
+            ],
+            "filters": [
+                [
+                    "library"
+                ],
+                [
+                    "books"
+                ],
+                [
+                    "community"
+                ]
+            ]
+        },
+        {
+            "name": "People's Freedom Assembly",
+            "username": "gso_pfa",
+            "city": "Greensboro",
+            "defaultLocation": "219 N Church St, Greensboro, North Carolina 27401",
+            "suffixDescription": "\n A Greensboro-based, Black (New Afrikan) and Indigenous-led decolonial socialist organization, serving working-class and houseless people.",
+            "context_clues": [
+                "activism",
+                "organizing"
+            ],
+            "filters": [
+                [
+                    "activism"
+                ],
+                [
+                    "socialism"
+                ],
+                [
+                    "community"
+                ]
+            ]
+        },
+        {
+            "name": "Silent Book Club Greensboro",
+            "username": "silentbookclubgso",
+            "city": "Greensboro",
+            "prefixTitle": "📖",
+            "defaultLocation": "Greensboro, North Carolina",
+            "suffixDescription": "\n Chapter of @silentbookclub \n📚 Bring a book, any book.\n 🫶🏽 And a friend too.",
+            "context_clues": [
+                "book",
+                "meeting"
+            ],
+            "filters": [
+                [
+                    "book"
+                ],
+                [
+                    "community"
+                ]
+            ]
+        },
+        {
+            "name": "Greensboro Vintage Market",
+            "username": "gsovintagemarket",
+            "city": "Greensboro",
+            "prefixTitle": "🪸",
+            "defaultLocation": "Greensboro, North Carolina",
+            "context_clues": [
+                "market"
+            ],
+            "filters": [
+                [
+                    "market"
+                ],
+                [
+                    "socialism"
+                ],
+                [
+                    "commercial"
+                ]
+            ]
+        },
+        {
+            "name": "GSO Revolutionary Socialists",
+            "username": "gso_revsocialists",
+            "city": "Greensboro",
+            "defaultLocation": "Greensboro, North Carolina",
+            "suffixDescription": "\n Group of revolutionary socialists in Greensboro, NC and members of Tempest Collective @tempest_mag",
+            "context_clues": [
+                "activism",
+                "organizing"
+            ],
+            "filters": [
+                [
+                    "activism"
+                ],
+                [
+                    "socialism"
+                ],
+                [
+                    "community"
+                ]
+            ]
+        }
+    ],
+    "squarespace": [],
+    "elfsight": [],
+    "libcal": []
 }
-
-

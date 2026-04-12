@@ -69,12 +69,15 @@ const AIResponseSchema = z.object({
 async function main() {
     console.log("📅 Starting Daily Calendar Update via GitHub Action...");
 
-    if (!process.env.OPENAI_API_KEY || !process.env.INSTAGRAM_USER_ACCESS_TOKEN) {
+    if (!process.env.DASHSCOPE_API_KEY || !process.env.INSTAGRAM_USER_ACCESS_TOKEN) {
         throw new Error("Missing required environment variables.");
     }
 
     // 1. SETUP AI & CLIENTS
-    const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+    const openai = new OpenAI({
+        apiKey: process.env.DASHSCOPE_API_KEY,
+        baseURL: 'https://dashscope.aliyuncs.com/compatible-mode/v1',
+    });
     let visionClient = null;
     
     if (process.env.GOOGLE_CLOUD_VISION_PRIVATE_KEY && process.env.GOOGLE_CLOUD_VISION_CLIENT_EMAIL) {
@@ -422,7 +425,7 @@ async function analyzeWithAI(openai: OpenAI, caption: string, ocrTextData: strin
 
     try {
         const completion = await openai.chat.completions.create({
-            model: "gpt-4o-mini",
+            model: "qwen-plus",
             messages: [
                 { role: "system", content: "You are a precise data extraction assistant. Return valid JSON only." }, 
                 { role: "user", content: prompt }

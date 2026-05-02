@@ -425,7 +425,7 @@ async function analyzeWithAI(openai: OpenAI, caption: string, ocrTextData: strin
 
     try {
         const completion = await openai.chat.completions.create({
-            model: "qwen-plus",
+            model: "qwen-flash",
             messages: [
                 { role: "system", content: "You are a precise data extraction assistant. Return valid JSON only." }, 
                 { role: "user", content: prompt }

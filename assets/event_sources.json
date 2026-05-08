@@ -1040,6 +1040,32 @@
                     "festival"
                 ]
             ]
+        },
+        {
+            "name": "Recycles Bike Shop",
+            "username": "recyclesbikeshop",
+            "city": "Greensboro",
+            "prefixTitle": "🚲",
+            "defaultLocation": "Greensboro, NC",
+            "context_clues": [
+                "bike",
+                "bicycle",
+                "ride",
+                "workshop",
+                "class",
+                "community"
+            ],
+            "filters": [
+                [
+                    "biking"
+                ],
+                [
+                    "community"
+                ],
+                [
+                    "diy"
+                ]
+            ]
         }
     ],
     "squarespace": [],

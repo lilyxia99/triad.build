@@ -753,6 +753,293 @@
                     "community"
                 ]
             ]
+        },
+        {
+            "name": "Elsewhere",
+            "username": "elsewherebar",
+            "city": "Greensboro",
+            "prefixTitle": "🎵",
+            "defaultLocation": "401 W Washington St, Greensboro, NC 27401",
+            "context_clues": [
+                "music",
+                "performance",
+                "show",
+                "live",
+                "dj",
+                "dance"
+            ],
+            "filters": [
+                [
+                    "music"
+                ],
+                [
+                    "performance"
+                ],
+                [
+                    "commercial"
+                ]
+            ]
+        },
+        {
+            "name": "Scuppernong Books",
+            "username": "scuppernongbooks",
+            "city": "Greensboro",
+            "prefixTitle": "📚",
+            "defaultLocation": "304 S Elm St, Greensboro, NC 27401",
+            "context_clues": [
+                "book",
+                "reading",
+                "author",
+                "signing",
+                "discussion",
+                "launch"
+            ],
+            "filters": [
+                [
+                    "books"
+                ],
+                [
+                    "community"
+                ],
+                [
+                    "discussion"
+                ]
+            ]
+        },
+        {
+            "name": "Hangar 1819",
+            "username": "hangar1819",
+            "city": "Greensboro",
+            "prefixTitle": "🎸",
+            "defaultLocation": "5612 W Gate City Blvd, Greensboro, NC 27407",
+            "context_clues": [
+                "concert",
+                "show",
+                "live",
+                "music",
+                "performance"
+            ],
+            "filters": [
+                [
+                    "music"
+                ],
+                [
+                    "performance"
+                ],
+                [
+                    "commercial"
+                ]
+            ]
+        },
+        {
+            "name": "The Grand GSO",
+            "username": "thegrandgso",
+            "city": "Greensboro",
+            "prefixTitle": "🎵",
+            "defaultLocation": "117 S Elm St, Greensboro, NC 27401",
+            "context_clues": [
+                "music",
+                "performance",
+                "show",
+                "live",
+                "dj"
+            ],
+            "filters": [
+                [
+                    "music"
+                ],
+                [
+                    "performance"
+                ],
+                [
+                    "commercial"
+                ]
+            ]
+        },
+        {
+            "name": "Downtown Greensboro Inc.",
+            "username": "downtowngso",
+            "city": "Greensboro",
+            "prefixTitle": "🏙️",
+            "defaultLocation": "Greensboro, NC",
+            "context_clues": [
+                "event",
+                "festival",
+                "market",
+                "downtown",
+                "celebration"
+            ],
+            "filters": [
+                [
+                    "community"
+                ],
+                [
+                    "festival"
+                ],
+                [
+                    "market"
+                ]
+            ]
+        },
+        {
+            "name": "Limelight",
+            "username": "limelightgso",
+            "city": "Greensboro",
+            "defaultLocation": "210 W Lewis St, Greensboro, NC 27406",
+            "context_clues": [
+                "party",
+                "dj",
+                "latin",
+                "dance",
+                "event"
+            ],
+            "filters": [
+                [
+                    "music"
+                ],
+                [
+                    "dance"
+                ],
+                [
+                    "commercial"
+                ]
+            ]
+        },
+        {
+            "name": "Chemistry Nightclub",
+            "username": "chemistrynightclub",
+            "city": "Greensboro",
+            "defaultLocation": "2901 Spring Garden St, Greensboro, NC 27403",
+            "suffixDescription": "\n Greensboro's LGBTQ+ nightclub",
+            "context_clues": [
+                "drag",
+                "dj",
+                "party",
+                "dance",
+                "pride",
+                "queer"
+            ],
+            "filters": [
+                [
+                    "lgbtq"
+                ],
+                [
+                    "drag"
+                ],
+                [
+                    "music"
+                ],
+                [
+                    "commercial"
+                ]
+            ]
+        },
+        {
+            "name": "Arizona Pete's",
+            "username": "arizonapetes",
+            "city": "Greensboro",
+            "defaultLocation": "2900 Patterson St, Greensboro, NC 27407",
+            "context_clues": [
+                "music",
+                "line dancing",
+                "country",
+                "dj",
+                "party"
+            ],
+            "filters": [
+                [
+                    "music"
+                ],
+                [
+                    "dance"
+                ],
+                [
+                    "commercial"
+                ]
+            ]
+        },
+        {
+            "name": "Guilford Green Foundation & LGBTQ Center",
+            "username": "guilfordgreenfoundation",
+            "city": "Greensboro",
+            "prefixTitle": "🏳️‍🌈",
+            "defaultLocation": "121 N Greene St, Greensboro, NC 27401",
+            "suffixDescription": "\n Advancing equality and inclusion through philanthropy, programming, and advocacy that uplifts the LGBTQ community.",
+            "context_clues": [
+                "lgbtq",
+                "pride",
+                "transgender",
+                "support",
+                "workshop",
+                "social"
+            ],
+            "filters": [
+                [
+                    "lgbtq"
+                ],
+                [
+                    "nonprofit"
+                ],
+                [
+                    "transgender"
+                ]
+            ]
+        },
+        {
+            "name": "GSO Community Fridge",
+            "username": "gso_mutual_aid",
+            "city": "Greensboro",
+            "prefixTitle": "🫶",
+            "defaultLocation": "1100 Curtis St, Greensboro, NC 27406",
+            "suffixDescription": "\n Mutual aid & community fridge in Greensboro.",
+            "context_clues": [
+                "mutual aid",
+                "food",
+                "community",
+                "volunteering",
+                "fridge"
+            ],
+            "filters": [
+                [
+                    "organizing"
+                ],
+                [
+                    "food"
+                ],
+                [
+                    "community"
+                ],
+                [
+                    "volunteering"
+                ]
+            ]
+        },
+        {
+            "name": "Greensboro Bound",
+            "username": "greensborobound",
+            "city": "Greensboro",
+            "prefixTitle": "📖",
+            "defaultLocation": "Greensboro, NC",
+            "suffixDescription": "\n Connecting readers and writers through year-round events and the annual Greensboro Bound Book Festival.",
+            "context_clues": [
+                "book",
+                "author",
+                "reading",
+                "festival",
+                "literary",
+                "writing"
+            ],
+            "filters": [
+                [
+                    "books"
+                ],
+                [
+                    "community"
+                ],
+                [
+                    "festival"
+                ]
+            ]
         }
     ],
     "squarespace": [],

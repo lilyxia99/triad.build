@@ -27,6 +27,13 @@ jobs:
         npm ci
         npm install openai zod
 
+    - name: Debug Env
+      run: |
+        echo "Node version: $(node --version)"
+        echo "QWEN_API_KEY is set: ${{ secrets.QWEN_API_KEY != '' }}"
+        echo "INSTAGRAM_TOKEN is set: ${{ secrets.INSTAGRAM_USER_ACCESS_TOKEN != '' }}"
+        echo "IG_BUSINESS_ID is set: ${{ secrets.INSTAGRAM_BUSINESS_USER_ID != '' }}"
+
     - name: Run Scraper Script
       env:
         # Add these in your GitHub Repo Settings -> Secrets

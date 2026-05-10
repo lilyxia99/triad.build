@@ -15,9 +15,12 @@ const __dirname = path.dirname(__filename);
 import eventSourcesJSON from '../assets/event_sources.json' assert { type: 'json' };
 
 // --- CONFIGURATION ---
-const BATCH_SIZE = 5; 
+const BATCH_SIZE = 5;
 const OUTPUT_FILE = path.join(__dirname, '../server/assets/instagram_data.json');
 
+// Model names — change these to switch models
+const AI_MODEL_NAME = 'qwen-plus';        // For event extraction (consider qwen3-xxx for better accuracy)
+const VISION_MODEL_NAME = 'qwen-vl-plus'; // For image OCR
 // --- INTERFACES & TYPES ---
 
 interface TagDef {
@@ -80,6 +83,8 @@ async function main() {
     });
     // Google Vision is no longer used — Qwen VL handles image understanding directly
     const visionClient = null;
+
+    console.log(`🤖 AI Model: ${AI_MODEL_NAME} | Vision Model: ${VISION_MODEL_NAME}`);
 
     // 2. LOAD EXISTING DATA (HISTORY)
     // We load the old file so we don't lose events from posts that are now older than our scrape limit.
@@ -354,7 +359,7 @@ async function processInChunks(items: any[], chunkSize: number, iteratorFn: Func
 async function doOCRWithQwen(openai: OpenAI, url: string): Promise<string> {
     try {
         const completion = await openai.chat.completions.create({
-            model: "qwen-vl-plus",
+            model: VISION_MODEL_NAME,
             messages: [
                 {
                     role: "user",
@@ -436,7 +441,7 @@ async function analyzeWithAI(openai: OpenAI, caption: string, ocrTextData: strin
 
     try {
         const completion = await openai.chat.completions.create({
-            model: "qwen-plus",
+            model: AI_MODEL_NAME,
             messages: [
                 { role: "system", content: "You are a precise data extraction assistant. Return valid JSON only." }, 
                 { role: "user", content: prompt }

@@ -5,7 +5,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import OpenAI from 'openai';
 import { z } from 'zod';
-import vision from '@google-cloud/vision';
+// Google Cloud Vision removed — Qwen VL (qwen-vl-plus) now handles image OCR directly
 
 // --- IMPORTS & PATH SETUP ---
 const __filename = fileURLToPath(import.meta.url);
@@ -69,26 +69,17 @@ const AIResponseSchema = z.object({
 async function main() {
     console.log("📅 Starting Daily Calendar Update via GitHub Action...");
 
-    if (!process.env.DASHSCOPE_API_KEY || !process.env.INSTAGRAM_USER_ACCESS_TOKEN) {
+    if (!process.env.QWEN_API_KEY || !process.env.INSTAGRAM_USER_ACCESS_TOKEN) {
         throw new Error("Missing required environment variables.");
     }
 
     // 1. SETUP AI & CLIENTS
     const openai = new OpenAI({
-        apiKey: process.env.DASHSCOPE_API_KEY,
-        baseURL: 'https://dashscope.aliyuncs.com/compatible-mode/v1',
+        apiKey: process.env.QWEN_API_KEY,
+        baseURL: 'https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1',
     });
-    let visionClient = null;
-    
-    if (process.env.GOOGLE_CLOUD_VISION_PRIVATE_KEY && process.env.GOOGLE_CLOUD_VISION_CLIENT_EMAIL) {
-        console.log("✅ Google Vision Enabled");
-        visionClient = new vision.ImageAnnotatorClient({
-            credentials: {
-                private_key: process.env.GOOGLE_CLOUD_VISION_PRIVATE_KEY.replace(/\\n/g, '\n'),
-                client_email: process.env.GOOGLE_CLOUD_VISION_CLIENT_EMAIL,
-            },
-        });
-    }
+    // Google Vision is no longer used — Qwen VL handles image understanding directly
+    const visionClient = null;
 
     // 2. LOAD EXISTING DATA (HISTORY)
     // We load the old file so we don't lose events from posts that are now older than our scrape limit.
@@ -245,12 +236,12 @@ async function processSingleSource(source: InstagramSource, openai: OpenAI, visi
                 continue;
             }
 
-            // OCR
+            // OCR via Qwen VL (direct image understanding — no Google Vision needed)
             let ocrTextData = "";
-            if (visionClient && mediaUrls.length > 0) {
-                // console.log(`      ...Running OCR on Post ${postCounter}`); 
+            if (mediaUrls.length > 0) {
+                // console.log(`      ...Running Qwen VL on Post ${postCounter}`);
                 const imagesToScan = mediaUrls.slice(0, 3);
-                const ocrResults = await Promise.all(imagesToScan.map(url => doOCR(visionClient, url)));
+                const ocrResults = await Promise.all(imagesToScan.map(url => doOCRWithQwen(openai, url)));
                 ocrTextData = ocrResults
                     .map((txt, idx) => `\n--- IMG ${idx + 1} ---\n${txt}\n`)
                     .join("\n");
@@ -360,10 +351,28 @@ async function processInChunks(items: any[], chunkSize: number, iteratorFn: Func
     return results;
 }
 
-async function doOCR(client: any, url: string) {
+async function doOCRWithQwen(openai: OpenAI, url: string): Promise<string> {
     try {
-        const [result] = await client.textDetection(url);
-        return result.fullTextAnnotation?.text || '';
+        const completion = await openai.chat.completions.create({
+            model: "qwen-vl-plus",
+            messages: [
+                {
+                    role: "user",
+                    content: [
+                        {
+                            type: "image_url",
+                            image_url: { url }
+                        },
+                        {
+                            type: "text",
+                            text: "Please extract ALL text visible in this image exactly as written. Include event names, dates, times, locations, and any other text. Output only the raw text, nothing else."
+                        }
+                    ] as any
+                }
+            ],
+            temperature: 0,
+        });
+        return completion.choices[0].message.content || '';
     } catch (e) {
         return '';
     }
@@ -425,7 +434,7 @@ async function analyzeWithAI(openai: OpenAI, caption: string, ocrTextData: strin
 
     try {
         const completion = await openai.chat.completions.create({
-            model: "qwen-flash",
+            model: "qwen-plus",
             messages: [
                 { role: "system", content: "You are a precise data extraction assistant. Return valid JSON only." }, 
                 { role: "user", content: prompt }

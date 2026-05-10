@@ -1,36 +1,14 @@
+import fs from 'fs'
+import path from 'path'
+
 export default defineEventHandler(async (event) => {
   const githubToken = process.env.GITHUB_TOKEN
   const githubOwner = process.env.GITHUB_OWNER || 'lilyxia99'
   const githubRepo = process.env.GITHUB_REPO || 'triad.build'
 
-  if (!githubToken) {
-    throw createError({
-      statusCode: 500,
-      statusMessage: 'GitHub token not configured'
-    })
-  }
-
-  const filePath = 'assets/event_sources.json'
-  const githubApiUrl = `https://api.github.com/repos/${githubOwner}/${githubRepo}/contents/${filePath}`
-
-  const headers = {
-    'Authorization': `Bearer ${githubToken}`,
-    'Accept': 'application/vnd.github.v3+json',
-    'User-Agent': 'triad.build-sources'
-  }
-
-  try {
-    const response = await fetch(githubApiUrl, { headers })
-
-    if (!response.ok) {
-      throw new Error(`GitHub API error: ${response.status}`)
-    }
-
-    const fileData = await response.json()
-    const content = Buffer.from(fileData.content, 'base64').toString('utf-8')
-    const eventSources = JSON.parse(content)
-
-    const allSources = []
+  // Helper: parse eventSources JSON and return unified source list
+  const buildSourceList = (eventSources: any) => {
+    const allSources: any[] = []
 
     // Google Calendar sources
     if (eventSources.googleCalendar) {
@@ -82,13 +60,81 @@ export default defineEventHandler(async (event) => {
       })
     }
 
-    // Other source types can be added here as needed
-    // apify, apifyMeetup, squarespace, elfsight, libcal
+    // Apify sources
+    if (eventSources.apify) {
+      eventSources.apify.forEach((source: any) => {
+        allSources.push({
+          type: 'apify',
+          name: source.name,
+          instagramHandle: source.instagramHandle,
+          websiteUrl: source.websiteUrl,
+          contactEmail: source.contactEmail,
+          description: source.description,
+          defaultLocation: source.defaultLocation,
+          filters: source.filters
+        })
+      })
+    }
+
+    // Apify Meetup sources
+    if (eventSources.apifyMeetup) {
+      eventSources.apifyMeetup.forEach((source: any) => {
+        allSources.push({
+          type: 'apifyMeetup',
+          name: source.name,
+          instagramHandle: source.instagramHandle,
+          websiteUrl: source.websiteUrl,
+          contactEmail: source.contactEmail,
+          description: source.description,
+          defaultLocation: source.defaultLocation,
+          filters: source.filters
+        })
+      })
+    }
+
+    return allSources
+  }
+
+  // --- Local dev: read file directly from disk ---
+  if (!githubToken) {
+    try {
+      const filePath = path.join(process.cwd(), 'assets', 'event_sources.json')
+      const raw = fs.readFileSync(filePath, 'utf-8')
+      const eventSources = JSON.parse(raw)
+      return { sources: buildSourceList(eventSources) }
+    } catch (error: any) {
+      throw createError({
+        statusCode: 500,
+        statusMessage: `Failed to read local event_sources.json: ${error.message}`
+      })
+    }
+  }
+
+  // --- Production: fetch from GitHub API ---
+  const filePath = 'assets/event_sources.json'
+  const githubApiUrl = `https://api.github.com/repos/${githubOwner}/${githubRepo}/contents/${filePath}`
+
+  const headers: Record<string, string> = {
+    'Authorization': `Bearer ${githubToken}`,
+    'Accept': 'application/vnd.github.v3+json',
+    'User-Agent': 'triad.build-sources'
+  }
+
+  try {
+    const response = await fetch(githubApiUrl, { headers })
+
+    if (!response.ok) {
+      throw new Error(`GitHub API error: ${response.status}`)
+    }
+
+    const fileData = await response.json()
+    const content = Buffer.from(fileData.content, 'base64').toString('utf-8')
+    const eventSources = JSON.parse(content)
 
     return {
-      sources: allSources
+      sources: buildSourceList(eventSources)
     }
-  } catch (error) {
+  } catch (error: any) {
     throw createError({
       statusCode: 500,
       statusMessage: `Failed to fetch sources: ${error.message}`

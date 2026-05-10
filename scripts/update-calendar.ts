@@ -275,16 +275,16 @@ async function processSingleSource(source: InstagramSource, openai: OpenAI, visi
                     const year = ev.startYear || now.getFullYear();
                     const monthIndex = (ev.startMonth || (now.getMonth() + 1)) - 1; 
                     
-                    let start = new Date(year, monthIndex, ev.startDay, ev.startHourMilitaryTime || 12, ev.startMinute || 0);
+                    let start = new Date(year, monthIndex, ev.startDay, ev.startHourMilitaryTime ?? 12, ev.startMinute ?? 0);
                     if (start < new Date() && (new Date().getMonth() - start.getMonth() > 6)) start.setFullYear(year + 1);
 
                     let end = new Date(start);
                     // ... (End date logic remains the same) ...
                     if (ev.endDay && ev.endMonth) {
                         const endYear = ev.endYear || (ev.endMonth < monthIndex ? year + 1 : year);
-                        end = new Date(endYear, ev.endMonth - 1, ev.endDay, ev.endHourMilitaryTime || 23, ev.endMinute || 59);
+                        end = new Date(endYear, ev.endMonth - 1, ev.endDay, ev.endHourMilitaryTime ?? 23, ev.endMinute ?? 59);
                     } else {
-                        if (ev.endHourMilitaryTime) end.setHours(ev.endHourMilitaryTime, ev.endMinute || 0);
+                        if (ev.endHourMilitaryTime !== null && ev.endHourMilitaryTime !== undefined) end.setHours(ev.endHourMilitaryTime, ev.endMinute ?? 0);
                         else end.setHours(start.getHours() + 1);
                     }
 
@@ -401,15 +401,17 @@ async function analyzeWithAI(openai: OpenAI, caption: string, ocrTextData: strin
        - If it's an "Opening Reception" with a time, treat it as a single-day event with the reception time as both start and end.
        - For ongoing exhibitions without a specific time, use 10:00 to 18:00 (10am to 6pm).
     4. **Time Parsing - CRITICAL:**
-       - ALWAYS convert times to 24-hour military time format.
-       - "6pm", "6 PM", "6:00pm" = 18 (NOT 13, NOT 6)
-       - "1pm", "1 PM", "1:00pm" = 13
+       - Output times in 24-hour "military time" (0-23). This is NOT 12-hour time.
+       - "noon" or "12pm" or "12:00pm" = 12 (NOT 0, NOT 8, NOT 13)
+       - "6pm", "6 PM", "6:00pm" = 18 (NOT 6)
+       - "1pm", "1 PM", "1:00pm" = 13 (NOT 1)
        - "7pm", "7 PM", "7:00pm" = 19
        - "10am", "10 AM", "10:00am" = 10
-       - "noon", "12pm" = 12
        - "midnight", "12am" = 0
+       - "8am", "8 AM", "8:00am" = 8
        - If time says "Doors 7pm" or "Doors at 7", the event starts at 19:00 (7pm).
        - If no time is explicitly stated, use context clues (e.g., "evening event" = 19:00, "morning walk" = 10:00).
+       - CRITICAL: "noon" ALWAYS = 12. Never output 8 or 13 for "noon".
     5. **Year Validation:**
        - All event years MUST be between CURRENT YEAR and CURRENT YEAR + 1.
        - NEVER use years before ${currentYear} or after ${currentYear + 1}.
@@ -429,7 +431,7 @@ async function analyzeWithAI(openai: OpenAI, caption: string, ocrTextData: strin
       ]
     }
 
-    REMINDER: Times MUST be in 24-hour format. 6pm = 18, 7pm = 19, 1pm = 13, etc.
+    REMINDER: Times MUST be in 24-hour format. noon/12pm = 12. 6pm = 18, 7pm = 19, 1pm = 13. 8am = 8. Output numbers only (0-23).
     `;
 
     try {

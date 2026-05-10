@@ -50,3 +50,9 @@ Actions 页面 → "Daily Calendar Refresh" → "Run workflow"
 ### GitHub Secrets 需要更新（2026-05-09）
 - ✅ 添加：`QWEN_API_KEY`
 - 🗑️ 可删除：`DASHSCOPE_API_KEY`、`GOOGLE_CLOUD_VISION_PRIVATE_KEY`、`GOOGLE_CLOUD_VISION_CLIENT_EMAIL`
+
+### 重要坑点（2026-05-09 修复）
+- **JS `||` falsy bug**：`null || 12` 和 `0 || 12` 都返回 `12`，但 `0`（午夜）是合法值，不应被替换。
+  - 修复：用 `??`（nullish coalescing）替代 `||`，只对 `null/undefined` 生效。
+  - 涉及字段：`startHourMilitaryTime`、`startMinute`、`endHourMilitaryTime`、`endMinute`
+- **AI prompt 时间解析**：`noon`/`12pm` 必须在 prompt 中单独强调 `= 12 (NOT 0, NOT 8, NOT 13)`，否则模型容易输出 8（上午8点）或 13（下午1点）。

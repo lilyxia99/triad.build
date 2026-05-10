@@ -11,27 +11,6 @@ function findImageUrls(description: string): string[] {
     return uniqueMatches || [];
 }
 
-function formatTitleAndDateToID(inputDate: any, title: string) {
-    const date = new Date(inputDate);
-    const year = date.getFullYear().toString().slice(-2);
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const day = date.getDate().toString().padStart(2, '0');
-    const hours = date.getHours().toString().padStart(2, '0');
-    const minutes = date.getMinutes().toString().padStart(2, '0');
-  
-    function getFirstThreeUrlCompatibleChars(inputTitle: string): string {
-        const urlCompatibleChars = /^[A-Za-z]+$/;
-        inputTitle = inputTitle || 'und';
-        return Array.from(inputTitle)
-            .filter(char => urlCompatibleChars.test(char))
-            .slice(0, 3)
-            .join('')
-            .toLowerCase();
-    }
-    const titlePrefix = getFirstThreeUrlCompatibleChars(title);
-    return `${year}${month}${day}${hours}${minutes}${titlePrefix}`;
-}
-
 // --- Main Handler ---
 
 export default defineCachedEventHandler(async (event) => {
@@ -133,7 +112,8 @@ async function fetchEventbriteEvents() {
                     }
 
                     return {
-                        id: formatTitleAndDateToID(startDateObj, title),
+                        // ✅ FIX: Use Eventbrite's native ID to prevent duplicates
+                        id: `eventbrite-${item.id}`,
                         title: title,
                         org: source.name,
                         start: startDateObj.toISOString(),

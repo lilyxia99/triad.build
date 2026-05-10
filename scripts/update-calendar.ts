@@ -19,15 +19,15 @@ const BATCH_SIZE = 5;
 const OUTPUT_FILE = path.join(__dirname, '../server/assets/instagram_data.json');
 
 // Model names — change these to switch models
-const AI_MODEL_NAME = 'qwen3.6-plus';    // For event extraction (Token Plan model, better time parsing)
-const VISION_MODEL_NAME = 'qwen-vl-plus'; // For image OCR
+const AI_MODEL_NAME = 'qwen3.6-flash';    // For event extraction (Token Plan model, better time parsing)
+const VISION_MODEL_NAME = 'qwen3.6-flash'; // For image OCR
 // --- INTERFACES & TYPES ---
 
 interface TagDef {
     name: string;
     fullName: string;
     defaultValue: string;
-    keywords?: string[]; 
+    keywords?: string[];
 }
 
 interface AppConfig {
@@ -94,7 +94,7 @@ async function main() {
             const rawData = fs.readFileSync(OUTPUT_FILE, 'utf-8');
             const parsed = JSON.parse(rawData);
             const oldSources = parsed.eventSources || [];
-            
+
             // Store them in a Map keyed by the Source Name (e.g. "Gate City Casino")
             for (const src of oldSources) {
                 previousSourcesMap.set(src.name, src);
@@ -139,12 +139,12 @@ async function main() {
             }
 
             // 3. Convert back to array & sort by date
-            const mergedEvents = Array.from(eventMap.values()).sort((a: any, b: any) => 
+            const mergedEvents = Array.from(eventMap.values()).sort((a: any, b: any) =>
                 new Date(a.start).getTime() - new Date(b.start).getTime()
             );
-            
+
             console.log(`   Start Merge @${freshSource.name}: ${oldSource.events.length} old + ${freshSource.events.length} fresh => ${mergedEvents.length} total (+${newCount} new)`);
-            
+
             freshSource.events = mergedEvents;
         }
 
@@ -162,7 +162,7 @@ async function main() {
 
     // 6. SAVE
     console.log(`💾 Saving ${finalSources.length} accounts to ${OUTPUT_FILE}...`);
-    
+
     const dir = path.dirname(OUTPUT_FILE);
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 
@@ -182,15 +182,15 @@ async function main() {
 async function processSingleSource(source: InstagramSource, openai: OpenAI, visionClient: any) {
     try {
         console.log(`\n🔍 [START] Processing @${source.username}...`);
-        
+
         const myId = process.env.INSTAGRAM_BUSINESS_USER_ID;
         const token = process.env.INSTAGRAM_USER_ACCESS_TOKEN;
-        
+
         // 1. UPDATED LIMIT: Increased to 25 to catch older flyers
         const url = `https://graph.facebook.com/v21.0/${myId}?fields=business_discovery.username(${source.username}){media.limit(25){id,caption,media_type,media_url,thumbnail_url,permalink,timestamp,children{media_url,media_type,thumbnail_url}}}&access_token=${token}`;
-        
+
         const res = await fetch(url);
-        
+
         // 2. DEBUG: API Network Failures
         if (!res.ok) {
             const txt = await res.text();
@@ -198,7 +198,7 @@ async function processSingleSource(source: InstagramSource, openai: OpenAI, visi
             else console.warn(`   ❌ [API Error] @${source.username} returned ${res.status}: ${txt.substring(0, 150)}`);
             return null;
         }
-        
+
         const data = await res.json();
 
         // 3. DEBUG: Detect Personal vs Business Accounts
@@ -227,7 +227,7 @@ async function processSingleSource(source: InstagramSource, openai: OpenAI, visi
             // Gather Media
             let mediaUrls: string[] = [];
             if (post.media_type === 'CAROUSEL_ALBUM' && post.children?.data) {
-                mediaUrls = post.children.data.map((child: any) => 
+                mediaUrls = post.children.data.map((child: any) =>
                     (child.media_type === 'VIDEO' && child.thumbnail_url) ? child.thumbnail_url : child.media_url
                 ).filter(Boolean);
             } else {
@@ -255,10 +255,10 @@ async function processSingleSource(source: InstagramSource, openai: OpenAI, visi
             // 5. DEBUG: Check what we are sending AI
             const captionLen = post.caption ? post.caption.length : 0;
             const ocrLen = ocrTextData.length;
-            
+
             if (captionLen < 5 && ocrLen < 10) {
-                 console.log(`   ⏭️ [Skip] Post ${postCounter}: Not enough text data (Caption: ${captionLen} chars, OCR: ${ocrLen} chars).`);
-                 continue;
+                console.log(`   ⏭️ [Skip] Post ${postCounter}: Not enough text data (Caption: ${captionLen} chars, OCR: ${ocrLen} chars).`);
+                continue;
             }
 
             // AI Analysis
@@ -267,9 +267,9 @@ async function processSingleSource(source: InstagramSource, openai: OpenAI, visi
             if (aiResponse && aiResponse.events.length > 0) {
                 // Added source.username to the log
                 console.log(`   ✅ [AI Match] @${source.username} | Post ${postCounter} (${postDateString}): Found ${aiResponse.events.length} event(s).`);
-                
+
                 const now = new Date();
-                
+
                 // 1. Create a local counter for THIS post only
                 let eventIndex = 0;
 
@@ -278,8 +278,8 @@ async function processSingleSource(source: InstagramSource, openai: OpenAI, visi
 
                     // ... (Date calculation logic remains the same) ...
                     const year = ev.startYear || now.getFullYear();
-                    const monthIndex = (ev.startMonth || (now.getMonth() + 1)) - 1; 
-                    
+                    const monthIndex = (ev.startMonth || (now.getMonth() + 1)) - 1;
+
                     let start = new Date(year, monthIndex, ev.startDay, ev.startHourMilitaryTime ?? 12, ev.startMinute ?? 0);
                     if (start < new Date() && (new Date().getMonth() - start.getMonth() > 6)) start.setFullYear(year + 1);
 
@@ -327,8 +327,8 @@ async function processSingleSource(source: InstagramSource, openai: OpenAI, visi
                     });
                 }
             } else {
-                 // 6. DEBUG: AI found nothing
-                 // console.log(`   zzz Post ${postCounter}: AI found 0 events.`);
+                // 6. DEBUG: AI found nothing
+                // console.log(`   zzz Post ${postCounter}: AI found 0 events.`);
             }
         }
 
@@ -348,7 +348,7 @@ async function processInChunks(items: any[], chunkSize: number, iteratorFn: Func
     const results = [];
     for (let i = 0; i < items.length; i += chunkSize) {
         const chunk = items.slice(i, i + chunkSize);
-        console.log(` 📦 Batch ${Math.floor(i/chunkSize) + 1}: Processing ${chunk.length} items...`);
+        console.log(` 📦 Batch ${Math.floor(i / chunkSize) + 1}: Processing ${chunk.length} items...`);
         const chunkResults = await Promise.all(chunk.map(item => iteratorFn(item)));
         results.push(...chunkResults);
         if (i + chunkSize < items.length) await new Promise(r => setTimeout(r, 2000));
@@ -443,7 +443,7 @@ async function analyzeWithAI(openai: OpenAI, caption: string, ocrTextData: strin
         const completion = await openai.chat.completions.create({
             model: AI_MODEL_NAME,
             messages: [
-                { role: "system", content: "You are a precise data extraction assistant. Return valid JSON only." }, 
+                { role: "system", content: "You are a precise data extraction assistant. Return valid JSON only." },
                 { role: "user", content: prompt }
             ],
             response_format: { type: "json_object" },

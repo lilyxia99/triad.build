@@ -19,7 +19,7 @@ const BATCH_SIZE = 5;
 const OUTPUT_FILE = path.join(__dirname, '../server/assets/instagram_data.json');
 
 // Model names — change these to switch models
-const AI_MODEL_NAME = 'qwen-plus';        // For event extraction (consider qwen3-xxx for better accuracy)
+const AI_MODEL_NAME = 'qwen3.6-plus';    // For event extraction (Token Plan model, better time parsing)
 const VISION_MODEL_NAME = 'qwen-vl-plus'; // For image OCR
 // --- INTERFACES & TYPES ---
 

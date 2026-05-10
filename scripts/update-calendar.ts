@@ -15,12 +15,16 @@ const __dirname = path.dirname(__filename);
 import eventSourcesJSON from '../assets/event_sources.json' assert { type: 'json' };
 
 // --- CONFIGURATION ---
-const BATCH_SIZE = 5;
+const BATCH_SIZE = 2;
 const OUTPUT_FILE = path.join(__dirname, '../server/assets/instagram_data.json');
 
+// Retry config for Instagram API rate limits (error #4)
+const INSTA_RETRY_MAX = 3;
+const INSTA_RETRY_BASE_WAIT = 60000; // 60s, 120s, 180s
+
 // Model names — change these to switch models
-const AI_MODEL_NAME = 'qwen3.6-flash';    // For event extraction (Token Plan model, better time parsing)
-const VISION_MODEL_NAME = 'qwen3.6-flash'; // For image OCR
+const AI_MODEL_NAME = 'qwen3.6-plus';     // Event extraction (Token Plan)
+const VISION_MODEL_NAME = 'qwen-vl-plus'; // Image OCR
 // --- INTERFACES & TYPES ---
 
 interface TagDef {
@@ -179,6 +183,27 @@ async function main() {
 
 // --- WORKER LOGIC ---
 
+// Instagram API call with retry on rate limit (error #4)
+async function fetchInstagramAPI(url: string, username: string): Promise<Response | null> {
+    for (let attempt = 1; attempt <= INSTA_RETRY_MAX; attempt++) {
+        const res = await fetch(url);
+        if (res.ok) return res;
+
+        const txt = await res.text();
+        if (txt.includes('(#4)')) {
+            const waitMs = INSTA_RETRY_BASE_WAIT * attempt;
+            console.warn(`   ⚠️ [Rate Limit] @${username} - waiting ${waitMs / 1000}s before retry (attempt ${attempt}/${INSTA_RETRY_MAX})`);
+            await new Promise(r => setTimeout(r, waitMs));
+            continue;
+        }
+
+        console.warn(`   ❌ [API Error] @${username} returned ${res.status}: ${txt.substring(0, 150)}`);
+        return null;
+    }
+    console.warn(`   ❌ [Retry Failed] @${username} - max retries (${INSTA_RETRY_MAX}) reached`);
+    return null;
+}
+
 async function processSingleSource(source: InstagramSource, openai: OpenAI, visionClient: any) {
     try {
         console.log(`\n🔍 [START] Processing @${source.username}...`);
@@ -186,18 +211,10 @@ async function processSingleSource(source: InstagramSource, openai: OpenAI, visi
         const myId = process.env.INSTAGRAM_BUSINESS_USER_ID;
         const token = process.env.INSTAGRAM_USER_ACCESS_TOKEN;
 
-        // 1. UPDATED LIMIT: Increased to 25 to catch older flyers
         const url = `https://graph.facebook.com/v21.0/${myId}?fields=business_discovery.username(${source.username}){media.limit(25){id,caption,media_type,media_url,thumbnail_url,permalink,timestamp,children{media_url,media_type,thumbnail_url}}}&access_token=${token}`;
 
-        const res = await fetch(url);
-
-        // 2. DEBUG: API Network Failures
-        if (!res.ok) {
-            const txt = await res.text();
-            if (txt.includes('(#4)')) console.warn(`   ⚠️ [Rate Limit] @${source.username} temporarily blocked.`);
-            else console.warn(`   ❌ [API Error] @${source.username} returned ${res.status}: ${txt.substring(0, 150)}`);
-            return null;
-        }
+        const res = await fetchInstagramAPI(url, source.username);
+        if (!res) return null;
 
         const data = await res.json();
 
@@ -351,7 +368,7 @@ async function processInChunks(items: any[], chunkSize: number, iteratorFn: Func
         console.log(` 📦 Batch ${Math.floor(i / chunkSize) + 1}: Processing ${chunk.length} items...`);
         const chunkResults = await Promise.all(chunk.map(item => iteratorFn(item)));
         results.push(...chunkResults);
-        if (i + chunkSize < items.length) await new Promise(r => setTimeout(r, 2000));
+        if (i + chunkSize < items.length) await new Promise(r => setTimeout(r, 5000));
     }
     return results;
 }

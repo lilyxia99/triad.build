@@ -6,10 +6,6 @@
 This project's purpose is to help people in GSO and greater area know what's going on with the neighbourhood, build connections and maybe by having a place to list things, will come up with more ways to connect with one another.
 
 
-## Why I want to build this
-
-I just moved to this place after breaking up with my ex-girlfriend. (🙅‍♀️don't date ppl who r younger than u...although this is self-contradictory) I am devastated to know more friends!!!
-
 ## How do I add my events to this website?
 
 You have two options!

@@ -95,49 +95,76 @@ export default defineEventHandler(async (event) => {
     return allSources
   }
 
-  // --- Local dev: read file directly from disk ---
-  if (!githubToken) {
-    try {
-      const filePath = path.join(process.cwd(), 'assets', 'event_sources.json')
-      const raw = fs.readFileSync(filePath, 'utf-8')
+  // --- Try to read from local file (works in both dev and production) ---
+  // Priority 1: Read from server/ directory (always included in Nuxt 3 builds)
+  const serverDirPath = path.join(__dirname, '..', 'event_sources.json')
+  
+  try {
+    if (fs.existsSync(serverDirPath)) {
+      const raw = fs.readFileSync(serverDirPath, 'utf-8')
       const eventSources = JSON.parse(raw)
       return { sources: buildSourceList(eventSources) }
-    } catch (error: any) {
-      throw createError({
-        statusCode: 500,
-        statusMessage: `Failed to read local event_sources.json: ${error.message}`
-      })
-    }
-  }
-
-  // --- Production: fetch from GitHub API ---
-  const filePath = 'assets/event_sources.json'
-  const githubApiUrl = `https://api.github.com/repos/${githubOwner}/${githubRepo}/contents/${filePath}`
-
-  const headers: Record<string, string> = {
-    'Authorization': `Bearer ${githubToken}`,
-    'Accept': 'application/vnd.github.v3+json',
-    'User-Agent': 'triad.build-sources'
-  }
-
-  try {
-    const response = await fetch(githubApiUrl, { headers })
-
-    if (!response.ok) {
-      throw new Error(`GitHub API error: ${response.status}`)
-    }
-
-    const fileData = await response.json()
-    const content = Buffer.from(fileData.content, 'base64').toString('utf-8')
-    const eventSources = JSON.parse(content)
-
-    return {
-      sources: buildSourceList(eventSources)
     }
   } catch (error: any) {
-    throw createError({
-      statusCode: 500,
-      statusMessage: `Failed to fetch sources: ${error.message}`
-    })
+    console.log(`Failed to read from server directory:`, error.message)
   }
+
+  // Priority 2: Try other possible paths (for dev environment or edge cases)
+  const possiblePaths = [
+    // Dev environment
+    path.join(process.cwd(), 'assets', 'event_sources.json'),
+    // Alternative paths
+    path.join(process.cwd(), 'server', 'event_sources.json'),
+    path.join(__dirname, '..', '..', 'assets', 'event_sources.json'),
+  ]
+
+  // Try each path
+  for (const filePath of possiblePaths) {
+    try {
+      if (fs.existsSync(filePath)) {
+        const raw = fs.readFileSync(filePath, 'utf-8')
+        const eventSources = JSON.parse(raw)
+        return { sources: buildSourceList(eventSources) }
+      }
+    } catch (error: any) {
+      console.log(`Failed to read from ${filePath}:`, error.message)
+    }
+  }
+
+  // --- Fallback: Try to fetch from GitHub API (if token is available) ---
+  if (githubToken) {
+    const filePath = 'assets/event_sources.json'
+    const githubApiUrl = `https://api.github.com/repos/${githubOwner}/${githubRepo}/contents/${filePath}`
+
+    const headers: Record<string, string> = {
+      'Authorization': `Bearer ${githubToken}`,
+      'Accept': 'application/vnd.github.v3+json',
+      'User-Agent': 'triad.build-sources'
+    }
+
+    try {
+      const response = await fetch(githubApiUrl, { headers })
+
+      if (!response.ok) {
+        throw new Error(`GitHub API error: ${response.status}`)
+      }
+
+      const fileData = await response.json()
+      const content = Buffer.from(fileData.content, 'base64').toString('utf-8')
+      const eventSources = JSON.parse(content)
+
+      return {
+        sources: buildSourceList(eventSources)
+      }
+    } catch (error: any) {
+      console.error('GitHub API fallback failed:', error.message)
+      // Don't throw here, we'll throw a comprehensive error below
+    }
+  }
+
+  // --- If nothing works ---
+  throw createError({
+    statusCode: 500,
+    statusMessage: 'Failed to read event_sources.json: file not found in local paths and GitHub API fallback failed or not configured'
+  })
 })

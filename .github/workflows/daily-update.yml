@@ -12,6 +12,8 @@ permissions:
 jobs:
   refresh-data:
     runs-on: ubuntu-latest
+    env:
+      TZ: America/New_York  # Set timezone to Eastern Time for correct date parsing
 
     steps:
     - name: Checkout code
@@ -30,6 +32,7 @@ jobs:
     - name: Debug Env
       run: |
         echo "Node version: $(node --version)"
+        echo "TZ timezone: $TZ"
         echo "QWEN_API_KEY is set: ${{ secrets.QWEN_API_KEY != '' }}"
         echo "INSTAGRAM_TOKEN is set: ${{ secrets.INSTAGRAM_USER_ACCESS_TOKEN != '' }}"
         echo "IG_BUSINESS_ID is set: ${{ secrets.INSTAGRAM_BUSINESS_USER_ID != '' }}"

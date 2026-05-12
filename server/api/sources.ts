@@ -1,6 +1,3 @@
-// Simple, reliable approach: fetch the JSON file via HTTP
-// This works in both dev (Nuxt dev server) and prod (static files on Vercel)
-
 export default defineEventHandler(async (event) => {
   // Helper: parse eventSources JSON and return unified source list
   const buildSourceList = (eventSources: any) => {
@@ -91,50 +88,16 @@ export default defineEventHandler(async (event) => {
     return allSources
   }
 
-  // Fetch from static file - works in both dev and production
+  // Fetch the static JSON file via HTTP - works in both dev and production
+  // In dev: http://localhost:3000/event_sources.json
+  // In prod: https://www.triad.build/event_sources.json
   try {
-    // In Nuxt 3, we can use $fetch to get the file
-    // Try multiple possible paths for the JSON file
-    const possiblePaths = [
-      '/assets/event_sources.json',
-      '/event_sources.json',
-      './assets/event_sources.json'
-    ]
-
-    let eventSources = null
-    let lastError = null
-
-    for (const filePath of possiblePaths) {
-      try {
-        // Use $fetch which works with Nuxt's internal fetch
-        const data = await $fetch(filePath, {
-          responseType: 'json',
-          baseURL: getRequestURL(event).origin
-        })
-        eventSources = data
-        break
-      } catch (e: any) {
-        lastError = e
-        // Try next path
-        continue
-      }
-    }
-
-    // If $fetch with baseURL didn't work, try relative fetch
-    if (!eventSources) {
-      try {
-        const data = await $fetch('/assets/event_sources.json', {
-          responseType: 'json'
-        })
-        eventSources = data
-      } catch (e: any) {
-        lastError = e
-      }
-    }
-
-    if (!eventSources) {
-      throw lastError || new Error('Failed to fetch event_sources.json from all paths')
-    }
+    const origin = getRequestURL(event).origin
+    const fileUrl = `${origin}/event_sources.json`
+    
+    const eventSources = await $fetch(fileUrl, {
+      responseType: 'json'
+    })
 
     return {
       sources: buildSourceList(eventSources)

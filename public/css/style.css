@@ -894,3 +894,56 @@ input[type="checkbox"]:checked::before {
 .source-page p{
   margin-top: 7px;
 }
+
+/* City toggle buttons in the FC toolbar — styled as small dot+label chips */
+[class*="fc-city"].fc-button,
+[class*="fc-city"].fc-button:hover,
+[class*="fc-city"].fc-button:focus,
+[class*="fc-city"].fc-button:active {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  padding: 1px 4px !important;
+  font-size: 0.72em !important;
+  font-family: var(--body-font) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.city-btn-dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.city-btn-label {
+  color: var(--text-normal);
+}
+
+/* Mobile: wrap city buttons onto a second line below the main toolbar row */
+@media (max-width: 600px) {
+  .fc-toolbar-chunk:first-child {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .fc-toolbar-chunk:first-child > .fc-button-group,
+  .fc-toolbar-chunk:first-child > button:not([class*="fc-city"]) {
+    order: 0;
+  }
+  .fc-toolbar-chunk:first-child::after {
+    content: '';
+    flex-basis: 100%;
+    height: 0;
+    order: 1;
+  }
+  [class*="fc-city"].fc-button {
+    order: 2;
+  }
+}

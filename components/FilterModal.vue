@@ -4,8 +4,11 @@ import { VueFinalModal } from 'vue-final-modal';
 import TopicFilterItem from './TopicFilterItem.vue';
 import TagFilterItem from './TagFilterItem.vue';
 import eventSourcesJSON from '@/assets/event_sources.json';
+import { CITIES } from '@/composables/filters';
 
 const tags = inject('tags'); //Grabs the 'tags' array, which features all tags and whether they're hidden, from App.vue
+const cityEnabled = inject<Record<string, boolean>>('cityEnabled');
+const toggleCity = inject<(cityId: string, enabled: boolean) => void>('toggleCity');
 
 function getTagVisibility(tagName) {
   const tag = tags.value.find(t => t.name === tagName);
@@ -87,6 +90,14 @@ function toggleTagVisibility(tagName: string) {
 
 <template>
   <VueFinalModal class="popper-box-wrapper" content-class="popper-box-inner" overlay-transition="vfm-fade" content-transition="vfm-fade">
+    <span class="event-headers">Cities</span>
+    <div class="city-filter-group">
+      <label v-for="city in CITIES" :key="city.id" class="city-filter-item">
+        <input type="checkbox" :checked="cityEnabled?.[city.id]" @change="toggleCity?.(city.id, ($event.target as HTMLInputElement).checked)" />
+        <span class="city-dot-filter" :style="{ backgroundColor: city.color }"></span>
+        <span class="city-filter-label">{{ city.label }}</span>
+      </label>
+    </div>
     <span class="event-headers">
       Event Purpose
     </span>
@@ -124,3 +135,34 @@ function toggleTagVisibility(tagName: string) {
     </div>
   </VueFinalModal>
 </template>
+
+<style scoped>
+.city-filter-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 6px 0 12px 0;
+}
+
+.city-filter-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  padding: 3px 6px;
+  border-radius: 3px;
+}
+
+.city-dot-filter {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.city-filter-label {
+  font-size: 0.85em;
+  white-space: nowrap;
+}
+</style>

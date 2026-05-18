@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watch, provide } from 'vue'
+import { ref, reactive, onMounted, onUnmounted, watch, provide } from 'vue'
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
@@ -17,6 +17,7 @@ import { replaceBadgePlaceholders } from '~~/utils/util';
 import { type CalendarOptions, type EventClickArg, type EventSourceInput } from '@fullcalendar/core/index.js';
 import eventSourcesJSON from '@/assets/event_sources.json';
 import { getAllTags } from '@/server/tagsListServe'; //Function that gives all tags utilized from event_sources.json
+import { CITIES, CITY_COLOR_MAP, citySafeId } from '@/composables/filters';
 
 
 
@@ -50,6 +51,41 @@ const handleTooltipLeave = () => {
 };
 const tags = ref(getAllTags()); // Ref for serving a full list of tags found in event_sources.json
 provide('tags', tags); //Serves the tags array globally, allowing it to be accessed in FilterModal.vue
+
+// City filter state — Greensboro enabled by default, others off
+const cityEnabled = reactive<Record<string, boolean>>(
+  Object.fromEntries(CITIES.map(c => [c.id, c.defaultEnabled]))
+);
+
+function toggleCity(cityId: string, enabled: boolean) {
+  cityEnabled[cityId] = enabled;
+  updateDisplayingBasedOnTags();
+  updateCityButtonStyles();
+}
+
+provide('cityEnabled', cityEnabled);
+provide('toggleCity', toggleCity);
+
+// City buttons in the FC toolbar — styled via JS after mount
+const cityButtonIdsString = CITIES.map(c => citySafeId(c.id)).join(' ');
+const cityCustomButtons = Object.fromEntries(
+  CITIES.map(city => [
+    citySafeId(city.id),
+    { text: city.abbr, click: () => toggleCity(city.id, !cityEnabled[city.id]) }
+  ])
+);
+
+function updateCityButtonStyles() {
+  if (!process.client) return;
+  nextTick(() => {
+    CITIES.forEach(city => {
+      const btn = document.querySelector(`.fc-${citySafeId(city.id)}-button`) as HTMLElement | null;
+      if (!btn) return;
+      const active = cityEnabled[city.id];
+      btn.innerHTML = `<span class="city-btn-dot" style="background:${city.color};opacity:${active ? 1 : 0.3}"></span><span class="city-btn-label" style="text-decoration:${active ? 'none' : 'line-through'};opacity:${active ? 1 : 0.45}">${city.label}</span>`;
+    });
+  });
+}
 
 var beforeMOTDDate = (Date.now() < Date.parse('11/02/2024 2:30:00 PM'));//For hiding the MOTD, a better system will be implemented in the future!
 
@@ -123,6 +159,9 @@ function disableEventSource(name: string) {
 }
 
 function isDisplayingBasedOnTags(event) {
+  // City filter — events with an unrecognized or missing city are always shown
+  if (event.city && cityEnabled[event.city] === false) return 'none';
+
   let shouldHidefromHidden = false; // Whether the event should be hidden due to it having a tag with isHidden set to true
   let shouldShowfromHeader = false; // Whether the event contains a tag of a tagHeader whis isVisible, which is a pre-requisite to being visible
   let shouldShowfromTags = false; //Whether the event contains atleast one tag which is being searched for rn, has to be true.
@@ -138,6 +177,7 @@ function isDisplayingBasedOnTags(event) {
   // Determine the final display status based on the conditions evaluated
   return ((shouldShowfromHeader && shouldShowfromTags) && !shouldHidefromHidden) ? 'list-item' : 'none';
 }
+
 
 const updateDisplayingBasedOnTags = () => { //Function that re-renders the calendar by updating the display value of each event and resetting it altogether
   // Map over eventSources to create a new array with updated items
@@ -280,9 +320,10 @@ calendarOptions.value = {
       text: 'free drag',
       click: toggleFreeDragMode,
     },
+    ...cityCustomButtons,
   },
   headerToolbar: {
-    left: 'prev today filter freeDrag',
+    left: `prev today filter freeDrag ${cityButtonIdsString}`,
     center: 'title',
     right: 'dayGridMonth,listMonth next'
   },
@@ -341,7 +382,10 @@ calendarOptions.value = {
   stickyHeaderDates: false,
   // Event handlers.
   // Move the scrollbar to today when the switching from other views.
-  viewDidMount: moveListViewScrollbarToTodayAndColor,
+  viewDidMount: function() {
+    moveListViewScrollbarToTodayAndColor();
+    updateCityButtonStyles();
+  },
   // eventDidMount: moveListViewScrollbarToTodayAndColor,
 
   eventContent: function(arg) {
@@ -466,6 +510,7 @@ if (process.client)
 onMounted(() => {
   window.addEventListener("resize", updateCalendarHeight);
   moveListViewScrollbarToTodayAndColor();
+  updateCityButtonStyles();
   // Expose the calendar instance to the window object for debugging
   if (calendarRef.value) window.myCalendar = calendarRef.value.getApi();
   //For the headImage rendering
@@ -557,16 +602,20 @@ const transformEventSourcesResponse = (eventSources: Ref<Record<string, any>>) =
   const eventsSourcesWithoutProxy = toRaw(eventSources.value.body)
   if (!eventsSourcesWithoutProxy || eventsSourcesWithoutProxy.length < 1) return [];
   const datesAdded = eventsSourcesWithoutProxy.map(eventSource => {
+    const cityColor = eventSource.city ? CITY_COLOR_MAP[eventSource.city] : undefined;
     return {
       ...eventSource,
       // Set the `display` property, since the endpoints don't add it.
       events: eventSource.events.map(event => {
+        const eventWithCity = { ...event, city: eventSource.city };
         return {
-          ...event,
+          ...eventWithCity,
+          // Apply city color to event dot/border — per-event so it reliably overrides FC defaults
+          ...(cityColor && { borderColor: cityColor }),
           // Convert date strings to Date objects.
           start: new Date(event.start),
           end: new Date(event.end),
-          display: isDisplayingBasedOnTags(event)
+          display: isDisplayingBasedOnTags(eventWithCity)
         }
       })
     }
@@ -606,11 +655,11 @@ const transformEventSourcesResponse = (eventSources: Ref<Record<string, any>>) =
           <td class="blurb-image"> <img :src="headImage" alt="Triad Build Logo" style="max-width: 100%; height: auto;" /><!--<div v-html="headImage"></div>--> </td>
           <td>
             <div class="blurb-text">
-              A communal board for fun GSO events
+              Triad &amp; RTP community events
             </div>
             <div class="blurb-sub">
+              GSO · HPT · WS · Durham · Raleigh · Chapel Hill<br>
               Stop scrolling insta to find the move!<br><br>
-              
             </div>
           </td>
         </tr>

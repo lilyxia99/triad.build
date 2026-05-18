@@ -3,7 +3,11 @@
     "allow": [
       "Bash(npm run dev:*)",
       "Bash(curl:*)",
-      "Bash(pkill:*)"
+      "Bash(pkill:*)",
+      "Bash(python3 -c \"import json; json.load\\(open\\('/Users/lilyxia99_mac_mini/Documents/Developer/Triad_build/triad.build/assets/event_sources.json'\\)\\); print\\('assets/event_sources.json OK'\\)\")",
+      "Bash(python3 -c \"import json; json.load\\(open\\('/Users/lilyxia99_mac_mini/Documents/Developer/Triad_build/triad.build/public/event_sources.json'\\)\\); print\\('public/event_sources.json OK'\\)\")",
+      "Bash(npx nuxi *)",
+      "Bash(npm run *)"
     ]
   }
 }

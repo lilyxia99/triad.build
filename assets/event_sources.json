@@ -227,6 +227,7 @@
     "googleCalendar": [
         {
             "name": "Gaymer's Night @ Dragon's Hoard",
+            "city": "Greensboro",
             "googleCalendarId": "0d0f28e1f0a3bcab9a47120deefdcec2b12b5ebe15c6f33af9511a4192404af3@group.calendar.google.com",
             "prefixTitle": ":game: ",
             "suffixTitle": "Gaymer's Night @ Dragon's Hoard",
@@ -246,6 +247,7 @@
         },
         {
             "name": "Food Not Bombs GSO",
+            "city": "Greensboro",
             "googleCalendarId": "11baf8e1a3d9733b4629247d8a4ac8571bae660681b235878ad98226eac078ed@group.calendar.google.com",
             "prefixTitle": "🌽 ",
             "suffixTitle": "Food Not Bombs GSO",
@@ -265,6 +267,7 @@
         },
         {
             "name": "private calendar",
+            "city": "Greensboro",
             "googleCalendarId": "dfd48c58b37c06f978ed4f52a74f53775627a26ee306694daa87965e335b5a99@group.calendar.google.com",
             "prefixTitle": "🆘 ",
             "suffixTitle": "private calendar",
@@ -1066,6 +1069,461 @@
                 ],
                 [
                     "diy"
+                ]
+            ]
+        },
+        {
+            "name": "Downtown Winston-Salem",
+            "username": "downtownws",
+            "city": "Winston-Salem",
+            "prefixTitle": "🏙️",
+            "defaultLocation": "Winston-Salem, NC",
+            "context_clues": [
+                "event",
+                "festival",
+                "market",
+                "downtown",
+                "celebration"
+            ],
+            "filters": [
+                [
+                    "community"
+                ],
+                [
+                    "festival"
+                ]
+            ]
+        },
+        {
+            "name": "NC Black Repertory Theatre",
+            "username": "ncblackreptheatre",
+            "city": "Winston-Salem",
+            "prefixTitle": "🎭",
+            "defaultLocation": "650 N Trade St, Winston-Salem, NC 27101",
+            "context_clues": [
+                "performance",
+                "show",
+                "theater",
+                "play",
+                "concert"
+            ],
+            "filters": [
+                [
+                    "theater"
+                ],
+                [
+                    "performance"
+                ],
+                [
+                    "nonprofit"
+                ]
+            ]
+        },
+        {
+            "name": "Triad Pride",
+            "username": "triadpridenc",
+            "city": "Winston-Salem",
+            "prefixTitle": "🌈",
+            "defaultLocation": "Winston-Salem, NC",
+            "context_clues": [
+                "pride",
+                "lgbtq",
+                "event",
+                "festival",
+                "transgender"
+            ],
+            "filters": [
+                [
+                    "lgbtq"
+                ],
+                [
+                    "community"
+                ],
+                [
+                    "festival"
+                ]
+            ]
+        },
+        {
+            "name": "Arts Council of Winston-Salem",
+            "username": "artscouncilws",
+            "city": "Winston-Salem",
+            "prefixTitle": "🎨",
+            "defaultLocation": "305 W 4th St, Winston-Salem, NC 27101",
+            "context_clues": [
+                "art",
+                "exhibition",
+                "gallery",
+                "performance",
+                "workshop",
+                "opening"
+            ],
+            "filters": [
+                [
+                    "art"
+                ],
+                [
+                    "community"
+                ],
+                [
+                    "nonprofit"
+                ]
+            ]
+        },
+        {
+            "name": "Downtown High Point",
+            "username": "downtownhighpointnc",
+            "city": "High Point",
+            "prefixTitle": "🏙️",
+            "defaultLocation": "High Point, NC",
+            "context_clues": [
+                "event",
+                "festival",
+                "market",
+                "downtown"
+            ],
+            "filters": [
+                [
+                    "community"
+                ],
+                [
+                    "festival"
+                ]
+            ]
+        },
+        {
+            "name": "High Point Theatre",
+            "username": "highpointtheatre",
+            "city": "High Point",
+            "prefixTitle": "🎭",
+            "defaultLocation": "220 E Commerce Ave, High Point, NC 27260",
+            "context_clues": [
+                "performance",
+                "show",
+                "theater",
+                "play",
+                "concert",
+                "dance"
+            ],
+            "filters": [
+                [
+                    "theater"
+                ],
+                [
+                    "performance"
+                ],
+                [
+                    "nonprofit"
+                ]
+            ]
+        },
+        {
+            "name": "Motorco Music Hall",
+            "username": "motorcobar",
+            "city": "Durham",
+            "prefixTitle": "🎵",
+            "defaultLocation": "723 Rigsbee Ave, Durham, NC 27701",
+            "context_clues": [
+                "show",
+                "live",
+                "music",
+                "concert",
+                "dj",
+                "performance"
+            ],
+            "filters": [
+                [
+                    "music"
+                ],
+                [
+                    "performance"
+                ],
+                [
+                    "commercial"
+                ]
+            ]
+        },
+        {
+            "name": "The Pinhook",
+            "username": "pinhookdurham",
+            "city": "Durham",
+            "prefixTitle": "🎸",
+            "defaultLocation": "117 W Main St, Durham, NC 27701",
+            "context_clues": [
+                "show",
+                "music",
+                "concert",
+                "live",
+                "dj",
+                "performance"
+            ],
+            "filters": [
+                [
+                    "music"
+                ],
+                [
+                    "performance"
+                ],
+                [
+                    "commercial"
+                ]
+            ]
+        },
+        {
+            "name": "Durham Performing Arts Center",
+            "username": "dpacnc",
+            "city": "Durham",
+            "prefixTitle": "🎭",
+            "defaultLocation": "123 Vivian St, Durham, NC 27701",
+            "context_clues": [
+                "performance",
+                "show",
+                "theater",
+                "concert",
+                "broadway",
+                "dance"
+            ],
+            "filters": [
+                [
+                    "theater"
+                ],
+                [
+                    "performance"
+                ],
+                [
+                    "commercial"
+                ]
+            ]
+        },
+        {
+            "name": "Durham Arts Council",
+            "username": "durhamarts",
+            "city": "Durham",
+            "prefixTitle": "🎨",
+            "defaultLocation": "120 Morris St, Durham, NC 27701",
+            "context_clues": [
+                "art",
+                "exhibition",
+                "gallery",
+                "workshop",
+                "performance",
+                "opening"
+            ],
+            "filters": [
+                [
+                    "art"
+                ],
+                [
+                    "community"
+                ],
+                [
+                    "nonprofit"
+                ]
+            ]
+        },
+        {
+            "name": "Full Steam Brewery",
+            "username": "fullsteambrewery",
+            "city": "Durham",
+            "defaultLocation": "726 Rigsbee Ave, Durham, NC 27701",
+            "context_clues": [
+                "event",
+                "trivia",
+                "live",
+                "show",
+                "music",
+                "community"
+            ],
+            "filters": [
+                [
+                    "community"
+                ],
+                [
+                    "music"
+                ],
+                [
+                    "commercial"
+                ]
+            ]
+        },
+        {
+            "name": "Raleigh Pride",
+            "username": "raleighpride",
+            "city": "Raleigh",
+            "prefixTitle": "🌈",
+            "defaultLocation": "Raleigh, NC",
+            "context_clues": [
+                "pride",
+                "lgbtq",
+                "event",
+                "festival",
+                "transgender"
+            ],
+            "filters": [
+                [
+                    "lgbtq"
+                ],
+                [
+                    "community"
+                ],
+                [
+                    "festival"
+                ]
+            ]
+        },
+        {
+            "name": "IMURJ",
+            "username": "imurjclub",
+            "city": "Raleigh",
+            "defaultLocation": "112 S West St, Raleigh, NC 27601",
+            "suffixDescription": "\n Raleigh's queer nightclub and community space.",
+            "context_clues": [
+                "party",
+                "dj",
+                "dance",
+                "pride",
+                "lgbtq",
+                "drag",
+                "queer"
+            ],
+            "filters": [
+                [
+                    "lgbtq"
+                ],
+                [
+                    "music"
+                ],
+                [
+                    "drag"
+                ],
+                [
+                    "commercial"
+                ]
+            ]
+        },
+        {
+            "name": "Lincoln Theatre Raleigh",
+            "username": "lincolntheatrenc",
+            "city": "Raleigh",
+            "prefixTitle": "🎵",
+            "defaultLocation": "126 E Cabarrus St, Raleigh, NC 27601",
+            "context_clues": [
+                "show",
+                "concert",
+                "live",
+                "music",
+                "performance"
+            ],
+            "filters": [
+                [
+                    "music"
+                ],
+                [
+                    "performance"
+                ],
+                [
+                    "commercial"
+                ]
+            ]
+        },
+        {
+            "name": "NC Museum of Art",
+            "username": "ncartmuseum",
+            "city": "Raleigh",
+            "prefixTitle": "🎨",
+            "defaultLocation": "2110 Blue Ridge Rd, Raleigh, NC 27607",
+            "context_clues": [
+                "art",
+                "exhibition",
+                "opening",
+                "workshop",
+                "performance",
+                "film",
+                "event"
+            ],
+            "filters": [
+                [
+                    "art"
+                ],
+                [
+                    "nonprofit"
+                ],
+                [
+                    "community"
+                ]
+            ]
+        },
+        {
+            "name": "Cat's Cradle",
+            "username": "catscradlecarrboro",
+            "city": "Chapel Hill",
+            "prefixTitle": "🎵",
+            "defaultLocation": "300 E Main St, Carrboro, NC 27510",
+            "context_clues": [
+                "show",
+                "concert",
+                "live",
+                "music",
+                "performance",
+                "dj"
+            ],
+            "filters": [
+                [
+                    "music"
+                ],
+                [
+                    "performance"
+                ],
+                [
+                    "commercial"
+                ]
+            ]
+        },
+        {
+            "name": "ArtsCenter Carrboro",
+            "username": "artscenterlive",
+            "city": "Chapel Hill",
+            "prefixTitle": "🎭",
+            "defaultLocation": "300 E Main St, Carrboro, NC 27510",
+            "context_clues": [
+                "performance",
+                "show",
+                "art",
+                "dance",
+                "theater",
+                "workshop",
+                "class"
+            ],
+            "filters": [
+                [
+                    "art"
+                ],
+                [
+                    "performance"
+                ],
+                [
+                    "nonprofit"
+                ]
+            ]
+        },
+        {
+            "name": "Downtown Chapel Hill",
+            "username": "chapelhilldowntown",
+            "city": "Chapel Hill",
+            "defaultLocation": "Chapel Hill, NC",
+            "context_clues": [
+                "event",
+                "festival",
+                "market",
+                "downtown",
+                "celebration"
+            ],
+            "filters": [
+                [
+                    "community"
+                ],
+                [
+                    "festival"
                 ]
             ]
         }

@@ -27,7 +27,7 @@ const INSTA_RETRY_MAX = 3;
 const INSTA_RETRY_BASE_WAIT = 60000; // 60s, 120s, 180s
 
 // Model names — change these to switch models
-const AI_MODEL_NAME = 'qwen3.6-plus';     // Event extraction (Token Plan)
+const AI_MODEL_NAME = 'qwen-plus';        // Event extraction (Token Plan)
 const VISION_MODEL_NAME = 'qwen-vl-plus'; // Image OCR
 // --- INTERFACES & TYPES ---
 

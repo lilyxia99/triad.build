@@ -14,6 +14,10 @@ const __dirname = path.dirname(__filename);
 // ✅ FIX: Pointing to the correct location in server/assets
 import eventSourcesJSON from '../assets/event_sources.json' assert { type: 'json' };
 
+// Retry config for AI API calls (connection timeout to Chinese server)
+const AI_RETRY_MAX = 3;
+const AI_RETRY_BASE_WAIT = 30000; // 30s, 60s, 90s
+
 // --- CONFIGURATION ---
 const BATCH_SIZE = 2;
 const OUTPUT_FILE = path.join(__dirname, '../server/assets/instagram_data.json');
@@ -71,6 +75,33 @@ const AIResponseSchema = z.object({
     events: z.array(SingleEventSchema)
 });
 
+// --- RETRY HELPER FOR AI API CALLS ---
+async function retryAICall<T>(fn: () => Promise<T>, maxRetries: number = AI_RETRY_MAX): Promise<T | null> {
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+        try {
+            return await fn();
+        } catch (e: any) {
+            const isConnectionError =
+                e?.code === 'ETIMEDOUT' ||
+                e?.code === 'ECONNREFUSED' ||
+                e?.code === 'ECONNRESET' ||
+                e?.message?.includes('Connection error') ||
+                e?.message?.includes('timeout') ||
+                e?.cause?.code === 'ETIMEDOUT';
+
+            if (isConnectionError && attempt < maxRetries) {
+                const waitTime = AI_RETRY_BASE_WAIT * attempt;
+                console.warn(`   ⚠️  Connection error (attempt ${attempt}/${maxRetries}): ${e.message}`);
+                console.warn(`   ⏳ Retrying in ${waitTime / 1000}s...`);
+                await new Promise(r => setTimeout(r, waitTime));
+                continue;
+            }
+            throw e; // Re-throw if not connection error or max retries reached
+        }
+    }
+    return null;
+}
+
 // --- MAIN EXECUTION ---
 // --- MAIN EXECUTION ---
 async function main() {
@@ -84,6 +115,7 @@ async function main() {
     const openai = new OpenAI({
         apiKey: process.env.QWEN_API_KEY,
         baseURL: 'https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1',
+        timeout: 120000, // 120 seconds timeout for slow connections from GitHub Actions
     });
     // Google Vision is no longer used — Qwen VL handles image understanding directly
     const visionClient = null;
@@ -374,7 +406,7 @@ async function processInChunks(items: any[], chunkSize: number, iteratorFn: Func
 }
 
 async function doOCRWithQwen(openai: OpenAI, url: string): Promise<string> {
-    try {
+    return await retryAICall(async () => {
         const completion = await openai.chat.completions.create({
             model: VISION_MODEL_NAME,
             messages: [
@@ -395,9 +427,7 @@ async function doOCRWithQwen(openai: OpenAI, url: string): Promise<string> {
             temperature: 0,
         });
         return completion.choices[0].message.content || '';
-    } catch (e) {
-        return '';
-    }
+    }) || '';
 }
 
 async function analyzeWithAI(openai: OpenAI, caption: string, ocrTextData: string, context: string, postDateString: string) {
@@ -456,7 +486,7 @@ async function analyzeWithAI(openai: OpenAI, caption: string, ocrTextData: strin
     REMINDER: Times MUST be in 24-hour format. noon/12pm = 12. 6pm = 18, 7pm = 19, 1pm = 13. 8am = 8. Output numbers only (0-23).
     `;
 
-    try {
+    return await retryAICall(async () => {
         const completion = await openai.chat.completions.create({
             model: AI_MODEL_NAME,
             messages: [
@@ -470,10 +500,7 @@ async function analyzeWithAI(openai: OpenAI, caption: string, ocrTextData: strin
         const raw = completion.choices[0].message.content;
         const result = AIResponseSchema.safeParse(JSON.parse(raw || "{}"));
         return result.success ? result.data : null;
-    } catch (e) {
-        console.error("AI Analysis Failed:", e);
-        return null;
-    }
+    });
 }
 
 function removeDuplicates(events: any[]) {

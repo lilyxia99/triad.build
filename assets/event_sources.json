@@ -222,6 +222,38 @@
             "/api/events/apify_facebook",
             "/api/events/eventbrite",
             "/api/events/instagram"
+        ],
+        "cities": [
+            {
+                "name": "Greensboro",
+                "fullName": "Greensboro",
+                "defaultValue": "true"
+            },
+            {
+                "name": "Winston-Salem",
+                "fullName": "Winston-Salem",
+                "defaultValue": "false"
+            },
+            {
+                "name": "High Point",
+                "fullName": "High Point",
+                "defaultValue": "false"
+            },
+            {
+                "name": "Durham",
+                "fullName": "Durham",
+                "defaultValue": "false"
+            },
+            {
+                "name": "Raleigh",
+                "fullName": "Raleigh",
+                "defaultValue": "false"
+            },
+            {
+                "name": "Chapel Hill",
+                "fullName": "Chapel Hill",
+                "defaultValue": "false"
+            }
         ]
     },
     "googleCalendar": [
@@ -1524,6 +1556,386 @@
                 ],
                 [
                     "festival"
+                ]
+            ]
+        },
+        {
+            "name": "Winston-Salem Downtown Partnership",
+            "username": "downtownwinstonsalem",
+            "city": "Winston-Salem",
+            "prefixTitle": "🏙️",
+            "defaultLocation": "Winston-Salem, NC",
+            "context_clues": [
+                "downtown",
+                "event",
+                "community"
+            ],
+            "filters": [
+                [
+                    "community"
+                ],
+                [
+                    "commercial"
+                ]
+            ]
+        },
+        {
+            "name": "The Ramkat",
+            "username": "theramkat",
+            "city": "Winston-Salem",
+            "prefixTitle": "🎵",
+            "defaultLocation": "Winston-Salem, NC",
+            "context_clues": [
+                "music",
+                "show",
+                "concert",
+                "performance"
+            ],
+            "filters": [
+                [
+                    "music"
+                ],
+                [
+                    "performance"
+                ],
+                [
+                    "commercial"
+                ]
+            ]
+        },
+        {
+            "name": "ArtCrush WSNC",
+            "username": "artcrush_wsnc",
+            "city": "Winston-Salem",
+            "prefixTitle": "🎨",
+            "defaultLocation": "Winston-Salem, NC",
+            "context_clues": [
+                "art",
+                "exhibition",
+                "gallery"
+            ],
+            "filters": [
+                [
+                    "art"
+                ],
+                [
+                    "community"
+                ]
+            ]
+        },
+        {
+            "name": "Winston-Salem Arts Alliance",
+            "username": "wstalliance",
+            "city": "Winston-Salem",
+            "prefixTitle": "🎭",
+            "defaultLocation": "Winston-Salem, NC",
+            "context_clues": [
+                "art",
+                "alliance",
+                "community",
+                "grants"
+            ],
+            "filters": [
+                [
+                    "art"
+                ],
+                [
+                    "community"
+                ],
+                [
+                    "nonprofit"
+                ]
+            ]
+        },
+        {
+            "name": "Winston Vintage Market",
+            "username": "winstonvintagemarket",
+            "city": "Winston-Salem",
+            "prefixTitle": "🪸",
+            "defaultLocation": "Winston-Salem, NC",
+            "context_clues": [
+                "market",
+                "vintage",
+                "shopping"
+            ],
+            "filters": [
+                [
+                    "market"
+                ],
+                [
+                    "commercial"
+                ]
+            ]
+        },
+        {
+            "name": "Roar WS",
+            "username": "roar.ws",
+            "city": "Winston-Salem",
+            "prefixTitle": "🎵",
+            "defaultLocation": "Winston-Salem, NC",
+            "context_clues": [
+                "music",
+                "show",
+                "concert",
+                "event"
+            ],
+            "filters": [
+                [
+                    "music"
+                ],
+                [
+                    "performance"
+                ],
+                [
+                    "commercial"
+                ]
+            ]
+        },
+        {
+            "name": "Durham LGBTQ Center",
+            "username": "lgbtqdurham",
+            "city": "Durham",
+            "prefixTitle": "🏳️‍🌈",
+            "defaultLocation": "Durham, NC",
+            "context_clues": [
+                "lgbtq",
+                "queer",
+                "pride",
+                "community"
+            ],
+            "filters": [
+                [
+                    "lgbtq"
+                ],
+                [
+                    "community"
+                ],
+                [
+                    "nonprofit"
+                ]
+            ]
+        },
+        {
+            "name": "Club Era Durham",
+            "username": "cluberadurham",
+            "city": "Durham",
+            "prefixTitle": "👠",
+            "defaultLocation": "Durham, NC",
+            "context_clues": [
+                "queer",
+                "nightlife",
+                "dance",
+                "party"
+            ],
+            "filters": [
+                [
+                    "lgbtq"
+                ],
+                [
+                    "music"
+                ],
+                [
+                    "nightlife"
+                ],
+                [
+                    "commercial"
+                ]
+            ]
+        },
+        {
+            "name": "Arcana Durham",
+            "username": "arcanadurham",
+            "city": "Durham",
+            "prefixTitle": "🎲",
+            "defaultLocation": "Durham, NC",
+            "context_clues": [
+                "games",
+                "community",
+                "queer",
+                "craft"
+            ],
+            "filters": [
+                [
+                    "games"
+                ],
+                [
+                    "community"
+                ]
+            ]
+        },
+        {
+            "name": "The Velvet Hippo",
+            "username": "thevelvethippodurham",
+            "city": "Durham",
+            "prefixTitle": "🍺",
+            "defaultLocation": "Durham, NC",
+            "context_clues": [
+                "bar",
+                "music",
+                "event",
+                "nightlife"
+            ],
+            "filters": [
+                [
+                    "music"
+                ],
+                [
+                    "community"
+                ],
+                [
+                    "commercial"
+                ]
+            ]
+        },
+        {
+            "name": "Raleigh Pride",
+            "username": "raleighpridenc",
+            "city": "Raleigh",
+            "prefixTitle": "🌈",
+            "defaultLocation": "Raleigh, NC",
+            "context_clues": [
+                "pride",
+                "lgbtq",
+                "queer",
+                "event"
+            ],
+            "filters": [
+                [
+                    "lgbtq"
+                ],
+                [
+                    "community"
+                ],
+                [
+                    "nonprofit"
+                ]
+            ]
+        },
+        {
+            "name": "LGBT Center of Raleigh",
+            "username": "lgbtcenterofraleigh",
+            "city": "Raleigh",
+            "prefixTitle": "🏳️‍🌈",
+            "defaultLocation": "Raleigh, NC",
+            "context_clues": [
+                "lgbtq",
+                "community",
+                "support",
+                "resources"
+            ],
+            "filters": [
+                [
+                    "lgbtq"
+                ],
+                [
+                    "community"
+                ],
+                [
+                    "nonprofit"
+                ]
+            ]
+        },
+        {
+            "name": "Chapel Hill Downtown Partnership",
+            "username": "chdpartnership",
+            "city": "Chapel Hill",
+            "prefixTitle": "🏙️",
+            "defaultLocation": "Chapel Hill, NC",
+            "context_clues": [
+                "downtown",
+                "event",
+                "community"
+            ],
+            "filters": [
+                [
+                    "community"
+                ],
+                [
+                    "commercial"
+                ]
+            ]
+        },
+        {
+            "name": "Mystery Brewing Company",
+            "username": "mysterybrewing",
+            "city": "Chapel Hill",
+            "prefixTitle": "🍺",
+            "defaultLocation": "Chapel Hill, NC",
+            "context_clues": [
+                "brewery",
+                "beer",
+                "event",
+                "music"
+            ],
+            "filters": [
+                [
+                    "community"
+                ],
+                [
+                    "commercial"
+                ]
+            ]
+        },
+        {
+            "name": "Love Chapel Hill",
+            "username": "lovechapelhill",
+            "city": "Chapel Hill",
+            "prefixTitle": "❤️",
+            "defaultLocation": "Chapel Hill, NC",
+            "context_clues": [
+                "community",
+                "local",
+                "events",
+                "happenings"
+            ],
+            "filters": [
+                [
+                    "community"
+                ]
+            ]
+        },
+        {
+            "name": "High Point Arts Council",
+            "username": "highpointartscouncil",
+            "city": "High Point",
+            "prefixTitle": "🎨",
+            "defaultLocation": "High Point, NC",
+            "context_clues": [
+                "art",
+                "council",
+                "community",
+                "events"
+            ],
+            "filters": [
+                [
+                    "art"
+                ],
+                [
+                    "community"
+                ],
+                [
+                    "nonprofit"
+                ]
+            ]
+        },
+        {
+            "name": "Visit High Point",
+            "username": "visithighpoint",
+            "city": "High Point",
+            "prefixTitle": "🏙️",
+            "defaultLocation": "High Point, NC",
+            "context_clues": [
+                "visit",
+                "events",
+                "things to do",
+                "attractions"
+            ],
+            "filters": [
+                [
+                    "community"
+                ],
+                [
+                    "commercial"
                 ]
             ]
         }

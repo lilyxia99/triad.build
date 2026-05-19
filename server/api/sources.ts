@@ -9,6 +9,7 @@ export default defineEventHandler(async (event) => {
         allSources.push({
           type: 'googleCalendar',
           name: source.name,
+          city: source.city,
           googleCalendarId: source.googleCalendarId,
           instagramHandle: source.instagramHandle,
           websiteUrl: source.websiteUrl,
@@ -26,6 +27,7 @@ export default defineEventHandler(async (event) => {
         allSources.push({
           type: 'instagram',
           name: source.name,
+          city: source.city,
           instagramHandle: source.username ? `@${source.username}` : source.instagramHandle,
           websiteUrl: source.websiteUrl,
           contactEmail: source.contactEmail,
@@ -42,6 +44,7 @@ export default defineEventHandler(async (event) => {
         allSources.push({
           type: 'eventbrite',
           name: source.name,
+          city: source.city,
           organizerId: source.organizerId,
           instagramHandle: source.instagramHandle,
           websiteUrl: source.websiteUrl,
@@ -59,6 +62,7 @@ export default defineEventHandler(async (event) => {
         allSources.push({
           type: 'apify',
           name: source.name,
+          city: source.city,
           instagramHandle: source.instagramHandle,
           websiteUrl: source.websiteUrl,
           contactEmail: source.contactEmail,
@@ -75,6 +79,7 @@ export default defineEventHandler(async (event) => {
         allSources.push({
           type: 'apifyMeetup',
           name: source.name,
+          city: source.city,
           instagramHandle: source.instagramHandle,
           websiteUrl: source.websiteUrl,
           contactEmail: source.contactEmail,

@@ -7,6 +7,21 @@ export interface Tag {
   isHeader: boolean;
 }
 
+export interface City {
+  name: string;
+  fullName: string;
+  isVisible: boolean;
+}
+
+export function getAllCities(): City[] {
+  const citiesConfig = eventSourcesJSON.appConfig.cities || [];
+  return citiesConfig.map(city => ({
+    name: city.name,
+    fullName: city.fullName,
+    isVisible: city.defaultValue === "true"
+  }));
+}
+
 // Helper function to extract source names from URLs
 function extractSourceNames(urls: string[]): string[] {
   return urls.map(url => {

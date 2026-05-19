@@ -401,12 +401,15 @@ calendarOptions.value = {
       startTime = startTime.replace(/^0/, '').replace(':00', '').replace('m','');
     }
     let title = replaceBadgePlaceholders(arg.event.title);
+    let city = arg.event.extendedProps.city;
+    let cityColor = city && CITY_COLOR_MAP[city] ? CITY_COLOR_MAP[city] : '';
+    let cityDot = cityColor ? `<span class="city-dot" style="display:inline-block;width:8px;height:8px;border-radius:50%;background-color:${cityColor};margin-right:4px;flex-shrink:0;vertical-align:middle;"></span>` : '';
     let contentHtml;
     if (arg.view.type != 'listMonth') {
-      contentHtml = `<div class="fc-daygrid-event-dot" style="display: inline-block; vertical-align: middle; margin-right: 4px; position: relative; top: -1px;"></div><span class="fc-event-time" style="margin-right: 0px;">${startTime}</span> <span class="fc-event-title">${title}</span>`;
+      contentHtml = `${cityDot}<span class="fc-event-time" style="margin-right:0px;">${startTime}</span> <span class="fc-event-title">${title}</span>`;
     }
     else {
-      contentHtml = `<a href="${arg.event.url}" class="fc-event-link" style="text-decoration: none; color: inherit;"><span class="fc-event-title">${title}</span></a>`;
+      contentHtml = `${cityDot}<a href="${arg.event.url}" class="fc-event-link" style="text-decoration:none;color:inherit;"><span class="fc-event-title">${title}</span></a>`;
     }
     return { html: contentHtml };
   },

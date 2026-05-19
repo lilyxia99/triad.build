@@ -2,6 +2,7 @@
 import { ref, onMounted, computed } from 'vue'
 import { VueFinalModal } from 'vue-final-modal'
 import eventSourcesJSON from '@/assets/event_sources.json'
+import { CITIES, CITY_COLOR_MAP } from '@/composables/filters'
 
 const sources = ref([])
 const isLoading = ref(true)
@@ -10,6 +11,19 @@ const searchQuery = ref('')
 const headerFilter = ref('all')
 const selectedEventTags = ref<string[]>([])
 const showFilterModal = ref(false)
+
+// City filter — default all selected (sources page is a reference view)
+const selectedCities = ref<string[]>(CITIES.map(c => c.id))
+
+const toggleCity = (cityId: string) => {
+  const i = selectedCities.value.indexOf(cityId)
+  if (i > -1) {
+    selectedCities.value.splice(i, 1)
+  } else {
+    selectedCities.value.push(cityId)
+  }
+}
+const isCitySelected = (cityId: string) => selectedCities.value.includes(cityId)
 
 // Get available tags from config
 const tagsHeader = ref(eventSourcesJSON.appConfig.tagsHeader)
@@ -41,6 +55,13 @@ const loadSources = async () => {
 
 const filteredSources = computed(() => {
   let filtered = sources.value
+
+  // City filter — sources with no city field always show
+  if (selectedCities.value.length < CITIES.length) {
+    filtered = filtered.filter((source: any) =>
+      !source.city || selectedCities.value.includes(source.city)
+    )
+  }
 
   // Search filter
   if (searchQuery.value) {
@@ -93,6 +114,7 @@ const isEventTagSelected = (tagName: string) => {
 const clearAllFilters = () => {
   headerFilter.value = 'all'
   selectedEventTags.value = []
+  selectedCities.value = CITIES.map(c => c.id)
   showFilterModal.value = false
 }
 
@@ -132,6 +154,20 @@ onMounted(() => {
         placeholder="Search sources..."
         class="sources-search"
       />
+
+      <!-- City toggles -->
+      <div class="sources-city-chips">
+        <button
+          v-for="city in CITIES"
+          :key="city.id"
+          @click="toggleCity(city.id)"
+          class="sources-city-chip"
+          :class="{ inactive: !isCitySelected(city.id) }"
+        >
+          <span class="city-btn-dot" :style="{ background: city.color, opacity: isCitySelected(city.id) ? 1 : 0.3 }"></span>
+          <span :style="{ textDecoration: isCitySelected(city.id) ? 'none' : 'line-through', opacity: isCitySelected(city.id) ? 1 : 0.45 }">{{ city.label }}</span>
+        </button>
+      </div>
 
       <div class="sources-filter-buttons">
         <button
@@ -192,7 +228,15 @@ onMounted(() => {
       <div v-for="source in filteredSources" :key="source.name + source.type" class="source-card">
         <div class="source-header">
           <h2>{{ source.name }}</h2>
-          <div class="source-type">{{ source.type }}</div>
+          <div class="source-header-meta">
+            <span
+              v-if="source.city && CITY_COLOR_MAP[source.city]"
+              class="source-city-dot"
+              :style="{ background: CITY_COLOR_MAP[source.city] }"
+              :title="source.city"
+            ></span>
+            <div class="source-type">{{ source.type }}</div>
+          </div>
         </div>
 
         <div class="source-tags">
@@ -313,3 +357,52 @@ onMounted(() => {
   </div>
   <Footer />
 </template>
+
+<style scoped>
+.sources-city-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  margin-bottom: 8px;
+}
+
+.sources-city-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: none;
+  padding: 1px 4px;
+  font-size: 0.78em;
+  font-family: var(--body-font);
+  color: var(--text-normal);
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.sources-city-chip:hover {
+  opacity: 0.75;
+}
+
+.source-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.source-header-meta {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.source-city-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+</style>

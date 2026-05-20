@@ -92,6 +92,7 @@ async function retryAICall<T>(fn: () => Promise<T>, maxRetries: number = AI_RETR
             if (isConnectionError && attempt < maxRetries) {
                 const waitTime = AI_RETRY_BASE_WAIT * attempt;
                 console.warn(`   ⚠️  Connection error (attempt ${attempt}/${maxRetries}): ${e.message}`);
+                console.warn(`   🔍 Error details: code=${e?.code} | cause=${e?.cause?.code} | status=${e?.status} | type=${e?.constructor?.name}`);
                 console.warn(`   ⏳ Retrying in ${waitTime / 1000}s...`);
                 await new Promise(r => setTimeout(r, waitTime));
                 continue;
@@ -121,6 +122,20 @@ async function main() {
     const visionClient = null;
 
     console.log(`🤖 AI Model: ${AI_MODEL_NAME} | Vision Model: ${VISION_MODEL_NAME}`);
+
+    // Connectivity pre-check — helps diagnose GitHub Actions → CN endpoint issues
+    try {
+        const pingUrl = 'https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1/models';
+        console.log(`🔌 Testing connectivity to Qwen API...`);
+        const pingRes = await fetch(pingUrl, {
+            headers: { 'Authorization': `Bearer ${process.env.QWEN_API_KEY}` },
+            signal: AbortSignal.timeout(15000),
+        });
+        console.log(`✅ Qwen API reachable — HTTP ${pingRes.status}`);
+    } catch (pingErr: any) {
+        console.error(`❌ Qwen API connectivity FAILED: ${pingErr.message} | code=${pingErr?.cause?.code}`);
+        console.error(`   This usually means GitHub Actions cannot reach the CN-Beijing endpoint.`);
+    }
 
     // 2. LOAD EXISTING DATA (HISTORY)
     // We load the old file so we don't lose events from posts that are now older than our scrape limit.

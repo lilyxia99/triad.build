@@ -9,7 +9,8 @@
       "Bash(npx nuxi *)",
       "Bash(npm run *)",
       "Bash(git pull *)",
-      "Bash(git stash *)"
+      "Bash(git stash *)",
+      "WebFetch(domain:api-docs.deepseek.com)"
     ]
   }
 }

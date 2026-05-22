@@ -5,7 +5,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import OpenAI from 'openai';
 import { z } from 'zod';
-// Google Cloud Vision removed — Qwen VL (qwen-vl-plus) now handles image OCR directly
+import vision from '@google-cloud/vision';
 
 // --- IMPORTS & PATH SETUP ---
 const __filename = fileURLToPath(import.meta.url);
@@ -27,8 +27,7 @@ const INSTA_RETRY_MAX = 3;
 const INSTA_RETRY_BASE_WAIT = 60000; // 60s, 120s, 180s
 
 // Model names — change these to switch models
-const AI_MODEL_NAME = 'qwen3.6-plus';        // Event extraction (Token Plan)
-const VISION_MODEL_NAME = 'qwen-vl-plus'; // Image OCR
+const AI_MODEL_NAME = 'deepseek-v4-flash';   // Event extraction
 // --- INTERFACES & TYPES ---
 
 interface TagDef {
@@ -108,34 +107,29 @@ async function retryAICall<T>(fn: () => Promise<T>, maxRetries: number = AI_RETR
 async function main() {
     console.log("📅 Starting Daily Calendar Update via GitHub Action...");
 
-    if (!process.env.QWEN_API_KEY || !process.env.INSTAGRAM_USER_ACCESS_TOKEN) {
+    if (!process.env.DEEPSEEK_API_KEY || !process.env.INSTAGRAM_USER_ACCESS_TOKEN) {
         throw new Error("Missing required environment variables.");
     }
 
     // 1. SETUP AI & CLIENTS
     const openai = new OpenAI({
-        apiKey: process.env.QWEN_API_KEY,
-        baseURL: 'https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1',
-        timeout: 120000, // 120 seconds timeout for slow connections from GitHub Actions
+        apiKey: process.env.DEEPSEEK_API_KEY,
+        baseURL: 'https://api.deepseek.com',
+        timeout: 60000,
     });
-    // Google Vision is no longer used — Qwen VL handles image understanding directly
-    const visionClient = null;
 
-    console.log(`🤖 AI Model: ${AI_MODEL_NAME} | Vision Model: ${VISION_MODEL_NAME}`);
-
-    // Connectivity pre-check — helps diagnose GitHub Actions → CN endpoint issues
-    try {
-        const pingUrl = 'https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1/models';
-        console.log(`🔌 Testing connectivity to Qwen API...`);
-        const pingRes = await fetch(pingUrl, {
-            headers: { 'Authorization': `Bearer ${process.env.QWEN_API_KEY}` },
-            signal: AbortSignal.timeout(15000),
+    let visionClient = null;
+    if (process.env.GOOGLE_CLOUD_VISION_PRIVATE_KEY && process.env.GOOGLE_CLOUD_VISION_CLIENT_EMAIL) {
+        console.log("✅ Google Vision Enabled");
+        visionClient = new vision.ImageAnnotatorClient({
+            credentials: {
+                private_key: process.env.GOOGLE_CLOUD_VISION_PRIVATE_KEY.replace(/\\n/g, '\n'),
+                client_email: process.env.GOOGLE_CLOUD_VISION_CLIENT_EMAIL,
+            },
         });
-        console.log(`✅ Qwen API reachable — HTTP ${pingRes.status}`);
-    } catch (pingErr: any) {
-        console.error(`❌ Qwen API connectivity FAILED: ${pingErr.message} | code=${pingErr?.cause?.code}`);
-        console.error(`   This usually means GitHub Actions cannot reach the CN-Beijing endpoint.`);
     }
+
+    console.log(`🤖 AI Model: ${AI_MODEL_NAME} | OCR: Google Cloud Vision`);
 
     // 2. LOAD EXISTING DATA (HISTORY)
     // We load the old file so we don't lose events from posts that are now older than our scrape limit.
@@ -307,12 +301,11 @@ async function processSingleSource(source: InstagramSource, openai: OpenAI, visi
 
             // OCR via Qwen VL (direct image understanding — no Google Vision needed)
             let ocrTextData = "";
-            if (mediaUrls.length > 0) {
-                // console.log(`      ...Running Qwen VL on Post ${postCounter}`);
+            if (visionClient && mediaUrls.length > 0) {
                 const imagesToScan = mediaUrls.slice(0, 3);
-                const ocrResults = await Promise.all(imagesToScan.map(url => doOCRWithQwen(openai, url)));
+                const ocrResults = await Promise.all(imagesToScan.map(url => doOCR(visionClient, url)));
                 ocrTextData = ocrResults
-                    .map((txt, idx) => `\n--- IMG ${idx + 1} ---\n${txt}\n`)
+                    .map((txt: string, idx: number) => `\n--- IMG ${idx + 1} ---\n${txt}\n`)
                     .join("\n");
             }
 
@@ -420,29 +413,13 @@ async function processInChunks(items: any[], chunkSize: number, iteratorFn: Func
     return results;
 }
 
-async function doOCRWithQwen(openai: OpenAI, url: string): Promise<string> {
-    return await retryAICall(async () => {
-        const completion = await openai.chat.completions.create({
-            model: VISION_MODEL_NAME,
-            messages: [
-                {
-                    role: "user",
-                    content: [
-                        {
-                            type: "image_url",
-                            image_url: { url }
-                        },
-                        {
-                            type: "text",
-                            text: "Please extract ALL text visible in this image exactly as written. Include event names, dates, times, locations, and any other text. Output only the raw text, nothing else."
-                        }
-                    ] as any
-                }
-            ],
-            temperature: 0,
-        });
-        return completion.choices[0].message.content || '';
-    }) || '';
+async function doOCR(client: any, url: string): Promise<string> {
+    try {
+        const [result] = await client.textDetection(url);
+        return result.fullTextAnnotation?.text || '';
+    } catch (e) {
+        return '';
+    }
 }
 
 async function analyzeWithAI(openai: OpenAI, caption: string, ocrTextData: string, context: string, postDateString: string) {

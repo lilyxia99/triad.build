@@ -115,7 +115,7 @@ async function main() {
     // 1. SETUP AI & CLIENTS
     const openai = new OpenAI({
         apiKey: process.env.QWEN_API_KEY,
-        baseURL: 'https://dashscope-intl.aliyuncs.com/compatible-mode/v1',
+        baseURL: 'https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1',
         timeout: 120000, // 120 seconds timeout for slow connections from GitHub Actions
     });
     // Google Vision is no longer used — Qwen VL handles image understanding directly
@@ -125,7 +125,7 @@ async function main() {
 
     // Connectivity pre-check — helps diagnose GitHub Actions → CN endpoint issues
     try {
-        const pingUrl = 'https://dashscope-intl.aliyuncs.com/compatible-mode/v1/models';
+        const pingUrl = 'https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1/models';
         console.log(`🔌 Testing connectivity to Qwen API...`);
         const pingRes = await fetch(pingUrl, {
             headers: { 'Authorization': `Bearer ${process.env.QWEN_API_KEY}` },

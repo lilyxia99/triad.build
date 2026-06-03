@@ -1938,6 +1938,190 @@
                     "commercial"
                 ]
             ]
+        },
+        {
+            "name": "Stonewall Sports Raleigh",
+            "username": "stonewallraleigh",
+            "city": "Raleigh",
+            "prefixTitle": "🏅",
+            "defaultLocation": "Raleigh, NC",
+            "suffixDescription": "\n LGBTQ & Ally non-profit sports league in Raleigh, NC.",
+            "context_clues": [
+                "sports",
+                "league",
+                "volleyball",
+                "kickball",
+                "softball",
+                "cornhole",
+                "registration"
+            ],
+            "filters": [
+                [
+                    "lgbtq"
+                ],
+                [
+                    "exercise"
+                ],
+                [
+                    "community"
+                ]
+            ]
+        },
+        {
+            "name": "Ruby Deluxe",
+            "username": "rubydeluxeraleigh",
+            "city": "Raleigh",
+            "prefixTitle": "👠",
+            "defaultLocation": "401 S Dawson St, Raleigh, NC 27601",
+            "suffixDescription": "\n Raleigh's LGBTQ+ bar and drag venue. Drag brunch every Sunday.",
+            "context_clues": [
+                "drag",
+                "brunch",
+                "dj",
+                "party",
+                "dance",
+                "show"
+            ],
+            "filters": [
+                [
+                    "lgbtq"
+                ],
+                [
+                    "drag"
+                ],
+                [
+                    "music"
+                ],
+                [
+                    "commercial"
+                ]
+            ]
+        },
+        {
+            "name": "Flex Nightclub",
+            "username": "flexnightclub",
+            "city": "Raleigh",
+            "defaultLocation": "308 W Martin St, Raleigh, NC 27603",
+            "suffixDescription": "\n Raleigh's neighborhood gay/straight/whatever bar & club.",
+            "context_clues": [
+                "party",
+                "dj",
+                "drag",
+                "dance",
+                "night",
+                "show"
+            ],
+            "filters": [
+                [
+                    "lgbtq"
+                ],
+                [
+                    "music"
+                ],
+                [
+                    "commercial"
+                ]
+            ]
+        },
+        {
+            "name": "The Fruit Durham",
+            "username": "durhamfruit",
+            "city": "Durham",
+            "prefixTitle": "🍎",
+            "defaultLocation": "305 S Dillard St, Durham, NC 27701",
+            "suffixDescription": "\n Multi-stage concert and arts venue. Voted 'Best Place to Dance' in the Triangle.",
+            "context_clues": [
+                "concert",
+                "music",
+                "show",
+                "dance",
+                "performance"
+            ],
+            "filters": [
+                [
+                    "music"
+                ],
+                [
+                    "performance"
+                ],
+                [
+                    "community"
+                ]
+            ]
+        },
+        {
+            "name": "Queeny's Durham",
+            "username": "queenysdurham",
+            "city": "Durham",
+            "defaultLocation": "Durham, NC",
+            "context_clues": [
+                "event",
+                "dinner",
+                "social",
+                "community"
+            ],
+            "filters": [
+                [
+                    "lgbtq"
+                ],
+                [
+                    "food"
+                ],
+                [
+                    "community"
+                ]
+            ]
+        },
+        {
+            "name": "Chapel Hill Arts - Small Town Pride",
+            "username": "chapelhillarts",
+            "city": "Chapel Hill",
+            "prefixTitle": "🏳️‍🌈",
+            "defaultLocation": "Chapel Hill, NC",
+            "suffixDescription": "\n Month-long Pride celebration hosted by Chapel Hill Community Arts & Culture.",
+            "context_clues": [
+                "pride",
+                "festival",
+                "celebration",
+                "chapel hill",
+                "carrboro"
+            ],
+            "filters": [
+                [
+                    "lgbtq"
+                ],
+                [
+                    "festival"
+                ],
+                [
+                    "community"
+                ]
+            ]
+        },
+        {
+            "name": "Motorco Music Hall",
+            "username": "motorcomh",
+            "city": "Durham",
+            "prefixTitle": "🎸",
+            "defaultLocation": "723 Rigsbee Ave, Durham, NC 27701",
+            "context_clues": [
+                "concert",
+                "show",
+                "live",
+                "music",
+                "performance"
+            ],
+            "filters": [
+                [
+                    "music"
+                ],
+                [
+                    "performance"
+                ],
+                [
+                    "commercial"
+                ]
+            ]
         }
     ],
     "squarespace": [],

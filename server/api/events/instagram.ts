@@ -1,23 +1,19 @@
+// Direct import — bundles the JSON into the server chunk at build time.
+// This is more reliable than useStorage() on Vercel serverless, where the
+// Nitro storage driver for 'assets:server:' may return null at runtime.
+import instagramData from '../../assets/instagram_data.json';
+
 export default defineEventHandler(async (event) => {
-    console.log("[Instagram] ===== READING ASSET VIA STORAGE =====");
-
     try {
-        // Nuxt automatically mounts 'server/assets' to 'assets:server'
-        // useStorage().getItem() automatically parses JSON files!
-        const data = await useStorage().getItem('assets:server:instagram_data.json');
-
-        if (!data) {
-            console.warn("[Instagram] File is empty or not found via storage");
+        if (!instagramData || !Array.isArray(instagramData)) {
+            console.warn("[Instagram] Data not found or invalid");
             return { body: [] };
         }
 
-        console.log(`[Instagram] Successfully loaded item from storage.`);
-        
-        // Since getItem parses JSON automatically, 'data' is already an object/array
-        return { body: data };
-
+        console.log(`[Instagram] Loaded ${instagramData.length} sources from bundled import.`);
+        return { body: instagramData };
     } catch (error) {
-        console.error("[Instagram] Storage Error:", error);
+        console.error("[Instagram] Error:", error);
         return { body: [] };
     }
 });

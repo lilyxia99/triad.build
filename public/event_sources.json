@@ -164,6 +164,11 @@
                     "name": "sobriety",
                     "fullName": "🚭 Sobriety",
                     "defaultValue": "true"
+                },
+                {
+                    "name": "spiritual",
+                    "fullName": "🌛 Spiritual",
+                    "defaultValue": "true"
                 }
             ],
             [
@@ -266,7 +271,7 @@
             ]
         },
         {
-            "name": "private calendar",
+            "name": "Leilei's private calendar",
             "city": "Greensboro",
             "googleCalendarId": "dfd48c58b37c06f978ed4f52a74f53775627a26ee306694daa87965e335b5a99@group.calendar.google.com",
             "prefixTitle": "🆘 ",
@@ -279,6 +284,24 @@
                 ],
                 [
                     "nonprofit"
+                ]
+            ]
+        },
+        {
+            "name": "The Freedom School",
+            "city": "Greensboro",
+            "googleCalendarId": "e4ef168e00e53c627980ebc7d71b4285f6c4e3a0b436f686ddcf47d25a0926ad@group.calendar.google.com",
+            "prefixTitle": "🪔",
+            "suffixTitle": "the freedom school",
+            "suffixDescription": "",
+            "defaultLocation": " ",
+            "filters": [
+                [
+                    "discussion",
+                    "spiritual"
+                ],
+                [
+                    "community"
                 ]
             ]
         }
@@ -758,28 +781,27 @@
             ]
         },
         {
-            "name": "Elsewhere",
-            "username": "elsewherebar",
+            "name": "Elsewhere Museum",
+            "username": "elsewheremuseum",
             "city": "Greensboro",
             "prefixTitle": "🎵",
-            "defaultLocation": "401 W Washington St, Greensboro, NC 27401",
+            "defaultLocation": "606 S Elm St, Greensboro, NC 27406",
             "context_clues": [
-                "music",
+                "art",
                 "performance",
                 "show",
-                "live",
-                "dj",
-                "dance"
+                "exhibition",
+                "museum"
             ],
             "filters": [
                 [
-                    "music"
+                    "art"
                 ],
                 [
                     "performance"
                 ],
                 [
-                    "commercial"
+                    "nonprofit"
                 ]
             ]
         },
@@ -831,6 +853,28 @@
                 ],
                 [
                     "commercial"
+                ]
+            ]
+        },
+        {
+            "name": "Queer Book Club of Greensboro",
+            "username": "queerbookclubgso",
+            "city": "Greensboro",
+            "prefixTitle": "📚",
+            "defaultLocation": "Scuppernong Books",
+            "context_clues": [
+                "books",
+                "lgbtq"
+            ],
+            "filters": [
+                [
+                    "books"
+                ],
+                [
+                    "lgbtq"
+                ],
+                [
+                    "community"
                 ]
             ]
         },

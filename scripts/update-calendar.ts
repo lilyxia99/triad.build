@@ -5,7 +5,6 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import OpenAI from 'openai';
 import { z } from 'zod';
-import vision from '@google-cloud/vision';
 
 // --- IMPORTS & PATH SETUP ---
 const __filename = fileURLToPath(import.meta.url);
@@ -26,8 +25,9 @@ const OUTPUT_FILE = path.join(__dirname, '../server/assets/instagram_data.json')
 const INSTA_RETRY_MAX = 3;
 const INSTA_RETRY_BASE_WAIT = 60000; // 60s, 120s, 180s
 
-// Model names — change these to switch models
-const AI_MODEL_NAME = 'deepseek-v4-flash';   // Event extraction
+// Model names — Qwen (Token Plan, OpenAI-compatible API)
+const AI_MODEL_NAME = 'qwen-plus';           // Event extraction (text)
+const AI_VL_MODEL_NAME = 'qwen-vl-plus';     // Image understanding (OCR)
 // --- INTERFACES & TYPES ---
 
 interface TagDef {
@@ -107,29 +107,18 @@ async function retryAICall<T>(fn: () => Promise<T>, maxRetries: number = AI_RETR
 async function main() {
     console.log("📅 Starting Daily Calendar Update via GitHub Action...");
 
-    if (!process.env.DEEPSEEK_API_KEY || !process.env.INSTAGRAM_USER_ACCESS_TOKEN) {
+    if (!process.env.QWEN_API_KEY || !process.env.INSTAGRAM_USER_ACCESS_TOKEN) {
         throw new Error("Missing required environment variables.");
     }
 
-    // 1. SETUP AI & CLIENTS
+    // 1. SETUP AI CLIENT (Qwen — OpenAI-compatible API, Token Plan)
     const openai = new OpenAI({
-        apiKey: process.env.DEEPSEEK_API_KEY,
-        baseURL: 'https://api.deepseek.com',
+        apiKey: process.env.QWEN_API_KEY,
+        baseURL: 'https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1',
         timeout: 60000,
     });
 
-    let visionClient = null;
-    if (process.env.GOOGLE_CLOUD_VISION_PRIVATE_KEY && process.env.GOOGLE_CLOUD_VISION_CLIENT_EMAIL) {
-        console.log("✅ Google Vision Enabled");
-        visionClient = new vision.ImageAnnotatorClient({
-            credentials: {
-                private_key: process.env.GOOGLE_CLOUD_VISION_PRIVATE_KEY.replace(/\\n/g, '\n'),
-                client_email: process.env.GOOGLE_CLOUD_VISION_CLIENT_EMAIL,
-            },
-        });
-    }
-
-    console.log(`🤖 AI Model: ${AI_MODEL_NAME} | OCR: Google Cloud Vision`);
+    console.log(`🤖 AI Model: ${AI_MODEL_NAME} | VL Model: ${AI_VL_MODEL_NAME}`);
 
     // 2. LOAD EXISTING DATA (HISTORY)
     // We load the old file so we don't lose events from posts that are now older than our scrape limit.
@@ -154,7 +143,7 @@ async function main() {
     const sources = (eventSourcesJSON.instagram || []) as InstagramSource[];
     console.log(`🚀 Found ${sources.length} sources to process.`);
 
-    const worker = (source: InstagramSource) => processSingleSource(source, openai, visionClient);
+    const worker = (source: InstagramSource) => processSingleSource(source, openai);
     const newResults = await processInChunks(sources, BATCH_SIZE, worker);
 
     // 4. MERGE LOGIC (THE MAGIC STEP)
@@ -245,7 +234,7 @@ async function fetchInstagramAPI(url: string, username: string): Promise<Respons
     return null;
 }
 
-async function processSingleSource(source: InstagramSource, openai: OpenAI, visionClient: any) {
+async function processSingleSource(source: InstagramSource, openai: OpenAI) {
     try {
         console.log(`\n🔍 [START] Processing @${source.username}...`);
 
@@ -301,9 +290,9 @@ async function processSingleSource(source: InstagramSource, openai: OpenAI, visi
 
             // OCR via Qwen VL (direct image understanding — no Google Vision needed)
             let ocrTextData = "";
-            if (visionClient && mediaUrls.length > 0) {
+            if (mediaUrls.length > 0) {
                 const imagesToScan = mediaUrls.slice(0, 3);
-                const ocrResults = await Promise.all(imagesToScan.map(url => doOCR(visionClient, url)));
+                const ocrResults = await Promise.all(imagesToScan.map(url => doOCR(openai, url)));
                 ocrTextData = ocrResults
                     .map((txt: string, idx: number) => `\n--- IMG ${idx + 1} ---\n${txt}\n`)
                     .join("\n");
@@ -413,11 +402,40 @@ async function processInChunks(items: any[], chunkSize: number, iteratorFn: Func
     return results;
 }
 
-async function doOCR(client: any, url: string): Promise<string> {
+async function doOCR(openai: OpenAI, imageUrl: string): Promise<string> {
     try {
-        const [result] = await client.textDetection(url);
-        return result.fullTextAnnotation?.text || '';
-    } catch (e) {
+        // Download image and convert to base64 — the Qwen API server is in China
+        // and cannot access Instagram CDN URLs directly
+        const response = await fetch(imageUrl);
+        if (!response.ok) {
+            console.warn(`   ⚠️ Image download failed (${response.status}), skipping OCR`);
+            return '';
+        }
+        const buffer = Buffer.from(await response.arrayBuffer());
+        const base64 = buffer.toString('base64');
+        const mimeType = response.headers.get('content-type') || 'image/jpeg';
+        const dataUrl = `data:${mimeType};base64,${base64}`;
+
+        const result = await retryAICall(async () => {
+            const completion = await openai.chat.completions.create({
+                model: AI_VL_MODEL_NAME,
+                messages: [
+                    {
+                        role: "user",
+                        content: [
+                            { type: "text", text: "Extract ALL visible text from this image. Include event names, dates, times, locations, prices, and any other details. Return the text exactly as it appears." },
+                            { type: "image_url", image_url: { url: dataUrl } }
+                        ]
+                    }
+                ],
+                temperature: 0,
+            });
+            return completion.choices[0].message.content || '';
+        });
+
+        return result || '';
+    } catch (e: any) {
+        console.warn(`   ⚠️ OCR (Qwen VL) failed: ${e.message}`);
         return '';
     }
 }

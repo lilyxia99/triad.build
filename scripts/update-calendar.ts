@@ -3,6 +3,7 @@ console.log("🚀 Script file loaded! Starting imports..."); // Sanity check
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { createPrivateKey } from 'crypto';
 import OpenAI from 'openai';
 import { z } from 'zod';
 import vision from '@google-cloud/vision';
@@ -75,6 +76,43 @@ const AIResponseSchema = z.object({
     events: z.array(SingleEventSchema)
 });
 
+function getGoogleVisionCredentials(): { private_key: string; client_email: string } | null {
+    const rawPrivateKey = process.env.GOOGLE_CLOUD_VISION_PRIVATE_KEY;
+    const configuredEmail = process.env.GOOGLE_CLOUD_VISION_CLIENT_EMAIL;
+
+    if (!rawPrivateKey) return null;
+
+    // GitHub Secrets may contain a PEM with literal "\\n", real line breaks, or a
+    // JSON service-account value. Normalize all supported forms without logging it.
+    let privateKey = rawPrivateKey.trim();
+    let clientEmail = configuredEmail?.trim() || '';
+    try {
+        const parsed = JSON.parse(privateKey);
+        if (typeof parsed.private_key === 'string') privateKey = parsed.private_key;
+        if (typeof parsed.client_email === 'string') clientEmail = parsed.client_email;
+    } catch {
+        // The normal case is a raw PEM, not JSON.
+    }
+
+    if ((privateKey.startsWith('"') && privateKey.endsWith('"')) ||
+        (privateKey.startsWith("'") && privateKey.endsWith("'"))) {
+        privateKey = privateKey.slice(1, -1);
+    }
+    privateKey = privateKey.replace(/\\n/g, '\n');
+
+    try {
+        createPrivateKey(privateKey);
+    } catch {
+        throw new Error('GOOGLE_CLOUD_VISION_PRIVATE_KEY is not a valid PEM private key. Store the complete key, including BEGIN/END lines, without extra wrapping quotes.');
+    }
+
+    if (!clientEmail) {
+        throw new Error('GOOGLE_CLOUD_VISION_CLIENT_EMAIL is required unless GOOGLE_CLOUD_VISION_PRIVATE_KEY contains a complete service-account JSON value.');
+    }
+
+    return { private_key: privateKey, client_email: clientEmail };
+}
+
 // --- RETRY HELPER FOR AI API CALLS ---
 async function retryAICall<T>(fn: () => Promise<T>, maxRetries: number = AI_RETRY_MAX): Promise<T | null> {
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
@@ -119,13 +157,11 @@ async function main() {
         timeout: 60000,
     });
 
+    const visionCredentials = getGoogleVisionCredentials();
     let visionClient: ImageAnnotatorClient | null = null;
-    if (process.env.GOOGLE_CLOUD_VISION_PRIVATE_KEY && process.env.GOOGLE_CLOUD_VISION_CLIENT_EMAIL) {
+    if (visionCredentials) {
         visionClient = new vision.ImageAnnotatorClient({
-            credentials: {
-                private_key: process.env.GOOGLE_CLOUD_VISION_PRIVATE_KEY.replace(/\\n/g, '\n'),
-                client_email: process.env.GOOGLE_CLOUD_VISION_CLIENT_EMAIL,
-            },
+            credentials: visionCredentials,
         });
     } else {
         console.warn('⚠️ Google Vision credentials are not configured; posts will be analyzed from captions only.');
@@ -140,7 +176,8 @@ async function main() {
         try {
             const rawData = fs.readFileSync(OUTPUT_FILE, 'utf-8');
             const parsed = JSON.parse(rawData);
-            const oldSources = parsed.eventSources || [];
+            // Older files store the source array directly; newer files may wrap it.
+            const oldSources = Array.isArray(parsed) ? parsed : (parsed.eventSources || []);
 
             // Store them in a Map keyed by the Source Name (e.g. "Gate City Casino")
             for (const src of oldSources) {
@@ -396,6 +433,9 @@ async function processSingleSource(source: InstagramSource, openai: OpenAI, visi
         return { events: uniqueEvents, city: source.city, name: source.name };
 
     } catch (e: any) {
+        if (e?.status === 402) {
+            throw new Error('DeepSeek rejected the request with HTTP 402 Insufficient Balance. Add funds or replace DEEPSEEK_API_KEY before rerunning the workflow.');
+        }
         console.error(`   ❌ [CRITICAL FAIL] @${source.username}: ${e.message}`);
         return null;
     }
@@ -490,7 +530,10 @@ async function analyzeWithAI(openai: OpenAI, caption: string, ocrTextData: strin
             ],
             response_format: { type: "json_object" },
             temperature: 0,
-        });
+            max_tokens: 1000,
+            // Calendar extraction only needs structured fields, not a reasoning trace.
+            extra_body: { thinking: { type: "disabled" } },
+        } as any);
 
         const raw = completion.choices[0].message.content;
         const result = AIResponseSchema.safeParse(JSON.parse(raw || "{}"));
